@@ -1,0 +1,22 @@
+2017-09-06 10:00 Meeting with supervisor
+
+* The chosen topic is an advanced one and very broad.
+* Take into account the level of details (LOD)
+* Screen (pixel) space or vertex space?
+* First search what methods exist (preferably simple ones) and group them.
+  (=1/3 of the work ~2 weeks)
+  Select a couple of methods, go into them in greater depth. (1/3 of work)
+  The work done should lead to a vision for the bcs thesis. (1/3)
+  If there is already a short demo/result, it is a +.
+* Decide what technology to use: SLProject, 0 a.d. engine, Unity or custom
+  solution? Look carefully to see if the 0 a.d. engine is worth it: code
+  complexity, readability. Is it easy to add a functionality? Is it possible
+  to launch the engine with a single plane and one object, i.e. without GUI
+  and unnecessary stuff.
+* For Unity there is AQUAS or Ceto.
+* Communicate with the devs of 0 a.d. to know what shader language they use
+  (GLSL if they use OpenGL, HLSL). Also ask them about the expected
+  performance.
+* Document the facts, what has been done (like a scientific paper).
+* Is the documentation well made it shouldn't take weeks to implement the
+  proposed solution.
