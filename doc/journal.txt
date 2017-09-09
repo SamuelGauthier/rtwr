@@ -20,3 +20,23 @@
 * Document the facts, what has been done (like a scientific paper).
 * Is the documentation well made it shouldn't take weeks to implement the
   proposed solution.
+
+2017-09-08 10:00 Research material
+
+I found a lot of interesting papers about water rendering in realtime. The
+most interesting one is "Large-scale interactive water simulation with
+directional waves" presented at SIGGRAPH 2017. It claims to accurately render
+in realtime a 4km times 4km map of water with objects. Unfortunately only
+a summary and video is available at the moment. Other interesting findings are
+"Water Technology of Uncharted", "Sea Surface Visualization in World of
+Warships", "Water Flow in Portal 2", "Water Wave Packets", "Real-Time
+Interactive Fluid Animation Technique based on Linear Convolution", "Realistic
+Water Volumes in Real-Time".
+
+2017-09-09 16:00 Started skimming through papers
+
+Created a list with relevant papers and material. Found a presentation about
+the water rendering in World of Warships that seems more accurate than the
+method from "Large-Scale Interactive Water Simulation With Directional Waves".
+I watched the conference presentation from the latter but it wasn't
+convincing. There is still a lot of material to understand and analyze.
