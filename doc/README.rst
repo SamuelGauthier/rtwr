@@ -25,3 +25,16 @@ Resources
 - `Water Wave Packets
   <http://visualcomputing.ist.ac.at/publications/2017/WWP/>`_, Wojtan and
   Jeschke, 2017
+- `Terrain and Ocean Rendering with Hardware Tessellation
+  <https://doi.org/10.1201/b11325-3>`_, GPU Pro 2, Engel, 2011
+- `Rendering Techniques in Call of Juarez: Bound in Blood
+  <https://doi.org/10.1201/b10648-44>`_, GPU Pro, Engel, 2010
+- `Volumetric Real-Time Water and Foam Rendering
+  <https://doi.org/10.1201/b11642-10>`_, GPU Pro 3, Engel, 2012
+- `Advected Textures <http://www-evasion.imag.fr/Publications/2003/Ney03/>`_,
+  Neyret, 2003
+- `Simulating Ocean Water
+  <https://www-evasion.imag.fr/Membres/Fabrice.Neyret/NaturalScenes/fluids/water/waves/fluids-nuages/waves/Jonathan/articlesCG/simulating-ocean-water-01.pdf>`_,
+  Tessendorf, 1999
+- `Wave Particles
+  <http://www.ewp.rpi.edu/hartford/~ernesto/S2013/ET/MaterialsforStudents/Ott/Wave%20Energy%20Sources-Ott/Thermodynamics%20of%20waves/wave%20particles.pdf>`_, Yuksel, 2007

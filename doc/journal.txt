@@ -40,3 +40,10 @@ the water rendering in World of Warships that seems more accurate than the
 method from "Large-Scale Interactive Water Simulation With Directional Waves".
 I watched the conference presentation from the latter but it wasn't
 convincing. There is still a lot of material to understand and analyze.
+
+2017-09-11 10:00 Reading papers
+Today I began to read the presentation of Naughty Dog about the water
+rendering in Uncharted 3. There is a lot of material that I don't understand
+yet. But they provided additional and interesting references. I updated my
+documentation file accordingly. I also found a nice tutorial about OpenGL
+which I will begin tomorrow.
