@@ -38,3 +38,10 @@ Resources
   Tessendorf, 1999
 - `Wave Particles
   <http://www.ewp.rpi.edu/hartford/~ernesto/S2013/ET/MaterialsforStudents/Ott/Wave%20Energy%20Sources-Ott/Thermodynamics%20of%20waves/wave%20particles.pdf>`_, Yuksel, 2007
+- `Geometry clipmaps: Terrain rendering using nested regular grids
+  <http://hhoppe.com/proj/geomclipmap/>`_, Hoppe, 2004
+- `Terrain rendering using GPU-based geometry clipmaps
+  <http://hhoppe.com/proj/gpugcm/>`_, Hopper, 2005
+- `Using Vertex Texture Displacement for Realistic Water Rendering
+  <https://developer.nvidia.com/gpugems/GPUGems2/gpugems2_chapter18.html>`, GPU
+  Gems 2, 2005

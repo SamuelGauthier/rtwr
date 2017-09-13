@@ -47,3 +47,9 @@ rendering in Uncharted 3. There is a lot of material that I don't understand
 yet. But they provided additional and interesting references. I updated my
 documentation file accordingly. I also found a nice tutorial about OpenGL
 which I will begin tomorrow.
+
+2017-09-12 10:00 Uncharted 3 and OpenGL
+
+- Finished to read the Uncharted 3 presentation. Not quite understood
+  everything. Added some more found references.
+- Started an OpenGL tutorial.
