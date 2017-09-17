@@ -53,3 +53,16 @@ which I will begin tomorrow.
 - Finished to read the Uncharted 3 presentation. Not quite understood
   everything. Added some more found references.
 - Started an OpenGL tutorial.
+
+2017-09-15 13:00 Compile 0 a.d.
+
+Tried to compile 0 A.D. and got linker error with nghttp2 and libcurl. The
+Alpha 21 compiled seamlessly but the 22 does not.
+
+2017-09-16 15:00 Built 0 a.d.
+successfully, error with SLProject
+
+After many attempts I could compile 0 a.d. at last. I added
+the "--without-nghttp2" option to the library build shell script.
+I have now trouble to compile SLProject because of webp even if it is
+installed. I have to remember which trick I used to compile it some time ago.
