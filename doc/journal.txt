@@ -66,3 +66,5 @@ After many attempts I could compile 0 a.d. at last. I added
 the "--without-nghttp2" option to the library build shell script.
 I have now trouble to compile SLProject because of webp even if it is
 installed. I have to remember which trick I used to compile it some time ago.
+
+2017-09-19 22:19 Contacted the responsible person about water rendering in 0 a.d.
