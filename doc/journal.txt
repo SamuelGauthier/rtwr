@@ -68,3 +68,14 @@ I have now trouble to compile SLProject because of webp even if it is
 installed. I have to remember which trick I used to compile it some time ago.
 
 2017-09-19 22:19 Contacted the responsible person about water rendering in 0 a.d.
+
+2017-09-20 13:19 Read the presentation about water rendering in World of Warships, continued the OpenGl tutorial
+
+* The main idea they had is to add two more stages to the water rendering
+  process in between Mesh generation and Optical based shading (Wave synthesis
+  -> Mesh generation -> Optical based shading). This two stages are:
+  "Per-pixel improving" and "Sub-pixel calculation". The have a new reflection
+  and shadow formula.
+  They use three different heightmaps, a special anti-aliasing method based on
+  Newton's method and a projection grid.
+* Continued the OpenGL tutorial and displayed my first red triangle.

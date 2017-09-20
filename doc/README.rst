@@ -43,5 +43,8 @@ Resources
 - `Terrain rendering using GPU-based geometry clipmaps
   <http://hhoppe.com/proj/gpugcm/>`_, Hopper, 2005
 - `Using Vertex Texture Displacement for Realistic Water Rendering
-  <https://developer.nvidia.com/gpugems/GPUGems2/gpugems2_chapter18.html>`, GPU
+  <https://developer.nvidia.com/gpugems/GPUGems2/gpugems2_chapter18.html>`_, GPU
   Gems 2, 2005
+- `Real-time water rendering, Introducing the projected grid concept
+  <http://fileadmin.cs.lth.se/graphics/theses/projects/projgrid/>`_, Johanson,
+  2004
