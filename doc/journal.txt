@@ -89,3 +89,8 @@ and use a generated perlin noise texture as a heightmap.
 2017-09-23 10:00 Continued to read the projection grid paper
 
 2017-09-24 20:05 Read the "Concept" section but didn't understand everything
+
+2017-09-25 21:42 Finished the master project grid master thesis
+
+There is still a lot of material that I don't know/don't understand explained
+in the paper.
