@@ -94,3 +94,41 @@ and use a generated perlin noise texture as a heightmap.
 
 There is still a lot of material that I don't know/don't understand explained
 in the paper.
+
+2017-09-27 00:00 Overview of 2 papers and a GDC conference paper
+
+* Wave particle, Yuskel 2007
+* Realistic water volumes in real-time, Galin 2006
+* Oceans on a Shoestring: Shape Representation, Meshing and Shading, Bowles
+  2013 @GDC
+* Continued OpenGL tutorial
+
+Almost everyone references the project grid approach for rendering water. The
+Wave particle paper is useful for wakes and ripples. Galin 2006 uses two
+heightmaps for the water and photon beams for caustics.
+
+2017-09-28 19:00 Read papers and continued OpenGL tutorial
+
+2017-09-30 17:00 Ocean whitecaps
+
+Read a paper about the rendering of ocean whitecaps. They implemented their
+solution with OpenGL. Two passes are made: the first computes the formulated
+equations and stores a 2D mipmap and the second renders the projected grid and
+computes another equation.
+
+Again I see that the method with the projected grid is used.
+
+2017-10-01 17:00 Continued OpenGL tutorial
+
+2017-10-02 10:00 Overview of papers
+
+Overview of two papers, one rendering water with particles and the other with
+wave packets. For the water packets found the demo.
+The method with particles has one drawback: it doesn't support well rendering
+many objects which is a deal breaker.
+The other one uses wave packets like wavelets and has some unrealistic
+behaviors.
+Found thanks to the wave packets paper a survey about all rendering techniques
+for oceans from 2011.
+
+2017-10-03 15:13 Started reading survey and continued OpenGL tutorial
