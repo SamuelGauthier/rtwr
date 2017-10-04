@@ -132,3 +132,18 @@ Found thanks to the wave packets paper a survey about all rendering techniques
 for oceans from 2011.
 
 2017-10-03 15:13 Started reading survey and continued OpenGL tutorial
+
+2017-10-04 09:48 Meeting with supervisor
+
+* Presented list of found papers with survey. Difficulty understanding the
+  formuals and OpenGL, GLSL.
+  SLProject contains simple sharders and the computer graphics script explains
+  OpenGL and GLSL. Using these two will allow to get a basic understanding of
+  shaders. There are also advanced shaders to go further.
+
+* Problem with compilation/execution of SLProject.
+  Due to the new Xcode update, Qt Creator is "broken". Every time Xcode
+  updates there is the same problem. Google the solution and document it.
+
+* Professor said former student has implemented a water shader in Unity.
+  Look if his solution appears in the survey paper.
