@@ -37,38 +37,38 @@ Author information                     Model            Implementation
 -------------------------------- ---------------- ------------------------------------
 Year     Name                    Spatial Spectral Wave refraction GPU Level-Of-Details
 ==== =========================== ======= ======== =============== === ================
-1980 Schachter [Sch80_]
-1981 Max [Max81_]
-1986 Fournier et al. [FR86_]
-1987 Mastin et al. [MWM87_]
-1987 Ts’o et al. [TB87_]
-1999 Gonzato et al. [GS99_]
-2000 Gonzato et al. [GS00_]
-2000 Thon et al. [TDG00_]
-2001 Premoze et al. [PA00_]
-2001 Tessendorf [Tes01_]
-2001 Schneider et al. [SW01_]
-2002 Gamito et al. [GM02_]
-2002 Hinsinger et al. [HNC02_]
-2002 Isidoro et al. [IVB02_]
-2002 Thon et al. [TG02_]
-2003 Cieutat et al. [CGG03_]
-2004 Finch [Fin04_]
-2004 Johanson [Joh04_]
-2005 Kryachko [Kry05_]
-2005 Mitchell [Mit05_]
-2006 Chiu et al. [CC06_]
-2006 Frechot [Fre06_]
-2006 Hu et al. [HVT06_]
-2006 Lee et al. [LGL06a_]
-2006 Lee et al. [LGL06b_]
-2006 Robine et al. [RF06_]
-2006 Xin et al. [XFS06_]
-2007 Chen et al. [CLW07_]
-2007 Chou et al. [CF07_]
-2007 Lachman [Lac07_]
-2007 Lee et al. [LBR07_]
-2007 Salgado et al. [SC07_]
+1980 Schachter [Sch80_]             X
+1981 Max [Max81_]                   X
+1986 Fournier et al. [FR86_]        X
+1987 Mastin et al. [MWM87_]                 X
+1987 Ts’o et al. [TB87_]            X                    X
+1999 Gonzato et al. [GS99_]         X
+2000 Gonzato et al. [GS00_]         X                    X
+2000 Thon et al. [TDG00_]           X       X
+2001 Premoze et al. [PA00_]                 X
+2001 Tessendorf [Tes01_]                    X
+2001 Schneider et al. [SW01_]       X                              X
+2002 Gamito et al. [GM02_]          X                    X
+2002 Hinsinger et al. [HNC02_]      X       X                      X          X
+2002 Isidoro et al. [IVB02_]        X                              X
+2002 Thon et al. [TG02_]            X       X
+2003 Cieutat et al. [CGG03_]                X            X
+2004 Finch [Fin04_]                 X                              X          X
+2004 Johanson [Joh04_]              X                              X          X
+2005 Kryachko [Kry05_]              X                              X          X
+2005 Mitchell [Mit05_]                      X                      X
+2006 Chiu et al. [CC06_]                    X                      X          X
+2006 Frechot [Fre06_]                       X                      X          X
+2006 Hu et al. [HVT06_]                     X                      X          X
+2006 Lee et al. [LGL06a_]           X                              X          X
+2006 Lee et al. [LGL06b_]           X                              X          X
+2006 Robine et al. [RF06_]                  X                      X
+2006 Xin et al. [XFS06_]            X       X                      X          X
+2007 Chen et al. [CLW07_]           X                              X
+2007 Chou et al. [CF07_]            X                    X         X
+2007 Lachman [Lac07_]               X       X                      X          X
+2007 Lee et al. [LBR07_]            X       X                      X
+2007 Salgado et al. [SC07_]         X                              X
 ==== =========================== ======= ======== =============== === ================
 
 .. _Sch80: https://doi.org/10.1016/0146-664X(80)90011-8
@@ -226,21 +226,21 @@ Year     Name                    Empirical Particles First order Multiple order
 2010 Bruneton et al. [BNH10_]                             X
 ==== =========================== ========= ========= =========== ==============
 
-.. _Arv86:             
-.. _Pea86:          
-.. _NSTN93:  
-.. _IDN01:   
-.. _Jen01:           
-.. _JG01:     
-.. _Bel03:          
-.. _IDN03:   
-.. _JBS03:   
-.. _CS04:     
-.. _HW04:   
-.. _BD06:     
-.. _DCG07:    
-.. _GSAM08:
-.. _BNH10:
+.. _Arv86: http://courses.cs.washington.edu/courses/cse457/15wi/projects/trace/extra/Backward.pdf           
+.. _Pea86: http://dl.acm.org/citation.cfm?id=15893
+.. _NSTN93: http://nishitalab.org/user/nis/cdrom/sig93_nis.pdf
+.. _IDN01: https://www.researchgate.net/profile/Kei_Iwasaki/publication/3922426_Efficient_rendering_of_optical_effects_within_water_using_graphicshardware/links/00b49525de12821f13000000.pdf
+.. _Jen01: http://dl.acm.org/citation.cfm?id=500844
+.. _JG01: https://evasion.imag.fr/Membres/Fabrice.Neyret/NaturalScenes/fluids/water/waves/fluids-nuages/waves/Jonathan/articlesCG/DeepWaterAnimationAndRendering2001.pdf
+.. _Bel03: https://pdfs.semanticscholar.org/db9d/808fb3c45ff0d1bd2647e0acad7475260c66.pdf
+.. _IDN03: http://nishitalab.org/user/nis/cdrom/cgi/vg03_water.pdf
+.. _JBS03: https://otik.zcu.cz/bitstream/11025/1025/1/K11a.pdf
+.. _CS04: http://onlinelibrary.wiley.com/doi/10.1002/cav.10/full
+.. _HW04: https://www.researchgate.net/profile/Burkhard_Wuensche/publication/220978913_Efficient_modeling_and_rendering_of_turbulent_water_over_natural_terrain/links/558d26cd08ae40781c20898b.pdf
+.. _BD06: https://hal.inria.fr/docs/00/51/02/27/PDF/article.pdf
+.. _DCG07: https://otik.uk.zcu.cz/xmlui/bitstream/handle/11025/11022/Darles_video.wmv?sequence=4&isAllowed=y
+.. _GSAM08: http://www.academia.edu/download/42694699/Visualizing_Underwater_Ocean_Optics20160215-980-10vetyu.pdf
+.. _BNH10: https://hal.inria.fr/docs/00/44/36/30/PDF/article.pdf
 
 
 Relevant
@@ -289,3 +289,4 @@ Relevant
 - `Real-time water rendering, Introducing the projected grid concept
   <http://fileadmin.cs.lth.se/graphics/theses/projects/projgrid/>`_, Johanson,
   2004
+- `Large-Scale Water Simulation in Games <http://urn.fi/URN:ISBN:978-952-15-3654-0>`_, Kellomäki, 2015
