@@ -151,3 +151,8 @@ for oceans from 2011.
 2017-10-09 22:59 update documentation
 
 2017-10-12 22:13 continued opengl tutorial, slproject still doesn't compile.
+
+2017-10-16 21:59 paper overview of A simple model of ocean waves by Fournier
+
+To read next: gpu gems chapters and doctoral thesis about water rendering in
+games.
