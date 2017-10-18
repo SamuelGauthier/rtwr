@@ -159,3 +159,9 @@ games.
 
 2017-10-17 21:36 tried to compile SL Project on windows => failed, problem with opencv.lib;
 tried to compile "     "    on mac with the new command line tools => failed
+
+2017-10-18 23:16 doc thesis, shader and toc
+
+* Begin to read doctoral thesis about water in games
+* Begin shader tutorial and continued OpenGL tutorial
+* Modified TOC of paper
