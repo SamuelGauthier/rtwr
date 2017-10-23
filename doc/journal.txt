@@ -165,3 +165,5 @@ tried to compile "     "    on mac with the new command line tools => failed
 * Begin to read doctoral thesis about water in games
 * Begin shader tutorial and continued OpenGL tutorial
 * Modified TOC of paper
+
+2017-10-23 21:55 continued shader tutorial, prepared meeting

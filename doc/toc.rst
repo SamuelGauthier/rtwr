@@ -5,7 +5,8 @@
 3. Methods
    1. Navier Stokes equations
    2. Heightfields
-4. Discussion
+   3. Methods used in industry productions
+4. Applications
    1. SLProject
    2. 0 a.d.
    3. Custom application
