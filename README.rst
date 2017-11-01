@@ -11,3 +11,17 @@ Documentation
 The documentation and a list of relevant papers can be found `here
 <doc/README.rst>`_.
 
+
+Todo
+----
+
+- [] Sky box
+- [] Light
+- Water
+    1. [] Height Map
+    2. [] Normals
+    3. [] Refelction
+    4. [] Underwater
+    5. [] Fresnel
+    6. [] Foam
+

@@ -167,3 +167,39 @@ tried to compile "     "    on mac with the new command line tools => failed
 * Modified TOC of paper
 
 2017-10-23 21:55 continued shader tutorial, prepared meeting
+
+2017-10-25 09:00 Meeting with supervisor
+
+1. SLPorject not working => glslviewer as solution
+   A: No, only for small examples, environment has to be taken into account.
+      The topic is complex and a large amount of variables have to be taken
+      into account. Skybox, underwater, refraction, reflexion, etc.  You can't
+      only work with shaders.
+
+2. Is the TOC ok? How much should I talk about what?
+3. Project 2 report vs Bachelor thesis text.
+   A: There is no need to present a big text for project 2.
+      Top-down and bottom up approach. Work in parallel on the two sides,
+      creating an environment, opengl and do research at the same time.
+      Look at the script and its sections about water.
+      If you use a game, explain the project, how it is organized, how the
+      documentation is organized.
+
+2017-10-28 16:00 Setup Opengl blank project.
+Some libraries not found.
+
+2017-10-30 16:33 Finished to setup OpenGL blank project with Cmake working
+and and libraries detected on the system if present. Found a nice Cmake module
+from Pixar to find glfw.
+
+2017-10-31 18:16 Continued to work on application.
+The goal is to create
+a simple plane and animate it. Begin to realize that the topic is quite
+complex.
+
+2017-11-01 11:59 Continued to set up the custom OpenGL application, currently reading a chapter
+from GPU gems about water.
+
+Discussion with supervisor: a good goal to achieve is to get a skybox with
+a water plane up and running. The topic is difficult, but in order to learn
+how it works, the bottom-up approach is needed.
