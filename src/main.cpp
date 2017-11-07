@@ -4,9 +4,23 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
+#include "Shader.h"
+
 #define WINDOW_TITLE "Real-Time Water Rendering"
 
 using namespace glm;
+
+struct Vertex {
+    GLfloat XYZW[4];
+    GLfloat RGBA[4];
+};
+
+GLuint VertexShaderId;
+GLuint FragmentShaderId;
+GLuint ProgramId;
+GLuint VaoId;
+GLuint BufferId;
+GLuint IndexBufferId;
 
 GLFWwindow* window;
 
@@ -16,19 +30,24 @@ int CurrentHeight = 600;
 void Initialize(int, char* []);
 void InitWindow(int, char* []);
 void ResizeFunction(GLFWwindow*, int, int);
-void RenderFunction(void);
+void RenderFunction();
+void Cleanup();
+void CreateVBO();
+void DestroyVBO();
 
 int main(int argc, char* argv[]) {
 
     Initialize(argc, argv);
 
     RenderFunction();
-    
+
+    // Close OpenGL window and terminate GLFW
+	glfwTerminate();
     exit(EXIT_SUCCESS);
 }
 
 void Initialize(int argc, char* argv[]) {
-    
+
     GLenum GlewInitResult;
 
     InitWindow(argc, argv);
@@ -43,12 +62,16 @@ void Initialize(int argc, char* argv[]) {
     }
 
     fprintf(stdout, "INFO: OpenGL Version: %s\n", glGetString(GL_VERSION));
-    
+
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+    GLuint programID = LoadShaders("vertex.vs", "fragment.fs");
+
+    CreateVBO();
 }
 
 void InitWindow(int argc, char* argv[]) {
-    
+
     // Initialize GLFW
     if(!glfwInit()) {
         fprintf(stderr, "Failed to initalize GLFW\n");
@@ -62,7 +85,7 @@ void InitWindow(int argc, char* argv[]) {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     window = glfwCreateWindow(CurrentWidth, CurrentHeight, WINDOW_TITLE, NULL,
-                              NULL);
+            NULL);
 
     if(window == NULL) {
         fprintf(stderr, "Failed to open GLFW window. Not a compatible\
@@ -83,7 +106,7 @@ void ResizeFunction(GLFWwindow* window, int Width, int Height) {
     glViewport(0, 0, CurrentWidth, CurrentHeight);
 }
 
-void RenderFunction(void) {
+void RenderFunction() {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -96,5 +119,46 @@ void RenderFunction(void) {
 
     } // Check if the ESC key was pressed or the window was closed
     while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
-    glfwWindowShouldClose(window) == 0 );
+            glfwWindowShouldClose(window) == 0 );
 }
+
+void CreateVBO() {
+
+    Vertex vertices[] =
+    {
+        {{-1.5f, 0.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
+        {{-0.5f, 0.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
+        {{ 0.5f, 0.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
+        {{ 1.5f, 0.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
+        {{-1.5f, 0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
+        {{-0.5f, 0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
+        {{ 0.5f, 0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
+        {{ 1.5f, 0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
+        {{-1.5f, 0.0f, -1.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
+        {{-0.5f, 0.0f, -1.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
+        {{ 0.5f, 0.0f, -1.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
+        {{ 1.5f, 0.0f, -1.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
+    };
+
+    GLubyte indices[] =
+    {
+        0, 4, 5,
+        0, 5, 1,
+        1, 5, 6,
+        1, 6, 2,
+        2, 6, 7,
+        2, 7, 3,
+        4, 8, 9,
+        4, 9, 5,
+        5, 9, 10,
+        5, 10, 6,
+        6, 10, 11,
+        6, 11, 7,
+    };
+
+}
+
+void DestroyVBO() {
+
+}
+
