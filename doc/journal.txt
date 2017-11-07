@@ -203,3 +203,11 @@ from GPU gems about water.
 Discussion with supervisor: a good goal to achieve is to get a skybox with
 a water plane up and running. The topic is difficult, but in order to learn
 how it works, the bottom-up approach is needed.
+
+2017-11-04 18:06 Continue to set up application.
+
+2017-11-06 17:24 Using indices instead of triangle strips to draw the
+plane.
+
+2017-11-07 21:47 Start to implement the indexed plane.
+Not found the best solution yet.
