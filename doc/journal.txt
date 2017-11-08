@@ -211,3 +211,5 @@ plane.
 
 2017-11-07 21:47 Start to implement the indexed plane.
 Not found the best solution yet.
+
+2017-11-08 13:00 Created a simple plane displayed as a mesh.
