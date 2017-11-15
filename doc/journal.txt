@@ -213,3 +213,9 @@ plane.
 Not found the best solution yet.
 
 2017-11-08 13:00 Created a simple plane displayed as a mesh.
+
+2017-11-13 22:01 Problem when rendering the plane with the index and size of vertex array.
+For
+the moment the plane has depth 0 (z=0).
+
+2017-11-15 10:24 Successfully rendered a plane.
