@@ -28,6 +28,10 @@ GLFWwindow* window;
 int CurrentWidth = 800;
 int CurrentHeight = 600;
 
+int HEIGHT = 50;
+int WIDTH = 50;
+int indicesCount = 0;
+
 void Initialize(int, char* []);
 void InitWindow(int, char* []);
 void ResizeFunction(GLFWwindow*, int, int);
@@ -120,7 +124,7 @@ void RenderFunction() {
         //glEnableVertexAttribArray(0);
         //glEnableVertexAttribArray(1);
 
-        glDrawElements(GL_TRIANGLES, 3*12, GL_UNSIGNED_BYTE, NULL);
+        glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, NULL);
 
 		//glEnableVertexAttribArray(0);
 		//glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -149,50 +153,63 @@ void RenderFunction() {
 
 void CreateVBO() {
 
-    Vertex vertices[] =
-    {
-        {{-1.0f, 1.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
-        {{-0.33f, 1.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
-        {{ 0.33f, 1.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
-        {{ 1.0f, 1.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
-        {{-1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
-        {{-0.33f, 0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
-        {{ 0.33f, 0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
-        {{ 1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
-        {{-1.0f, -1.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
-        {{-0.33f, -1.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
-        {{ 0.33f, -1.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
-        {{ 1.0f, -1.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f, 0.0f}},
-    };
+    // Height and width specified in amount of vertices
+    int height = HEIGHT;
+    int width = WIDTH;
+    // Total triangle: (height * width) - 2
 
-    GLubyte indices[] =
-    {
-        0, 4, 5,
-        0, 5, 1,
-        1, 5, 6,
-        1, 6, 2,
-        2, 6, 7,
-        2, 7, 3,
-        4, 8, 9,
-        4, 9, 5,
-        5, 9, 10,
-        5, 10, 6,
-        6, 10, 11,
-        6, 11, 7,
-    };
+    float heightRatio = 2.0/(height-1);
+    float widthRatio = 2.0/(width-1);
+
+    std::vector<Vertex> vertices;
+    std::vector<GLuint> indices;
+
+    for (int j = height - 1; j >= 0; j--) {
+        for (int i = 0; i < width; i++) {
+            Vertex k = {{i*widthRatio - 1.0f, j*heightRatio - 1.0f, 0.0f, 1.0f},
+                {0.0f, 1.0f, 0.0f, 0.0f}};
+            vertices.push_back(k);
+        }
+    }
+
+    for (int j = 0; j < ( height-1 ) ; j++) {
+        for (int i = 0; i < ( width-1 ); i++) {
+            // *-*
+            //  \|
+            //   *
+            indices.push_back(j*width + i);
+            indices.push_back((j+1)*width + (i+1));
+            indices.push_back(j*width + (i+1));
+
+            // *
+            // |\
+            // *-*
+            indices.push_back(j*width + i);
+            indices.push_back((j+1)*width + i);
+            indices.push_back((j+1)*width + (i+1));
+        }
+    }
+
+    indicesCount = indices.size();
 
     GLenum errorCheckValue = glGetError();
 
-    const size_t bufferSize = sizeof(vertices);
+    const size_t vertexBufferSize = vertices.size() * sizeof(Vertex);
     const size_t vertexSize = sizeof(vertices[0]);
     const size_t rgbOffset = sizeof(vertices[0].XYZW);
+    const size_t indexBufferSize = indices.size() * sizeof(GLuint);
+
+    printf("size of vertices: %li\n", vertexBufferSize);
+    printf("size of indices: %li\n", indexBufferSize);
+    printf("last element of indexed array: %u\n", indices.back());
 
     glGenVertexArrays(1, &VaoId);
     glBindVertexArray(VaoId);
 
     glGenBuffers(1, &BufferId);
     glBindBuffer(GL_ARRAY_BUFFER, BufferId);
-    glBufferData(GL_ARRAY_BUFFER, bufferSize, vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, &vertices[0],
+            GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, vertexSize, 0);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*)
@@ -203,8 +220,8 @@ void CreateVBO() {
 
     glGenBuffers(1, &IndexBufferId);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferId);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices,
-            GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBufferSize,
+            &indices[0], GL_STATIC_DRAW);
 
     errorCheckValue = glGetError();
     if(errorCheckValue != GL_NO_ERROR) {
