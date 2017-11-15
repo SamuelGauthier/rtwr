@@ -290,3 +290,5 @@ Relevant
   <http://fileadmin.cs.lth.se/graphics/theses/projects/projgrid/>`_, Johanson,
   2004
 - `Large-Scale Water Simulation in Games <http://urn.fi/URN:ISBN:978-952-15-3654-0>`_, Kellomäki, 2015
+- `Assassin's Creed III: The tech behind (or beneath) the action
+  <https://www.fxguide.com/featured/assassins-creed-iii-the-tech-behind-or-beneath-the-action/>`_
