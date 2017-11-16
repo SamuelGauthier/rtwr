@@ -4,6 +4,7 @@
 #include <GL/glew.h> 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp>
 
 #include "Shader.h"
 
@@ -16,21 +17,24 @@ struct Vertex {
     GLfloat RGBA[4];
 };
 
-GLuint VertexShaderId;
-GLuint FragmentShaderId;
-GLuint ProgramId;
-GLuint VaoId;
-GLuint BufferId;
-GLuint IndexBufferId;
+GLuint vertexShaderId;
+GLuint fragmentShaderId;
+GLuint programId;
+GLuint vaoId;
+GLuint bufferId;
+GLuint indexBufferId;
+GLuint matrixId;
 
 GLFWwindow* window;
 
-int CurrentWidth = 800;
-int CurrentHeight = 600;
+int windowWidth = 800;
+int windowHeight = 600;
 
-int HEIGHT = 50;
-int WIDTH = 50;
+int HEIGHT = 20;
+int WIdTH = 20;
 int indicesCount = 0;
+
+glm::mat4 mvp;
 
 void Initialize(int, char* []);
 void InitWindow(int, char* []);
@@ -39,6 +43,7 @@ void RenderFunction();
 void Cleanup();
 void CreateVBO();
 void DestroyVBO();
+void createMVP();
 
 int main(int argc, char* argv[]) {
 
@@ -69,10 +74,12 @@ void Initialize(int argc, char* argv[]) {
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-    ProgramId = LoadShaders("../src/vertex.vert",
+    programId = LoadShaders("../src/vertex.vert",
             "../src/fragment.frag");
 
     CreateVBO();
+
+    createMVP();
 }
 
 void InitWindow(int argc, char* argv[]) {
@@ -89,7 +96,7 @@ void InitWindow(int argc, char* argv[]) {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(CurrentWidth, CurrentHeight, WINDOW_TITLE, NULL,
+    window = glfwCreateWindow(windowWidth, windowHeight, WINDOW_TITLE, NULL,
             NULL);
 
     if(window == NULL) {
@@ -107,36 +114,23 @@ void InitWindow(int argc, char* argv[]) {
 void ResizeFunction(GLFWwindow* window, int Width, int Height) {
 
     glfwGetWindowSize(window, &Width, &Height);
-    //CurrentWidth = Width;
-    //CurrentHeight = Height;
-    glViewport(0, 0, CurrentWidth, CurrentHeight);
+    //windowWidth = Width;
+    //windowHeight = Height;
+    glViewport(0, 0, windowWidth, windowHeight);
 }
 
 void RenderFunction() {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     do {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glUseProgram(ProgramId);
+        glUseProgram(programId);
 
-        //glEnableVertexAttribArray(0);
-        //glEnableVertexAttribArray(1);
-
+        glUniformMatrix4fv(matrixId, 1, GL_FALSE, &mvp[0][0]);
         glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, NULL);
-
-		//glEnableVertexAttribArray(0);
-		//glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-
-		//glDrawArrays(GL_TRIANGLES, 0, 3);
-
-        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbuffer);
-        //glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, (void*)0);
-
-		//glDisableVertexAttribArray(1);
-		//glDisableVertexAttribArray(0);
 
         // Swap buffers
         glfwSwapBuffers(window);
@@ -146,7 +140,7 @@ void RenderFunction() {
     while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
             glfwWindowShouldClose(window) == 0 );
 
-	glDeleteProgram(ProgramId);
+	glDeleteProgram(programId);
 
 	glfwTerminate();
 }
@@ -155,7 +149,7 @@ void CreateVBO() {
 
     // Height and width specified in amount of vertices
     int height = HEIGHT;
-    int width = WIDTH;
+    int width = WIdTH;
     // Total triangle: (height * width) - 2
 
     float heightRatio = 2.0/(height-1);
@@ -203,11 +197,11 @@ void CreateVBO() {
     printf("size of indices: %li\n", indexBufferSize);
     printf("last element of indexed array: %u\n", indices.back());
 
-    glGenVertexArrays(1, &VaoId);
-    glBindVertexArray(VaoId);
+    glGenVertexArrays(1, &vaoId);
+    glBindVertexArray(vaoId);
 
-    glGenBuffers(1, &BufferId);
-    glBindBuffer(GL_ARRAY_BUFFER, BufferId);
+    glGenBuffers(1, &bufferId);
+    glBindBuffer(GL_ARRAY_BUFFER, bufferId);
     glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, &vertices[0],
             GL_STATIC_DRAW);
 
@@ -218,8 +212,8 @@ void CreateVBO() {
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    glGenBuffers(1, &IndexBufferId);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferId);
+    glGenBuffers(1, &indexBufferId);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBufferSize,
             &indices[0], GL_STATIC_DRAW);
 
@@ -240,13 +234,13 @@ void DestroyVBO() {
     glDisableVertexAttribArray(0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glDeleteBuffers(1, &BufferId);
+    glDeleteBuffers(1, &bufferId);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    glDeleteBuffers(1, &IndexBufferId);
+    glDeleteBuffers(1, &indexBufferId);
 
     glBindVertexArray(0);
-    glDeleteVertexArrays(1, &VaoId);
+    glDeleteVertexArrays(1, &vaoId);
 
     errorCheckValue = glGetError();
     if(errorCheckValue != GL_NO_ERROR) {
@@ -260,6 +254,21 @@ void Cleanup() {
 
     DestroyVBO();
 
-    glDeleteProgram(ProgramId);
+    glDeleteProgram(programId);
 	glfwTerminate();
+}
+
+void createMVP() {
+
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)
+            windowWidth / (float) windowHeight, 0.1f, 100.0f);
+
+    glm::mat4 view = glm::lookAt(glm::vec3(-2, -2, 3), glm::vec3(0, 0, 0),
+            glm::vec3(0, 0, 1));
+
+    glm::mat4 model = glm::mat4(1.0f);
+
+    mvp = projection * view * model;
+
+    matrixId = glGetUniformLocation(programId, "mvp");
 }
