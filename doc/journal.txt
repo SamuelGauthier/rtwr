@@ -219,3 +219,5 @@ For
 the moment the plane has depth 0 (z=0).
 
 2017-11-15 10:24 Successfully rendered a plane.
+
+2017-11-16 18:20 Camera rotation implemented
