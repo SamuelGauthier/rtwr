@@ -2,6 +2,7 @@ find_package(OpenGL REQUIRED)
 
 set(TARGET_H
     Shader.h
+    stb_image.h
     )
 
 set(TARGET_SRC
