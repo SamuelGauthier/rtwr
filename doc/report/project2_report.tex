@@ -1,0 +1,26 @@
+\documentclass[a4paper,twoside]{article}
+
+\usepackage{geometry}
+\usepackage[svgnames]{xcolor}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{tocbibind}
+\usepackage{todonotes}
+\usepackage{fouriernc}
+
+\begin{document}
+
+\input{text/title_page.tex}
+
+\tableofcontents
+\todo[inline]{add abstract, bibliography, glossary}
+
+\input{text/1_introduction.tex}
+\input{text/2_background.tex}
+\input{text/3_methods.tex}
+\input{text/4_applications.tex}
+\input{text/5_conclusion.tex}
+
+\end{document}
