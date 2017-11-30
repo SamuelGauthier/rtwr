@@ -225,3 +225,14 @@ the moment the plane has depth 0 (z=0).
 2017-11-19 13:51 Working on the skybox
 
 2017-11-22 10:29 Skybox complete, now optimisation and code clean up.
+
+2017-11-23 18:23 Plane has a perspective bug, couldn't fix it for now.
+
+2017-11-26 16:57 Begin to clean up the code
+
+2017-11-27 17:06 Try to fix the perspective bug, no luck, begin to setup latex
+document.
+
+2017-11-28 16:48 Latex document setup complete.
+
+2017-11-29 10:32 Finally fixed the plane bug, yay!
