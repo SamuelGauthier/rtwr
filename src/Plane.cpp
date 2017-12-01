@@ -30,21 +30,48 @@ Plane::Plane(int width, int height) : width{width}, height{height} {
         }
     }
 
-    indicesCount = indices.size();
+    indicesCount = this->indices.size();
+}
+
+Plane::~Plane() {
 
     GLenum errorCheckValue = glGetError();
 
-    const size_t vertexBufferSize = vertices.size() * sizeof(Vertex);
-    const size_t vertexSize = sizeof(vertices[0]);
-    const size_t rgbOffset = sizeof(vertices[0].XYZW);
-    const size_t indexBufferSize = indices.size() * sizeof(GLuint);
+    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(0);
 
-    glGenVertexArrays(1, &vaoId);
-    glBindVertexArray(vaoId);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glDeleteBuffers(1, &this->vertexBufferId);
 
-    glGenBuffers(1, &bufferId);
-    glBindBuffer(GL_ARRAY_BUFFER, bufferId);
-    glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, &vertices[0],
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    glDeleteBuffers(1, &this->indexBufferId);
+
+    glBindVertexArray(0);
+    glDeleteVertexArrays(1, &this->vaoId);
+
+    errorCheckValue = glGetError();
+    if(errorCheckValue != GL_NO_ERROR) {
+        fprintf( stderr, "ERROR: Could not destroy the VBO: %d \n",
+                errorCheckValue);
+        exit(EXIT_FAILURE);
+    }
+}
+
+void Plane::setup() {
+
+    GLenum errorCheckValue = glGetError();
+
+    const size_t vertexBufferSize = this->vertices.size() * sizeof(Vertex);
+    const size_t vertexSize = sizeof(this->vertices[0]);
+    const size_t rgbOffset = sizeof(this->vertices[0].XYZW);
+    const size_t indexBufferSize = this->indices.size() * sizeof(GLuint);
+
+    glGenVertexArrays(1, &this->vaoId);
+    glBindVertexArray(this->vaoId);
+
+    glGenBuffers(1, &this->vertexBufferId);
+    glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferId);
+    glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, &this->vertices[0],
             GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, vertexSize, 0);
@@ -54,10 +81,10 @@ Plane::Plane(int width, int height) : width{width}, height{height} {
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    glGenBuffers(1, &indexBufferId);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
+    glGenBuffers(1, &this->indexBufferId);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->indexBufferId);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBufferSize,
-            &indices[0], GL_STATIC_DRAW);
+            &this->indices[0], GL_STATIC_DRAW);
 
     errorCheckValue = glGetError();
     if(errorCheckValue != GL_NO_ERROR) {
@@ -67,6 +94,8 @@ Plane::Plane(int width, int height) : width{width}, height{height} {
     }
 }
 
-Plane::~Plane() {
+void Plane::draw() {
 
+    glBindVertexArray(this->vaoId);
+    glDrawElements(GL_TRIANGLES, this->indicesCount, GL_UNSIGNED_INT, NULL);
 }

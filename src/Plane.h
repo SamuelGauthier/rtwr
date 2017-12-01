@@ -1,6 +1,7 @@
 #ifndef INCLUDED_PLANE
 #define INCLUDED_PLANE
 
+#include <vector>
 #include <iostream>
 #include <GL/glew.h>
 
@@ -13,11 +14,11 @@ class Plane {
     
     public:
         
-        //Plane();
         Plane(int width=20, int height=20);
         ~Plane();
 
-        void Draw();
+        void setup();
+        void draw();
 
 
     private:
@@ -28,7 +29,7 @@ class Plane {
         std::vector<Vertex> vertices;
         std::vector<GLuint> indices;
         GLuint vaoId;
-        GLuint bufferId;
+        GLuint vertexBufferId;
         GLuint indexBufferId;
 
 };
