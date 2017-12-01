@@ -238,3 +238,5 @@ document.
 2017-11-29 10:32 Finally fixed the plane bug, yay!
 
 2017-11-30 18:12 Begin to put things into classes
+
+2017-12-01 23:03 Finished to clean up the code.
