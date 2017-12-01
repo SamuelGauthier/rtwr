@@ -3,10 +3,14 @@ find_package(OpenGL REQUIRED)
 set(TARGET_H
     Shader.h
     stb_image.h
+    Skybox.h
+    Plane.h
     )
 
 set(TARGET_SRC
     Shader.cpp
+    Skybox.cpp
+    Plane.cpp
     )
 # As alternative use a glob
 # file(GLOB TARGET_FILES "*.h" "*.cpp")

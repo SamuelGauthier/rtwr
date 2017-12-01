@@ -6,10 +6,12 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 
-#define STB_IMAGE_IMPLEMENTATION 
-#include "stb_image.h"
+//#define STB_IMAGE_IMPLEMENTATION 
+//#include "stb_image.h"
 
 #include "Shader.h"
+#include "Skybox.h"
+#include "Plane.h"
 
 #define WINDOW_TITLE "Real-Time Water Rendering"
 
@@ -22,21 +24,16 @@
 
 using namespace glm;
 
-struct Vertex {
-    GLfloat XYZW[4];
-    GLfloat RGBA[4];
-};
-
 GLuint skyboxProgramId;
-GLuint skyboxVaoId;
-GLuint skyboxVertexBufferId;
-GLuint skyboxIndexBufferId;
-GLuint skyboxTexture;
+//GLuint skyboxVaoId;
+//GLuint skyboxVertexBufferId;
+//GLuint skyboxIndexBufferId;
+//GLuint skyboxTexture;
 
 GLuint programId;
-GLuint vaoId;
-GLuint bufferId;
-GLuint indexBufferId;
+//GLuint vaoId;
+//GLuint bufferId;
+//GLuint indexBufferId;
 
 GLuint matrixId;
 GLuint skyboxVMatrixId;
@@ -47,30 +44,25 @@ GLFWwindow* window;
 int windowWidth = 800;
 int windowHeight = 600;
 
-int HEIGHT = 20;
-int WIDTH = 20;
-int indicesCount = 0;
-int skyboxIndicesCount = 0;
+int HEIGHT = 50;
+int WIDTH = 50;
+//int indicesCount = 0;
+//int skyboxIndicesCount = 0;
 
 glm::mat4 mvp;
 glm::mat4 v;
 glm::mat4 p;
 
+Skybox skybox = Skybox(10.0f);
+Plane plane = Plane(WIDTH, HEIGHT);
 
 void Initialize(int, char* []);
 void InitWindow(int, char* []);
 void ResizeFunction(GLFWwindow*, int, int);
 void RenderFunction();
 void Cleanup();
-void CreateVBO();
-void DestroyVBO();
 void createMVP();
 void updateMVP();
-void createSkyBox();
-void destroySkyBox();
-void createCubeMap(const char* front, const char* back, const char* top, const
-        char* bottom, const char* left, const char* right, GLuint* tex_cube);
-bool loadCubeMapSide(GLuint texture, GLenum side_target, const char* file_name);
 
 int main(int argc, char* argv[]) {
 
@@ -102,8 +94,9 @@ void Initialize(int argc, char* argv[]) {
     skyboxProgramId = LoadShaders("../src/skybox.vert", "../src/skybox.frag");
     programId = LoadShaders("../src/vertex.vert", "../src/fragment.frag");
 
-    createSkyBox();
-    CreateVBO();
+    skybox.setup();
+    skybox.setupTexture(FRONT, BACK, TOP, BOTTOM, LEFT, RIGHT);
+    plane.setup();
 
     createMVP();
 }
@@ -163,7 +156,6 @@ void RenderFunction() {
     glDepthFunc(GL_LESS);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     do {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -172,19 +164,12 @@ void RenderFunction() {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         glDepthMask(GL_FALSE);
         glUseProgram(skyboxProgramId);
-
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxTexture);
-        glBindVertexArray(skyboxVaoId);
-        glDrawElements(GL_TRIANGLES, skyboxIndicesCount, GL_UNSIGNED_INT, NULL);
-        glDepthMask(GL_TRUE);
+        skybox.draw();
 
         // Render the plane
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         glUseProgram(programId);
-
-        glBindVertexArray(vaoId);
-        glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, NULL);
+        plane.draw();
 
         // Swap buffers
         glfwSwapBuffers(window);
@@ -197,113 +182,10 @@ void RenderFunction() {
 	glfwTerminate();
 }
 
-void CreateVBO() {
-
-    // Height and width specified in amount of vertices
-    int height = HEIGHT;
-    int width = WIDTH;
-    // Total triangle: (height * width) - 2
-
-    float heightRatio = 2.0/(height-1);
-    float widthRatio = 2.0/(width-1);
-
-    std::vector<Vertex> vertices;
-    std::vector<GLuint> indices;
-
-    for (int j = height - 1; j >= 0; j--) {
-        for (int i = 0; i < width; i++) {
-            Vertex k = {{j*heightRatio - 1.0f, 0.0f, i*widthRatio - 1.0f, 1.0f},
-                {0.0f, 1.0f, 0.0f, 0.0f}};
-            vertices.push_back(k);
-        }
-    }
-
-    for (int j = 0; j < ( height-1 ) ; j++) {
-        for (int i = 0; i < ( width-1 ); i++) {
-            // *-*
-            //  \|
-            //   *
-            indices.push_back(j*width + i);
-            indices.push_back((j+1)*width + (i+1));
-            indices.push_back(j*width + (i+1));
-
-            // *
-            // |\
-            // *-*
-            indices.push_back(j*width + i);
-            indices.push_back((j+1)*width + i);
-            indices.push_back((j+1)*width + (i+1));
-        }
-    }
-
-    indicesCount = indices.size();
-
-    GLenum errorCheckValue = glGetError();
-
-    const size_t vertexBufferSize = vertices.size() * sizeof(Vertex);
-    const size_t vertexSize = sizeof(vertices[0]);
-    const size_t rgbOffset = sizeof(vertices[0].XYZW);
-    const size_t indexBufferSize = indices.size() * sizeof(GLuint);
-
-    glGenVertexArrays(1, &vaoId);
-    glBindVertexArray(vaoId);
-
-    glGenBuffers(1, &bufferId);
-    glBindBuffer(GL_ARRAY_BUFFER, bufferId);
-    glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, &vertices[0],
-            GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, vertexSize, 0);
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*)
-            rgbOffset);
-
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-
-    glGenBuffers(1, &indexBufferId);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBufferSize,
-            &indices[0], GL_STATIC_DRAW);
-
-    errorCheckValue = glGetError();
-    if(errorCheckValue != GL_NO_ERROR) {
-        fprintf( stderr, "ERROR: Could not create a VBO: %d \n",
-                errorCheckValue);
-        exit(EXIT_FAILURE);
-    }
-
-}
-
-void DestroyVBO() {
-
-    GLenum errorCheckValue = glGetError();
-
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glDeleteBuffers(1, &bufferId);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    glDeleteBuffers(1, &indexBufferId);
-
-    glBindVertexArray(0);
-    glDeleteVertexArrays(1, &vaoId);
-
-    errorCheckValue = glGetError();
-    if(errorCheckValue != GL_NO_ERROR) {
-        fprintf( stderr, "ERROR: Could not destroy the VBO: %d \n",
-                errorCheckValue);
-        exit(EXIT_FAILURE);
-    }
-}
-
 void Cleanup() {
 
-    DestroyVBO();
-    destroySkyBox();
-
     glDeleteProgram(programId);
+    glDeleteProgram(skyboxProgramId);
 	glfwTerminate();
 }
 
@@ -347,143 +229,4 @@ void updateMVP() {
 
     glUseProgram(programId);
     glUniformMatrix4fv(matrixId, 1, GL_FALSE, &mvp[0][0]);
-}
-
-void createSkyBox() {
-
-    GLfloat vertices[] = {
-        -10.0f, -10.0f, -10.0f,
-         10.0f, -10.0f, -10.0f,
-         10.0f, -10.0f,  10.0f,
-        -10.0f, -10.0f,  10.0f,
-
-        -10.0f,  10.0f, -10.0f,
-         10.0f,  10.0f, -10.0f,
-         10.0f,  10.0f,  10.0f,
-        -10.0f,  10.0f,  10.0f,
-    };
-
-    GLuint indices[] = {
-        // bottom
-        0, 2, 1,
-        0, 3, 2,
-
-        // top
-        4, 5, 6,
-        4, 6, 7,
-
-        // back
-        4, 1, 5,
-        4, 0, 1,
-
-        // left
-        5, 2, 6,
-        5, 1, 2,
-
-        // front
-        6, 3, 7,
-        6, 2, 3,
-
-        // right
-        7, 0, 4,
-        7, 3, 0
-    };
-
-    skyboxIndicesCount = 36;
-
-    const size_t vertexBufferSize = sizeof(vertices);
-    const size_t indexBufferSize = sizeof(indices);
-
-    GLenum errorCheckValue = glGetError();
-
-    glGenVertexArrays(1, &skyboxVaoId);
-    glBindVertexArray(skyboxVaoId);
-
-    glGenBuffers(1, &skyboxVertexBufferId);
-    glBindBuffer(GL_ARRAY_BUFFER, skyboxVertexBufferId);
-    glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, vertices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-    glEnableVertexAttribArray(0);
-
-    glGenBuffers(1, &skyboxIndexBufferId);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, skyboxIndexBufferId);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBufferSize, indices,
-    GL_STATIC_DRAW);
-
-    createCubeMap(FRONT, BACK, TOP, BOTTOM, LEFT, RIGHT, &skyboxTexture);
-
-    errorCheckValue = glGetError();
-    if(errorCheckValue != GL_NO_ERROR) {
-        fprintf( stderr, "ERROR: Could not create a VBO for the skybox: %d \n",
-                errorCheckValue);
-        exit(EXIT_FAILURE);
-    }
-}
-
-void destroySkyBox() {
-    GLenum errorCheckValue = glGetError();
-
-    glDisableVertexAttribArray(0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glDeleteBuffers(1, &skyboxVertexBufferId);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    glDeleteBuffers(1, &skyboxIndexBufferId);
-
-    glBindVertexArray(0);
-    glDeleteVertexArrays(1, &skyboxVaoId);
-
-    errorCheckValue = glGetError();
-    if(errorCheckValue != GL_NO_ERROR) {
-        fprintf( stderr, "ERROR: Could not destroy the VBO: %d \n",
-                errorCheckValue);
-        exit(EXIT_FAILURE);
-    }
-}
-
-void createCubeMap(const char* front, const char* back, const char* top, const
-        char* bottom, const char* left, const char* right, GLuint* tex_cube) {
-    // generate a cube-map texture to hold all the sides
-    glActiveTexture(GL_TEXTURE0);
-    glGenTextures(1, tex_cube);
-    
-    // load each image and copy into a side of the cube-map texture
-    loadCubeMapSide(*tex_cube, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, front);
-    loadCubeMapSide(*tex_cube, GL_TEXTURE_CUBE_MAP_POSITIVE_Z, back);
-    loadCubeMapSide(*tex_cube, GL_TEXTURE_CUBE_MAP_POSITIVE_Y, top);
-    loadCubeMapSide(*tex_cube, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, bottom);
-    loadCubeMapSide(*tex_cube, GL_TEXTURE_CUBE_MAP_NEGATIVE_X, left);
-    loadCubeMapSide(*tex_cube, GL_TEXTURE_CUBE_MAP_POSITIVE_X, right);
-    // format cube map texture
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-}
-bool loadCubeMapSide(GLuint texture, GLenum side_target,
-        const char* file_name) {
-    glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
-
-    int x, y, n;
-    int force_channels = 4;
-    unsigned char*  image_data = stbi_load(
-            file_name, &x, &y, &n, force_channels);
-    if (!image_data) {
-        fprintf(stderr, "ERROR: could not load %s\n", file_name);
-        return false;
-    }
-    // non-power-of-2 dimensions check
-    if ((x & (x - 1)) != 0 || (y & (y - 1)) != 0) {
-        fprintf(stderr,
-                "WARNING: image %s is not power-of-2 dimensions\n",
-                file_name);
-    }
-
-    // copy image data into 'target' side of cube map
-    glTexImage2D(side_target, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE,
-            image_data);
-    free(image_data);
-    return true;
 }
