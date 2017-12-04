@@ -8,6 +8,7 @@
 struct Vertex {
     GLfloat XYZW[4];
     GLfloat RGBA[4];
+    GLfloat Normal[4];
 };
 
 class Plane {

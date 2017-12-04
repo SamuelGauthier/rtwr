@@ -7,7 +7,7 @@ Plane::Plane(int width, int height) : width{width}, height{height} {
     for (int j = height - 1; j >= 0; j--) {
         for (int i = 0; i < width; i++) {
             Vertex k = {{j*heightRatio - 1.0f, 0.0f, i*widthRatio - 1.0f, 1.0f},
-                {0.0f, 1.0f, 0.0f, 0.0f}};
+                {0.0f, 1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 0.0f}};
             this->vertices.push_back(k);
         }
     }
@@ -37,6 +37,7 @@ Plane::~Plane() {
 
     GLenum errorCheckValue = glGetError();
 
+    glDisableVertexAttribArray(2);
     glDisableVertexAttribArray(1);
     glDisableVertexAttribArray(0);
 
@@ -64,6 +65,8 @@ void Plane::setup() {
     const size_t vertexBufferSize = this->vertices.size() * sizeof(Vertex);
     const size_t vertexSize = sizeof(this->vertices[0]);
     const size_t rgbOffset = sizeof(this->vertices[0].XYZW);
+    const size_t normalOffset = sizeof(this->vertices[0].XYZW) +
+        sizeof(this->vertices[0].RGBA);
     const size_t indexBufferSize = this->indices.size() * sizeof(GLuint);
 
     glGenVertexArrays(1, &this->vaoId);
@@ -77,9 +80,12 @@ void Plane::setup() {
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, vertexSize, 0);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*)
             rgbOffset);
+    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*)
+            normalOffset);
 
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
 
     glGenBuffers(1, &this->indexBufferId);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->indexBufferId);
