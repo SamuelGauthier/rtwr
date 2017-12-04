@@ -15,7 +15,7 @@ The documentation and a list of relevant papers can be found `here
 Todo
 ----
 
-- [] Sky box
+- [x] Sky box
 - [] Light
 - Water
     1. [] Height Map
