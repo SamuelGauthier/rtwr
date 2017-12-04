@@ -30,12 +30,15 @@ GLuint skyboxProgramId;
 //GLuint skyboxIndexBufferId;
 //GLuint skyboxTexture;
 
-GLuint programId;
+GLuint waterProgramId;
 //GLuint vaoId;
 //GLuint bufferId;
 //GLuint indexBufferId;
 
-GLuint matrixId;
+//GLuint matrixId;
+GLuint waterMMatrixId;
+GLuint waterVMatrixId;
+GLuint waterPMatrixId;
 GLuint skyboxVMatrixId;
 GLuint skyboxPMatrixId;
 
@@ -50,6 +53,7 @@ int WIDTH = 50;
 //int skyboxIndicesCount = 0;
 
 glm::mat4 mvp;
+glm::mat4 m;
 glm::mat4 v;
 glm::mat4 p;
 
@@ -92,7 +96,7 @@ void Initialize(int argc, char* argv[]) {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
     skyboxProgramId = LoadShaders("../src/skybox.vert", "../src/skybox.frag");
-    programId = LoadShaders("../src/vertex.vert", "../src/fragment.frag");
+    waterProgramId = LoadShaders("../src/water.vert", "../src/water.frag");
 
     skybox.setup();
     skybox.setupTexture(FRONT, BACK, TOP, BOTTOM, LEFT, RIGHT);
@@ -146,13 +150,15 @@ void RenderFunction() {
     glUniformMatrix4fv(skyboxVMatrixId, 1, GL_FALSE, &v[0][0]);
     glUniformMatrix4fv(skyboxPMatrixId, 1, GL_FALSE, &p[0][0]);
 
-    glUseProgram(programId);
-    glUniformMatrix4fv(matrixId, 1, GL_FALSE, &mvp[0][0]);
+    glUseProgram(waterProgramId);
+    glUniformMatrix4fv(waterMMatrixId, 1, GL_FALSE, &m[0][0]);
+    glUniformMatrix4fv(waterVMatrixId, 1, GL_FALSE, &v[0][0]);
+    glUniformMatrix4fv(waterPMatrixId, 1, GL_FALSE, &p[0][0]);
 
     // Prepare rendering
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    glEnable(GL_DEPTH_TEST );
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
@@ -161,14 +167,14 @@ void RenderFunction() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Render the skybox
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         glDepthMask(GL_FALSE);
         glUseProgram(skyboxProgramId);
         skybox.draw();
 
         // Render the plane
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        glUseProgram(programId);
+        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glUseProgram(waterProgramId);
         plane.draw();
 
         // Swap buffers
@@ -184,7 +190,7 @@ void RenderFunction() {
 
 void Cleanup() {
 
-    glDeleteProgram(programId);
+    glDeleteProgram(waterProgramId);
     glDeleteProgram(skyboxProgramId);
 	glfwTerminate();
 }
@@ -197,6 +203,7 @@ void createMVP() {
             glm::vec3(0, 0, 1));
     glm::mat4 model = glm::mat4(1.0f);
 
+    m = m;
     v = view;
     p = projection;
 
@@ -205,7 +212,11 @@ void createMVP() {
 
     mvp = projection * view * model;
 
-    matrixId = glGetUniformLocation(programId, "mvp");
+    //matrixId = glGetUniformLocation(programId, "mvp");
+    waterMMatrixId = glGetUniformLocation(waterProgramId, "M");
+    waterVMatrixId = glGetUniformLocation(waterProgramId, "V");
+    waterPMatrixId = glGetUniformLocation(waterProgramId, "P");
+
 }
 
 void updateMVP() {
@@ -227,6 +238,8 @@ void updateMVP() {
     glUniformMatrix4fv(skyboxVMatrixId, 1, GL_FALSE, &v[0][0]);
     glUniformMatrix4fv(skyboxPMatrixId, 1, GL_FALSE, &p[0][0]);
 
-    glUseProgram(programId);
-    glUniformMatrix4fv(matrixId, 1, GL_FALSE, &mvp[0][0]);
+    glUseProgram(waterProgramId);
+    glUniformMatrix4fv(waterMMatrixId, 1, GL_FALSE, &m[0][0]);
+    glUniformMatrix4fv(waterVMatrixId, 1, GL_FALSE, &v[0][0]);
+    glUniformMatrix4fv(waterPMatrixId, 1, GL_FALSE, &p[0][0]);
 }
