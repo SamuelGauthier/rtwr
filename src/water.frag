@@ -18,6 +18,6 @@ void main(void) {
     // convert from eye to world space
     reflected = vec3(inverse(V) * vec4(reflected, 0.0));
 
-    //out_Color = vec4(1,0,0,1);
-    texture(cube_texture, reflected);
+    out_Color = vec4(1,0,0,1);
+    //texture(cube_texture, reflected);
 }

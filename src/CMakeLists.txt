@@ -5,12 +5,14 @@ set(TARGET_H
     stb_image.h
     Skybox.h
     Plane.h
+    FPSCounter.h
     )
 
 set(TARGET_SRC
     Shader.cpp
     Skybox.cpp
     Plane.cpp
+    FPSCounter.cpp
     )
 # As alternative use a glob
 # file(GLOB TARGET_FILES "*.h" "*.cpp")

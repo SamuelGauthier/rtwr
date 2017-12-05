@@ -12,6 +12,7 @@
 #include "Shader.h"
 #include "Skybox.h"
 #include "Plane.h"
+#include "FPSCounter.h"
 
 #define WINDOW_TITLE "Real-Time Water Rendering"
 
@@ -41,6 +42,7 @@ GLuint waterVMatrixId;
 GLuint waterPMatrixId;
 GLuint skyboxVMatrixId;
 GLuint skyboxPMatrixId;
+GLuint timeId;
 
 GLFWwindow* window;
 
@@ -59,6 +61,7 @@ glm::mat4 p;
 
 Skybox skybox = Skybox(10.0f);
 Plane plane = Plane(WIDTH, HEIGHT);
+FPSCounter counter = FPSCounter();
 
 void Initialize(int, char* []);
 void InitWindow(int, char* []);
@@ -103,6 +106,7 @@ void Initialize(int argc, char* argv[]) {
     plane.setup();
 
     createMVP();
+    timeId = glGetUniformLocation(waterProgramId, "t");
 }
 
 void InitWindow(int argc, char* argv[]) {
@@ -164,17 +168,19 @@ void RenderFunction() {
 	glCullFace(GL_BACK);
 
     do {
+        counter.update();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Render the skybox
-        //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         glDepthMask(GL_FALSE);
         glUseProgram(skyboxProgramId);
         skybox.draw();
 
         // Render the plane
-        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         glUseProgram(waterProgramId);
+        glUniform1f(timeId, counter.getCurrentTime());
         plane.draw();
 
         // Swap buffers
