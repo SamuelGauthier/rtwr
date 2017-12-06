@@ -247,3 +247,7 @@ and FFT
 2017-12-04 11:02 Begin to work on the reflection
 
 2017-12-05 12:17 Animated the plane with a simple sin and cos combination
+
+2017-12-06 11:47 Plane animation
+Tried to animate the plane with a more complex function like the one described
+in gpu gems 2 but no luck
