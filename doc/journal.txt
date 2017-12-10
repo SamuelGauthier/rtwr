@@ -251,3 +251,7 @@ and FFT
 2017-12-06 11:47 Plane animation
 Tried to animate the plane with a more complex function like the one described
 in gpu gems 2 but no luck
+
+2017-12-09 16:07 Tried to play with the parameters of waves to get a good result, no success.
+
+2017-12-10 12:08 First test with Phong, reflection and refraction
