@@ -178,7 +178,7 @@ void RenderFunction() {
         skybox.draw();
 
         // Render the plane
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         glUseProgram(waterProgramId);
         glUniform1f(timeId, counter.getCurrentTime());
         plane.draw();
