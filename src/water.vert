@@ -1,36 +1,10 @@
 #version 400
+
 #define PI 3.14159265358979
+#define NUMWAVES 3
+#define Q 0.2
+//#define Q 0.9
 
-// define struct for light properties (constants)
-struct LightProperties
-{
-	vec4 position;
-	vec4 ambient;
-	vec4 diffuse;
-	vec4 specular;
-};
-
-
-// define struct for material properties (constants)
-struct MaterialProperties
-{
-	vec4 ambient;		// what part of ambient light is reflected
-	vec4 diffuse;		// what part of diffuse light is scattered
-	vec4 specular;		// what part of specular light is scattered
-	float shininess;	// exponent for sharpening specular reflection
-};
-
-LightProperties lightSource = LightProperties(
-        vec4(7.0, 9.0, 2.0, 1.0),
-        vec4(0.8, 0.8, 0.8, 1.0),
-        vec4(0.8, 0.8, 0.8, 1.0),
-        vec4(1.0, 1.0, 1.0, 1.0));
-
-MaterialProperties materialProperty = MaterialProperties(
-        vec4(0.1, 0.1, 0.1, 1.0),
-        vec4(0.1, 0.1, 0.1, 1.0),
-        vec4(1.0, 1.0, 1.0, 1.0),
-        64.0);
 
 layout(location=0) in vec4 in_Position;
 layout(location=1) in vec4 in_Color;
@@ -41,58 +15,50 @@ uniform float t;
 
 out vec3 pos_eye;
 out vec3 n_eye;
-out vec3 normal;
-out vec3 position;
 
-out LightProperties light;
-out MaterialProperties material;
 
 void main(void) {
 
-    light = lightSource;
-    material = materialProperty;
-    normal = in_Normal;
-    position = in_Position.xyz;
+    float w[3] = float[](sqrt(9.81 * (2 * PI) / 1.0), sqrt(9.81 * (4 * PI)),
+                sqrt(9.81 * (10 * PI)));
+    float phi[3] = float[](0.4 * w[0], 0.3 * w[1], 0.3 * w[2]);
+    //float A[3] = float[](0.06, 0.02, 0.007);
+    float A[3] = float[](0.02, 0.01, 0.037);
+    float Qs[3] = float[](Q/(w[0] * A[0] * NUMWAVES), Q/(w[1] * A[1] *
+                NUMWAVES), Q/(w[2] * A[2] * NUMWAVES));
+    //vec2 D[3] = vec2[](vec2(0.24, 0.34), vec2(0.75, 0.14), vec2(0.45, 0.24));
+    vec2 D[3] = vec2[](vec2(0.0, 0.5), vec2(0.8, 0.7), vec2(0.6, 0.6));
+    vec4 position = in_Position;
+    vec3 binormal = vec3(1, 0, 0);
+    vec3 tangent = vec3(0, 1, 0);
+    vec3 normal;
 
-    //float w_i = (2 * PI) / 320.0;
-    float w_i = sqrt(9.81 * (2 * PI) / 1.0);
-    float phi_i =  0.4 * w_i;
-    float A_i = 0.06;
-    float Q = 0.9;
-    float numWaves = 4;
-    float Q_i = Q / (w_i * A_i * numWaves);
-    
-    vec2 D_i = vec2(0.24, 0.34);
-    vec4 position = in_Position;    
+    for(int i = 0; i < NUMWAVES; i++) {
+        position.x += Qs[i] * A[i] * D[i].x * cos(w[i] * dot(D[i],
+                    position.xz) + phi[i] * t);
+        position.z += Qs[i] * A[i] * D[i].y * cos(w[i] * dot(D[i],
+                    position.xz) + phi[i] * t);
+        position.y += A[i] * sin(w[i] * dot(D[i], position.xz) + phi[i] * t);
 
-    position.x += Q_i * A_i * D_i.x * cos(w_i * dot(D_i, in_Position.xz) +
-            phi_i * t);
-    position.z += Q_i * A_i * D_i.y * cos(w_i * dot(D_i, in_Position.xz) +
-            phi_i * t);
-    position.y = A_i * sin(w_i * dot(D_i, in_Position.xz) + phi_i * t);
-    w_i = sqrt(9.81 * (4 * PI));
-    phi_i =  0.3 * w_i;
-    D_i = vec2(0.75, 0.14);
-    position.x += Q_i * A_i * D_i.x * cos(w_i * dot(D_i, in_Position.xz) +
-            phi_i * t);
-    position.z += Q_i * A_i * D_i.y * cos(w_i * dot(D_i, in_Position.xz) +
-            phi_i * t);
-    position.y += A_i * sin(w_i * dot(D_i, in_Position.xz) + phi_i * t);
-    w_i = sqrt(9.81 * (10 * PI));
-    phi_i =  0.3 * w_i;
-    D_i = vec2(0.45, 0.24);
-    position.y += A_i * sin(w_i * dot(D_i, in_Position.xz) + phi_i * t);
-    //position.y = A_i * sin(w_i * dot(D_i, in_Position.xz) + phi_i * t);
+        binormal.x -= Qs[i] * D[i].x * D[i].x * w[i] * A[i] * sin(w[i] *
+                dot(D[i], position.xz) + phi[i] * t);
+        binormal.y -= Qs[i] * D[i].x * D[i].y * w[i] * A[i] * sin(w[i] *
+                dot(D[i], position.xz) + phi[i] * t);
+        binormal.z += D[i].x * w[i] * A[i] * cos(w[i] * dot(D[i],
+                    position.xz) + phi[i] * t);
 
-    //position.y = 0.05 * sin(12 * dot(D_i, position) + t);
-    //d_i = vec4(-0.57, 0.23, 0.41, 1.0);
-    //position.y += 0.03 * sin(0.6 * (dot(d_i, position) * 22 + t * 2* PI)) / t;
-    //d_i = vec4(-0.21, -0.8, -0.21, 1.0);
-    //position.y += 0.02 * sin(0.2 * (dot(d_i, position) * 56 + t * 2.5 * PI));
-    //d_i = vec4(0.77, -0.63, -0.89, 1.0);
-    //position.y += 0.01 * sin(0.5 * (dot(d_i, position) * 72 + t * 2.9 * PI));
+        tangent.x -= Qs[i] * D[i].x * D[i].y * w[i] * A[i] * sin(w[i] *
+                dot(D[i], position.xz) + phi[i] * t);
+        tangent.y -= Qs[i] * D[i].y * D[i].y * w[i] * A[i] * sin(w[i] *
+                dot(D[i], position.xz) + phi[i] * t);
+        tangent.z += D[i].y * w[i] * A[i] * cos(w[i] * dot(D[i],
+                    position.xz) + phi[i] * t);
+    }
 
+    normal = cross(binormal, tangent);
+
+    //normal = normalize(position.xyz);
     pos_eye = vec3(V * M * position);
-    n_eye = vec3(V * M * vec4(in_Normal, 0.0));
+    n_eye = vec3(V * M * vec4(normal, 0.0));
     gl_Position = P * V * M * position;
 }
