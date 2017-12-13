@@ -255,3 +255,29 @@ in gpu gems 2 but no luck
 2017-12-09 16:07 Tried to play with the parameters of waves to get a good result, no success.
 
 2017-12-10 12:08 First test with Phong, reflection and refraction
+
+2017-12-11 10:47 Meeting with supervisor
+
+1. Showed the skybox and the animated water plane.
+   Normals are not correct, see the Fresnel Law in the script. The vertex
+   shader is costly, so maybe it will be better to use tricks in the pixel
+   shader like bump mapping, etc.
+
+2. Can the document contain information about methods that weren't tried in
+   the project 2?
+   Yes it can. The document should contain a little history
+   about what has been done with water shader so far. What water effects are
+   desired. What and how it is done today. How does Unity, Unreal engine
+   handle the water problem. Most importantly, write a vision for the BSc.
+   What size of water it is targeted for, the effects, etc. The first version
+   of the solution and this solution will not be implemented like that. It
+   needs little tweaks, and optimization.
+
+3. What is the structure of the presentation?
+   It should last 10 min. Present the reflection, refraction, Fresnel. Talk
+   about the different desired effects, the state of the art shader. The
+   different source documents and the shader history. Also do a little demo.
+
+2017-12-12 15:37 Updated latex template
+
+2017-12-13 11:41 Try to fix normals but it is not working
