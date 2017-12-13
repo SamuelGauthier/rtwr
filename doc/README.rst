@@ -80,7 +80,7 @@ Year     Name                    Spatial Spectral Wave refraction GPU Level-Of-D
 .. _GS00: http://www.labri.fr/perso/gonzato/Articles/GONZATO_Wave_JVCS2000.pdf
 .. _TDG00: https://doi.org/10.1109/CGI.2000.852321
 .. _PA00: http://graphics.stanford.edu/courses/cs348b-competition/cs348b-01/ocean_scenes/ocean.pdf
-.. _Tes01: http://graphics.ucsd.edu/courses/rendering/2005/jdewall/tessendorf.pdf
+.. _Tes01: https://pdfs.semanticscholar.org/70da/d4fed48bfbb5b1d417e141ef68d1568e4911.pdf
 .. _SW01: https://pdfs.semanticscholar.org/7ecc/6fe654ddf62bfed6b70b64e676dd9ad9a321.pdf
 .. _GM02: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.105.1354&rep=rep1&type=pdf
 .. _HNC02: https://hal.inria.fr/inria-00537490/document
@@ -102,7 +102,7 @@ Year     Name                    Spatial Spectral Wave refraction GPU Level-Of-D
 .. _CF07: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.138.2930&rep=rep1&type=pdf
 .. _Lac07: http://thelachmans.net/Larry%20and%20Jenny/Documents/IMAGE%202007%20Paper%20-%20L.Lachman.pdf
 .. _LBR07: https://pdfs.semanticscholar.org/2856/83eb47f19407aa8030a03cbd88bf821267dd.pdf
-.. _SC07: http://www.lbd.dcc.ufmg.br/bdbcomp/servlet/Trabalho?id=15912
+.. _SC07: https://doi.org/10.1109/COMPSYM.2010.5685474
 
 
 Ocean dynamics simulation in shallow water
