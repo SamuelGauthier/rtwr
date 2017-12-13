@@ -1,26 +1,50 @@
-\documentclass[a4paper,twoside]{article}
+%\documentclass[a4paper]{article}
+\documentclass{article}
 
-\usepackage{geometry}
+% paper size 15x24cm
+\usepackage[paperwidth=15cm, paperheight=23cm, top=2.5cm, bottom=2cm,
+left=1.5cm, right=1.5cm]{geometry}
 \usepackage[svgnames]{xcolor}
 
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
-\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage[linktoc=all]{hyperref}
+\usepackage[toc, nosuper]{glossaries}
+\usepackage[style=authoryear-comp, backref=true, backend=biber, natbib=true,
+hyperref=true]{biblatex}
 \usepackage{tocbibind}
 \usepackage{todonotes}
 \usepackage{fouriernc}
+\usepackage{lipsum}
+\usepackage{authblk}
+
+\hypersetup{colorlinks=true, urlcolor=black, citecolor=MidnightBlue}
+
+\addbibresource{bibliography/p2_bibliography.bib}
+%\makeglossaries{}
+%\input{glossary/glossary.tex}
+
+\pagestyle{fancy}
+\fancyheadoffset{0cm}
+\fancyhead{}
+\chead{\nouppercase{\rightmark}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
 
 \begin{document}
 
 \input{text/title_page.tex}
-
+\hypersetup{linkcolor=MidnightBlue}
 \tableofcontents
-\todo[inline]{add abstract, bibliography, glossary}
-
+\hypersetup{linkcolor=MidnightBlue}
 \input{text/1_introduction.tex}
 \input{text/2_background.tex}
 \input{text/3_methods.tex}
 \input{text/4_applications.tex}
 \input{text/5_conclusion.tex}
 
+%\printglossaries{}
+
+\printbibliography[heading=bibintoc]
 \end{document}
