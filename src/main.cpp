@@ -54,6 +54,12 @@ int WIDTH = 50;
 //int indicesCount = 0;
 //int skyboxIndicesCount = 0;
 
+glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)
+        windowWidth / (float) windowHeight, 0.1f, 100.0f);
+glm::mat4 view = glm::lookAt(glm::vec3(0, 1, -3), glm::vec3(0, 0, 0),
+            glm::vec3(0, 0, 1));
+glm::mat4 model = glm::mat4(1.0f);
+
 glm::mat4 mvp;
 glm::mat4 m;
 glm::mat4 v;
@@ -203,11 +209,11 @@ void Cleanup() {
 
 void createMVP() {
 
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)
-            windowWidth / (float) windowHeight, 0.1f, 100.0f);
-    glm::mat4 view = glm::lookAt(glm::vec3(0, 1, -3), glm::vec3(0, 0, 0),
-            glm::vec3(0, 0, 1));
-    glm::mat4 model = glm::mat4(1.0f);
+    //glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)
+    //        windowWidth / (float) windowHeight, 0.1f, 100.0f);
+    //glm::mat4 view = glm::lookAt(glm::vec3(0, 1, -3), glm::vec3(0, 0, 0),
+    //        glm::vec3(0, 0, 1));
+    //glm::mat4 model = glm::mat4(1.0f);
 
     m = m;
     v = view;
@@ -227,13 +233,13 @@ void createMVP() {
 
 void updateMVP() {
 
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)
-            windowWidth / (float) windowHeight, 0.1f, 100.0f);
+    //glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)
+    //        windowWidth / (float) windowHeight, 0.1f, 100.0f);
 
-    glm::mat4 view = glm::lookAt(glm::vec3(0, 1, -3), glm::vec3(0, 0, 0),
-            glm::vec3(0, 0, 1));
-    
-    glm::mat4 model = glm::mat4(1.0f);
+    //glm::mat4 view = glm::lookAt(glm::vec3(0, 1, -3), glm::vec3(0, 0, 0),
+    //        glm::vec3(0, 0, 1));
+    //
+    //glm::mat4 model = glm::mat4(1.0f);
 
     v = view;
     p = projection;
