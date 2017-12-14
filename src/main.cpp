@@ -26,17 +26,8 @@
 using namespace glm;
 
 GLuint skyboxProgramId;
-//GLuint skyboxVaoId;
-//GLuint skyboxVertexBufferId;
-//GLuint skyboxIndexBufferId;
-//GLuint skyboxTexture;
-
 GLuint waterProgramId;
-//GLuint vaoId;
-//GLuint bufferId;
-//GLuint indexBufferId;
 
-//GLuint matrixId;
 GLuint waterMMatrixId;
 GLuint waterVMatrixId;
 GLuint waterPMatrixId;
@@ -51,13 +42,11 @@ int windowHeight = 600;
 
 int HEIGHT = 50;
 int WIDTH = 50;
-//int indicesCount = 0;
-//int skyboxIndicesCount = 0;
 
 glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)
         windowWidth / (float) windowHeight, 0.1f, 100.0f);
-glm::mat4 view = glm::lookAt(glm::vec3(0, 1, -3), glm::vec3(0, 0, 0),
-            glm::vec3(0, 0, 1));
+glm::mat4 view = glm::lookAt(glm::vec3(3, 1, -3), glm::vec3(0, 0, 0),
+            glm::vec3(0, 1, 0));
 glm::mat4 model = glm::mat4(1.0f);
 
 glm::mat4 mvp;
