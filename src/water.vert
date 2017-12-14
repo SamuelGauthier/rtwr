@@ -16,8 +16,13 @@ uniform float t;
 out vec3 pos_eye;
 out vec3 n_eye;
 
+out vec3 binormal;
+out vec3 tangent;
+out vec3 normal;
 
 void main(void) {
+    
+    float t = 0.0;
 
     float w[3] = float[](sqrt(9.81 * (2 * PI) / 1.0), sqrt(9.81 * (4 * PI)),
                 sqrt(9.81 * (10 * PI)));
@@ -29,33 +34,37 @@ void main(void) {
     //vec2 D[3] = vec2[](vec2(0.24, 0.34), vec2(0.75, 0.14), vec2(0.45, 0.24));
     vec2 D[3] = vec2[](vec2(0.0, 0.5), vec2(0.8, 0.7), vec2(0.6, 0.6));
     vec4 position = in_Position;
-    vec3 binormal = vec3(1, 0, 0);
-    vec3 tangent = vec3(0, 1, 0);
-    vec3 normal;
+    //vec3 binormal = vec3(1.0, 0.0, 0.0);
+    //vec3 tangent = vec3(0.0, 1.0, 0.0);
+    //vec3 normal = vec3(0.0, 0.0, 1.0);
+    binormal = vec3(1.0, 0.0, 0.0);
+    tangent = vec3(0.0, 1.0, 0.0);
+    normal = vec3(0.0, 0.0, 1.0);
 
     for(int i = 0; i < NUMWAVES; i++) {
-        position.x += Qs[i] * A[i] * D[i].x * cos(w[i] * dot(D[i],
-                    position.xz) + phi[i] * t);
-        position.z += Qs[i] * A[i] * D[i].y * cos(w[i] * dot(D[i],
-                    position.xz) + phi[i] * t);
-        position.y += A[i] * sin(w[i] * dot(D[i], position.xz) + phi[i] * t);
+        float alpha = w[i] * dot(D[i], position.xz) + phi[i] * t;
+        //float phase = phi[i] * t;
+        float WA = w[i] * A[i];
 
-        binormal.x -= Qs[i] * D[i].x * D[i].x * w[i] * A[i] * sin(w[i] *
-                dot(D[i], position.xz) + phi[i] * t);
-        binormal.y -= Qs[i] * D[i].x * D[i].y * w[i] * A[i] * sin(w[i] *
-                dot(D[i], position.xz) + phi[i] * t);
-        binormal.z += D[i].x * w[i] * A[i] * cos(w[i] * dot(D[i],
-                    position.xz) + phi[i] * t);
+        position.x += Qs[i] * A[i] * D[i].x * cos(alpha);
+        position.z += Qs[i] * A[i] * D[i].y * cos(alpha);
+        position.y += A[i] * sin(alpha);
 
-        tangent.x -= Qs[i] * D[i].x * D[i].y * w[i] * A[i] * sin(w[i] *
-                dot(D[i], position.xz) + phi[i] * t);
-        tangent.y -= Qs[i] * D[i].y * D[i].y * w[i] * A[i] * sin(w[i] *
-                dot(D[i], position.xz) + phi[i] * t);
-        tangent.z += D[i].y * w[i] * A[i] * cos(w[i] * dot(D[i],
-                    position.xz) + phi[i] * t);
+        binormal.x -= Qs[i] * D[i].x * D[i].x * WA * sin(alpha);
+        binormal.y -= Qs[i] * D[i].x * D[i].y * WA * sin(alpha);
+        binormal.z += D[i].x * WA * cos(alpha);
+
+        tangent.x -= Qs[i] * D[i].x * D[i].y * WA * sin(alpha);
+        tangent.y -= Qs[i] * D[i].y * D[i].y * WA * sin(alpha);
+        tangent.z += D[i].y * WA * cos(alpha);
+
+        //normal.x -= D[i].x * WA * cos(alpha);
+        //normal.y -= D[i].y * WA * cos(alpha);
+        //normal.x -= Qs[i] * WA * sin(alpha);
     }
 
-    normal = cross(binormal, tangent);
+    //normal = -normal;
+    normal = cross(tangent, binormal);
 
     //normal = normalize(position.xyz);
     pos_eye = vec3(V * M * position);
