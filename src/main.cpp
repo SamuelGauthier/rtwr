@@ -13,6 +13,7 @@
 #include "Skybox.h"
 #include "Plane.h"
 #include "FPSCounter.h"
+#include "Camera.h"
 
 #define WINDOW_TITLE "Real-Time Water Rendering"
 
@@ -57,6 +58,7 @@ glm::mat4 p;
 Skybox skybox = Skybox(10.0f);
 Plane plane = Plane(WIDTH, HEIGHT);
 FPSCounter counter = FPSCounter();
+Camera cam = Camera();
 
 void Initialize(int, char* []);
 void InitWindow(int, char* []);
@@ -92,6 +94,8 @@ void Initialize(int argc, char* argv[]) {
     fprintf(stdout, "INFO: OpenGL Version: %s\n", glGetString(GL_VERSION));
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+    cam.rotate(0.4, 3.0);
 
     skyboxProgramId = LoadShaders("../src/skybox.vert", "../src/skybox.frag");
     waterProgramId = LoadShaders("../src/water.vert", "../src/water.frag");
@@ -161,6 +165,7 @@ void RenderFunction() {
     glDepthFunc(GL_LESS);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
+    glEnable(GL_MULTISAMPLE);
 
     do {
         counter.update();

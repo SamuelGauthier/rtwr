@@ -6,6 +6,7 @@ set(TARGET_H
     Skybox.h
     Plane.h
     FPSCounter.h
+    Camera.h
     )
 
 set(TARGET_SRC
@@ -13,6 +14,7 @@ set(TARGET_SRC
     Skybox.cpp
     Plane.cpp
     FPSCounter.cpp
+    Camera.cpp
     )
 # As alternative use a glob
 # file(GLOB TARGET_FILES "*.h" "*.cpp")
