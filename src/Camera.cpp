@@ -5,14 +5,20 @@
 
 #include "Camera.h"
 
-Camera::Camera(float theta, float phi, float radius, glm::vec3 target) :
-    theta{theta}, phi{phi}, radius{radius}, target{target},
-    projection{glm::mat4(1.0)}, view{glm::mat4(1.0)}, viewNeedsUpdate{true} {}
+Camera::Camera(glm::vec3 position, glm::vec3 target, glm::vec3 up,
+        glm::mat4 projection) {
 
-Camera::Camera(float x, float y, float z) {
+    glm::vec3 spherical = Camera::toSpherical(position);
 
-    glm::vec3 spherical = toSpherical(x, y, z);
-    Camera(spherical.x, spherical.y, spherical.z, glm::vec3(0.0, 0.0, 0.0));
+    this->theta = spherical.x;
+    this->phi = spherical.y;
+    this->radius = spherical.z;
+    this->position = position;
+    this->target = target;
+    this->up = up;
+    this->projection = projection;
+    this->view = glm::lookAt(position, target, up);
+    this->viewNeedsUpdate = true;
 }
 
 Camera::~Camera() {}
@@ -40,7 +46,7 @@ void Camera::zoom(float distance) {
     float updatedDistance = this->radius - distance;
 
     // TODO : Fix floating point comparison
-    this->radius = (updatedDistance >= 0.0) ? updatedDistance : 0.0;
+    this->radius = (updatedDistance >= 0.0) ? updatedDistance : 0.1;
 }
 
 // TODO: Implement or not?
@@ -63,7 +69,7 @@ glm::mat4 Camera::getViewMatrix() {
 
 void Camera::updateViewMatrix() {
 
-    this->view = glm::lookAt(toCartesian(), this->target, glm::vec3(0, 1, 0));
+    this->view = glm::lookAt(toCartesian(), this->target, this->up);
 }
 
 glm::vec3 Camera::toCartesian() {
@@ -82,4 +88,10 @@ glm::vec3 Camera::toSpherical(float x, float y, float z) {
     float radius = sqrt(x * x + y * y + z * z);
 
     return glm::vec3(theta, phi, radius);
+}
+
+
+glm::vec3 Camera::toSpherical(glm::vec3 cartesian) {
+    
+    return Camera::toSpherical(cartesian.x, cartesian.y, cartesian.z);
 }

@@ -46,9 +46,13 @@ int WIDTH = 50;
 
 glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)
         windowWidth / (float) windowHeight, 0.1f, 100.0f);
-glm::mat4 view = glm::lookAt(glm::vec3(3, 1, -3), glm::vec3(0, 0, 0),
-            glm::vec3(0, 1, 0));
-glm::mat4 model = glm::mat4(1.0f);
+//glm::mat4 view = glm::lookAt(glm::vec3(3, 1, -3), glm::vec3(0, 0, 0),
+//            glm::vec3(0, 1, 0));
+//glm::mat4 model = glm::mat4(1.0f);
+
+glm::vec3 position = glm::vec3(0, 1, -3);
+glm::vec3 target = glm::vec3(0, 0, 0);
+glm::vec3 up = glm::vec3(0, 1, 0);
 
 glm::mat4 mvp;
 glm::mat4 m;
@@ -58,11 +62,15 @@ glm::mat4 p;
 Skybox skybox = Skybox(10.0f);
 Plane plane = Plane(WIDTH, HEIGHT);
 FPSCounter counter = FPSCounter();
-Camera cam = Camera();
+Camera camera = Camera(position, target, up, projection);
+
+int mouseState;
 
 void Initialize(int, char* []);
 void InitWindow(int, char* []);
 void ResizeFunction(GLFWwindow*, int, int);
+void trackScroll(GLFWwindow* window, double xOffset, double yOffset);
+void trackMousePosition(GLFWwindow* window, double xPos, double yPos);
 void RenderFunction();
 void Cleanup();
 void createMVP();
@@ -94,8 +102,6 @@ void Initialize(int argc, char* argv[]) {
     fprintf(stdout, "INFO: OpenGL Version: %s\n", glGetString(GL_VERSION));
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-    cam.rotate(0.4, 3.0);
 
     skyboxProgramId = LoadShaders("../src/skybox.vert", "../src/skybox.frag");
     waterProgramId = LoadShaders("../src/water.vert", "../src/water.frag");
@@ -135,6 +141,9 @@ void InitWindow(int argc, char* argv[]) {
     glfwMakeContextCurrent(window);
     glfwSetWindowSizeCallback(window, ResizeFunction);
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+    glfwSetScrollCallback(window, trackScroll);
+    glfwSetCursorPosCallback(window, trackMousePosition);
+    mouseState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
 }
 
 void ResizeFunction(GLFWwindow* window, int Width, int Height) {
@@ -144,6 +153,16 @@ void ResizeFunction(GLFWwindow* window, int Width, int Height) {
     windowHeight = Height;
     updateMVP();
     glViewport(0, 0, windowWidth, windowHeight);
+}
+
+void trackScroll(GLFWwindow* window, double xOffset, double yOffset) {
+
+    camera.zoom(yOffset);
+    updateMVP();
+}
+
+void trackMousePosition(GLFWwindow* window, double xPos, double yPos) {
+
 }
 
 void RenderFunction() {
@@ -203,20 +222,16 @@ void Cleanup() {
 
 void createMVP() {
 
-    //glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)
-    //        windowWidth / (float) windowHeight, 0.1f, 100.0f);
-    //glm::mat4 view = glm::lookAt(glm::vec3(0, 1, -3), glm::vec3(0, 0, 0),
-    //        glm::vec3(0, 0, 1));
-    //glm::mat4 model = glm::mat4(1.0f);
-
-    m = m;
-    v = view;
-    p = projection;
+    m = glm::mat4(1.0f);
+    //v = view;
+    //p = projection;
+    v = camera.getViewMatrix();
+    p = camera.getProjectionMatrix();
 
     skyboxVMatrixId = glGetUniformLocation(skyboxProgramId, "V");
     skyboxPMatrixId = glGetUniformLocation(skyboxProgramId, "P");
 
-    mvp = projection * view * model;
+    mvp = p * v * m;
 
     //matrixId = glGetUniformLocation(programId, "mvp");
     waterMMatrixId = glGetUniformLocation(waterProgramId, "M");
@@ -227,17 +242,11 @@ void createMVP() {
 
 void updateMVP() {
 
-    //glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)
-    //        windowWidth / (float) windowHeight, 0.1f, 100.0f);
-
-    //glm::mat4 view = glm::lookAt(glm::vec3(0, 1, -3), glm::vec3(0, 0, 0),
-    //        glm::vec3(0, 0, 1));
-    //
-    //glm::mat4 model = glm::mat4(1.0f);
-
-    v = view;
-    p = projection;
-    mvp = projection * view * model;
+    //v = view;
+    //p = projection;
+    v = camera.getViewMatrix();
+    p = camera.getProjectionMatrix();
+    mvp = p * v * m;
 
     // Send matrices
     glUseProgram(skyboxProgramId);

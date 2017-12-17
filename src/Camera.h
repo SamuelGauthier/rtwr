@@ -6,9 +6,8 @@
 class Camera {
 
     public:
-        Camera(float theta=0.0, float phi=0.0, float radius=0.0,
-                glm::vec3 target=glm::vec3(0.0, 0.0, 0.0));
-        Camera(float x, float y, float z);
+        Camera(glm::vec3 position, glm::vec3 target, glm::vec3 up,
+                glm::mat4 projection);
         ~Camera();
         void rotate(float dTheta, float dPhi);
         void zoom(float distance);
@@ -17,7 +16,8 @@ class Camera {
         glm::mat4 getProjectionMatrix();
         glm::mat4 getViewMatrix();
         glm::vec3 toCartesian();
-        glm::vec3 toSpherical(float x, float y, float z);
+        static glm::vec3 toSpherical(float x, float y, float z);
+        static glm::vec3 toSpherical(glm::vec3 cartesian);
 
         
 
@@ -25,7 +25,9 @@ class Camera {
         float theta;
         float phi;
         float radius;
+        glm::vec3 position;
         glm::vec3 target;
+        glm::vec3 up;
         glm::mat4 projection;
         glm::mat4 view;
         bool viewNeedsUpdate;
