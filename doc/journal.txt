@@ -283,3 +283,9 @@ in gpu gems 2 but no luck
 2017-12-13 11:41 Try to fix normals but it is not working
 
 2017-12-14 15:57 Begin to implement camera class
+
+2017-12-16 13:08 Began to read Tessendorf's paper
+
+2017-12-17 12:02 Updated camera class, zooming works but skybox shouldn't zoom.
+Also when very
+close to the water the rendering time for one frame explodes
