@@ -289,3 +289,6 @@ in gpu gems 2 but no luck
 2017-12-17 12:02 Updated camera class, zooming works but skybox shouldn't zoom.
 Also when very
 close to the water the rendering time for one frame explodes
+
+2017-12-19 16:05 Implemented the camera rotation (not completely satisfied with it) and
+continued to read Tessendorfs paper
