@@ -50,7 +50,7 @@ glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)
 //            glm::vec3(0, 1, 0));
 //glm::mat4 model = glm::mat4(1.0f);
 
-glm::vec3 position = glm::vec3(0, 1, -3);
+glm::vec3 position = glm::vec3(0, 3, 3);
 glm::vec3 target = glm::vec3(0, 0, 0);
 glm::vec3 up = glm::vec3(0, 1, 0);
 
@@ -65,12 +65,16 @@ FPSCounter counter = FPSCounter();
 Camera camera = Camera(position, target, up, projection);
 
 int mouseState;
+bool mouseDown = false;
+double previousX;
+double previousY;
 
 void Initialize(int, char* []);
 void InitWindow(int, char* []);
 void ResizeFunction(GLFWwindow*, int, int);
 void trackScroll(GLFWwindow* window, double xOffset, double yOffset);
 void trackMousePosition(GLFWwindow* window, double xPos, double yPos);
+void trackMouseButton(GLFWwindow* window, int button, int action, int mods);
 void RenderFunction();
 void Cleanup();
 void createMVP();
@@ -143,7 +147,8 @@ void InitWindow(int argc, char* argv[]) {
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
     glfwSetScrollCallback(window, trackScroll);
     glfwSetCursorPosCallback(window, trackMousePosition);
-    mouseState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+    glfwSetMouseButtonCallback(window, trackMouseButton);
+    //mouseState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
 }
 
 void ResizeFunction(GLFWwindow* window, int Width, int Height) {
@@ -162,6 +167,31 @@ void trackScroll(GLFWwindow* window, double xOffset, double yOffset) {
 }
 
 void trackMousePosition(GLFWwindow* window, double xPos, double yPos) {
+
+    if(mouseDown) {
+
+        float dPhi = (float)(previousX - xPos) / 300;
+        float dTheta = (float)(previousY - yPos) / 300;
+
+        camera.rotate(dPhi, dTheta);
+        updateMVP();
+
+        previousX = xPos;
+        previousY = yPos;
+    }
+}
+
+void trackMouseButton(GLFWwindow* window, int button, int action, int mods) {
+
+    if(button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+        glfwGetCursorPos(window, &previousX, &previousY);
+        mouseDown = true;
+    }
+
+    else if(button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+        mouseDown = false;
+    }
+
 
 }
 
