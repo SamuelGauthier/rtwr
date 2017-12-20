@@ -39,32 +39,34 @@ void main(void) {
     //vec3 normal = vec3(0.0, 0.0, 1.0);
     binormal = vec3(1.0, 0.0, 0.0);
     tangent = vec3(0.0, 1.0, 0.0);
-    normal = vec3(0.0, 0.0, 1.0);
+    normal = vec3(0.0, 1.0, 0.0);
 
     for(int i = 0; i < NUMWAVES; i++) {
         float alpha = w[i] * dot(D[i], position.xz) + phi[i] * t;
         //float phase = phi[i] * t;
         float WA = w[i] * A[i];
 
+        // /!\ y and z coordinates are flipped in OpenGL
+        // z coordinate points out of the screen.
         position.x += Qs[i] * A[i] * D[i].x * cos(alpha);
         position.z += Qs[i] * A[i] * D[i].y * cos(alpha);
         position.y += A[i] * sin(alpha);
 
-        binormal.x -= Qs[i] * D[i].x * D[i].x * WA * sin(alpha);
-        binormal.y -= Qs[i] * D[i].x * D[i].y * WA * sin(alpha);
-        binormal.z += D[i].x * WA * cos(alpha);
+        //binormal.x -= Qs[i] * D[i].x * D[i].x * WA * sin(alpha);
+        //binormal.y -= Qs[i] * D[i].x * D[i].y * WA * sin(alpha);
+        //binormal.z += D[i].x * WA * cos(alpha);
 
-        tangent.x -= Qs[i] * D[i].x * D[i].y * WA * sin(alpha);
-        tangent.y -= Qs[i] * D[i].y * D[i].y * WA * sin(alpha);
-        tangent.z += D[i].y * WA * cos(alpha);
+        //tangent.x -= Qs[i] * D[i].x * D[i].y * WA * sin(alpha);
+        //tangent.y -= Qs[i] * D[i].y * D[i].y * WA * sin(alpha);
+        //tangent.z += D[i].y * WA * cos(alpha);
 
-        //normal.x -= D[i].x * WA * cos(alpha);
-        //normal.y -= D[i].y * WA * cos(alpha);
-        //normal.x -= Qs[i] * WA * sin(alpha);
+        normal.x -= D[i].x * WA * cos(alpha);
+        normal.z -= D[i].y * WA * cos(alpha);
+        normal.y -= Qs[i] * WA * sin(alpha);
     }
 
     //normal = -normal;
-    normal = cross(tangent, binormal);
+    //normal = cross(tangent, binormal);
 
     //normal = normalize(position.xyz);
     pos_eye = vec3(V * M * position);
