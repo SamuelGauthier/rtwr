@@ -292,3 +292,6 @@ close to the water the rendering time for one frame explodes
 
 2017-12-19 16:05 Implemented the camera rotation (not completely satisfied with it) and
 continued to read Tessendorfs paper
+
+2017-12-20 11:56 Corrected: the skybox so that when moving it remains at the same position and
+partially the normals that had a wrong computation.
