@@ -46,15 +46,11 @@ int WIDTH = 50;
 
 glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)
         windowWidth / (float) windowHeight, 0.1f, 100.0f);
-//glm::mat4 view = glm::lookAt(glm::vec3(3, 1, -3), glm::vec3(0, 0, 0),
-//            glm::vec3(0, 1, 0));
-//glm::mat4 model = glm::mat4(1.0f);
 
 glm::vec3 position = glm::vec3(0, 3, 3);
 glm::vec3 target = glm::vec3(0, 0, 0);
 glm::vec3 up = glm::vec3(0, 1, 0);
 
-glm::mat4 mvp;
 glm::mat4 m;
 glm::mat4 v;
 glm::mat4 p;
@@ -148,7 +144,6 @@ void InitWindow(int argc, char* argv[]) {
     glfwSetScrollCallback(window, trackScroll);
     glfwSetCursorPosCallback(window, trackMousePosition);
     glfwSetMouseButtonCallback(window, trackMouseButton);
-    //mouseState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
 }
 
 void ResizeFunction(GLFWwindow* window, int Width, int Height) {
@@ -228,6 +223,7 @@ void RenderFunction() {
 
         // Render the plane
         //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glDepthMask(GL_TRUE);
         glUseProgram(waterProgramId);
         glUniform1f(timeId, counter.getCurrentTime());
         plane.draw();
@@ -253,17 +249,12 @@ void Cleanup() {
 void createMVP() {
 
     m = glm::mat4(1.0f);
-    //v = view;
-    //p = projection;
     v = camera.getViewMatrix();
     p = camera.getProjectionMatrix();
 
     skyboxVMatrixId = glGetUniformLocation(skyboxProgramId, "V");
     skyboxPMatrixId = glGetUniformLocation(skyboxProgramId, "P");
 
-    mvp = p * v * m;
-
-    //matrixId = glGetUniformLocation(programId, "mvp");
     waterMMatrixId = glGetUniformLocation(waterProgramId, "M");
     waterVMatrixId = glGetUniformLocation(waterProgramId, "V");
     waterPMatrixId = glGetUniformLocation(waterProgramId, "P");
@@ -272,16 +263,16 @@ void createMVP() {
 
 void updateMVP() {
 
-    //v = view;
-    //p = projection;
-    v = camera.getViewMatrix();
+    // Discard the rotation for the skybox
+    v = glm::mat4(glm::mat3(camera.getViewMatrix()));
     p = camera.getProjectionMatrix();
-    mvp = p * v * m;
 
     // Send matrices
     glUseProgram(skyboxProgramId);
     glUniformMatrix4fv(skyboxVMatrixId, 1, GL_FALSE, &v[0][0]);
     glUniformMatrix4fv(skyboxPMatrixId, 1, GL_FALSE, &p[0][0]);
+
+    v = camera.getViewMatrix();
 
     glUseProgram(waterProgramId);
     glUniformMatrix4fv(waterMMatrixId, 1, GL_FALSE, &m[0][0]);
