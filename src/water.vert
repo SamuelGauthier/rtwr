@@ -13,8 +13,8 @@ layout(location=2) in vec3 in_Normal;
 uniform mat4 M, V, P;
 uniform float t;
 
-out vec3 pos_eye;
-out vec3 n_eye;
+out vec3 vm_position;
+out vec3 vm_normal;
 
 out vec3 binormal;
 out vec3 tangent;
@@ -69,7 +69,7 @@ void main(void) {
     //normal = cross(tangent, binormal);
 
     //normal = normalize(position.xyz);
-    pos_eye = vec3(V * M * position);
-    n_eye = vec3(V * M * vec4(normal, 0.0));
+    vm_position = vec3(V * M * position);
+    vm_normal = vec3(V * M * vec4(normal, 0.0));
     gl_Position = P * V * M * position;
 }

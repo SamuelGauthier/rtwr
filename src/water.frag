@@ -5,9 +5,8 @@
 // water/air = 1/1.333
 #define RATIO 0.75
 
-// TODO: correct the names, meaning unclear
-in vec3 pos_eye;
-in vec3 n_eye;
+in vec3 vm_position;
+in vec3 vm_normal;
 
 in vec3 binormal;
 in vec3 tangent;
@@ -20,12 +19,16 @@ out vec4 out_Color;
 
 void main(void) {
 
-    /* reflect ray around normal from eye to surface */
-    vec3 incident_eye = normalize(pos_eye);
-    vec3 normal = normalize(n_eye);
-    //vec3 normal = (n_eye);
+    vec3 light_position = vec3(9, 9, -3);
 
-    vec3 view = normalize(vec3(V[1]) - pos_eye);
+    /* reflect ray around normal from eye to surface */
+    vec3 incident_eye = normalize(vm_position);
+    vec3 normal = normalize(vm_normal);
+    //vec3 normal = (vm_normal);
+
+    vec3 view = normalize(vec3(V[1]) - vm_position);
+    vec3 l = normalize(light_position - vm_position);
+    vec3 h = normalize(l + view);
 
     //mat3 objectToWorldMatrix = mat3(normalize(binormal), normalize(normal),
     //        normalize(tangent));
@@ -47,7 +50,7 @@ void main(void) {
     float R_coeff = R_F0 + (1.0 - R_F0) * pow((1.0 - max(0.0, dot(normal,
                         view) / (length(normal) * length(view)))), 5);
     //float R_coeff = R_F0 + (1.0 - R_F0) *
-    //    pow((1.0 - max(0.0, dot(worldNormal, pos_eye))), 5);
+    //    pow((1.0 - max(0.0, dot(worldNormal, vm_position))), 5);
     //vec4 test = vec4(R_coeff, 0, 0, 0);
     //out_Color = test;
 
