@@ -295,3 +295,21 @@ continued to read Tessendorfs paper
 
 2017-12-20 11:56 Corrected: the skybox so that when moving it remains at the same position and
 partially the normals that had a wrong computation.
+
+2017-12-21 16:03 Finished Tessendorfs paper.
+Not understood everything, the notation used
+doesn't help.
+
+2017-12-25 12:54 Tried to implement phong shading but several questions arise:
+1. How to combine it with the rest?
+2. How to separate the shaders so that not all is in the same file?
+
+Answer to 1. is to read the chapters 5, 7-9 in the Real-Time Rendering book.
+For 2. either use a big Übershader or use shader components.
+
+2017-12-26 17:02 Began to read chapter 5 of Real-Time Rendering
+
+2017-12-27 21:19 Read chapter 5 of RTR and reworked the project report outline
+
+The issue with the combination of the fresnel term into the phong shading algo
+is not that trivial. Maybe use the specular brdf term as it is in it?
