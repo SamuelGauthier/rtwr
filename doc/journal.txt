@@ -313,3 +313,5 @@ For 2. either use a big Übershader or use shader components.
 
 The issue with the combination of the fresnel term into the phong shading algo
 is not that trivial. Maybe use the specular brdf term as it is in it?
+
+2017-12-28 21:26 Began Chapter 7 of RTWR and finished document outline
