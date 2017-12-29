@@ -315,3 +315,6 @@ The issue with the combination of the fresnel term into the phong shading algo
 is not that trivial. Maybe use the specular brdf term as it is in it?
 
 2017-12-28 21:26 Began Chapter 7 of RTWR and finished document outline
+
+2017-12-29 19:14 Continued reading chapter 7 RTWR and writing documentation, also found useful
+links
