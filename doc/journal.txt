@@ -318,3 +318,7 @@ is not that trivial. Maybe use the specular brdf term as it is in it?
 
 2017-12-29 19:14 Continued reading chapter 7 RTWR and writing documentation, also found useful
 links
+
+2017-12-30 21:50 Continued reading chapter 7 and update documentation
+
+What I want to implement tends toward a BRDF. Is this necessary?
