@@ -322,3 +322,7 @@ links
 2017-12-30 21:50 Continued reading chapter 7 and update documentation
 
 What I want to implement tends toward a BRDF. Is this necessary?
+
+2018-01-01 00:38 Watched siggraph presentation about BRDF, continued to read chapter 7 of RTWR,
+began the outilne of the presentation, continued to work on the paper and
+tweaked the water shader.
