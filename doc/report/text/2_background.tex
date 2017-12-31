@@ -4,31 +4,70 @@
 % eulerian, lagrangian frameworks, talk about their visual accuracy, SLProject,
 % 0 a.d.
 
+% Talk about the different depth of water
+Test~\autoref{subsec:methods_industry}.
 
-\subsection{Navier Stokes Equations}\label{subsec:navier_stokes}
+\subsection{Navier-Stokes Equations}\label{subsec:navier_stokes}
+
+% explain that they describe a fluid but they don't have a solution yet and it's
+% one of the biggest open problems in math.
+
+
 \subsection{Spatial Domain}\label{subsec:spatial_domain}
+
+% What is the spatial domain?
+% present some papers:
+% - Johanson
+
 \subsection{Spectral Domain}\label{subsec:spectral_domain}
+
+% What is the spectral domain?
+
+% present some models in the spectral and spatial domains from different papers
+% that look great:
+% - Tessendorf
+
+
 \subsection{Methods Used in Industry Productions}\label{subsec:methods_industry}
 
-% FFT, Projected Grid, LOD,
+% FFT, Projected Grid, LOD, talk about world of warships, anno, and oceans on a
+% shoestring and uncharted. Talk also about some available shaders in the Unity
+% store, the default one in Unity, and in Unreal Engine, also in Cryengine.
+
+Many different water models are used in industry productions. One that has been
+applied extensively in movies is the one from
+Tessendorf~\autocite{tessendorf2001simulating} as seen
+in~\autoref{subsec:spectral_domain}. This model is also used in most of games
+and in Ceto, a former paid Unity package. During our research we came across two
+solutions which where presented at the Game Developer Conference or at the
+SIGGRAPH conference.
 
 \subsection{Candidate Applications for Embedding}\label{subsec:candidate_apps}
 
-% SLProject, 0 a.d.
-
 We now present two candidate applications which need a real-time water model:
-\textit{SLProject} and \textit{0 A.D.}\footnote{Although both have already one,
+\textit{SLProject} and \textit{0 A.D.}. Although both have already one,
 in the former application the model doesn't work and in the latter it is
-outdated.}.
+outdated.
+
 
 \subsubsection{SLProject}
 
+\textit{SLProject} is a Scene Library developed and maintained by the cpvrLab at
+the Bern University of Applied Sciences (BFH). It is free and open
+source\footnote{Licensed under the GNU-GPL license.} and runs on Windows, MacOS,
+Linux, Android and iOS\@. The project is a showcase for 3D computer graphics and
+image processing topics such as real-time rendering, raytracing and feature
+tracking. It is coded in C++ and OpenGL ES to ensure complete platform
+independence~\autocite{hudritch2017slproject, slproject2017doxygen}.
+
+The project has a real-time water rendering demo but it is unfortunately broken
+(see open ticket, \#36 ``Fix water
+shader''\footnote{\url{https://github.com/cpvrlab/SLProject/issues/36}}). The
+water plane is modeled by a simple multiplication of the sine and cosine
+functions and is illuminated 50\% by a point light and 50\% by a cube texture.
 
 
 \subsubsection{0 A.D.}
-
-% Talk about the history of the project, what it is, how it is maintained,
-% open source, game engine, the tickets and contacts with the devs.
 
 \textit{0 A.D.} is a real-time strategy game representing the 500 B.C to 500 A.D
 era. It is developed by Wildfire Games, an independent game development studio.
@@ -64,13 +103,13 @@ The Doxygen documentation is minimalistic and unlike the one from
 The current water implementation has been created in 2006 by a student form the
 University of Waterloo, Canada, as a course project~\autocite{zaharia2006cs}.
 Over the years it has been slightly modified and optimized but appears visually
-outdated (see~\autoref{fig:0ad_water}) compared to the one used in
-commercial RTS games like Anno 1800 or Age of Empires~3. There is an open
-ticket, \#48 ``Advanced Water Rendering'', which was opened twelve years ago and
-modified three years ago but still not closed.  We have contacted the developers
-and they would gladly appreciate a contribution that would close the issue.
-
-%\missingfigure{screenshot of 0ad water}
+outdated (see~\autoref{fig:0ad_water}) compared to the one used in commercial
+RTS games like Anno 1800 or Age of Empires~3~\todo[inline]{reference figure from
+introduction}. There is an open ticket, \#48 ``Advanced Water
+Rendering''\footnote{\url{https://trac.wildfiregames.com/ticket/48}}, which was
+opened twelve years ago and modified three years ago but still not closed.  We
+have contacted the developers and they would gladly appreciate a contribution
+that would close the issue.
 
 \begin{figure}[t!]
     \centering
