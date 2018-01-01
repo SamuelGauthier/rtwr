@@ -6,9 +6,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 
-//#define STB_IMAGE_IMPLEMENTATION 
-//#include "stb_image.h"
-
 #include "Shader.h"
 #include "Skybox.h"
 #include "Plane.h"
@@ -17,12 +14,14 @@
 
 #define WINDOW_TITLE "Real-Time Water Rendering"
 
-#define FRONT "../data/skybox/saint_lazarus_church/negz.jpg"
-#define BACK "../data/skybox/saint_lazarus_church/posz.jpg"
-#define TOP "../data/skybox/saint_lazarus_church/posy.jpg"
-#define BOTTOM "../data/skybox/saint_lazarus_church/negy.jpg"
-#define LEFT "../data/skybox/saint_lazarus_church/negx.jpg"
-#define RIGHT "../data/skybox/saint_lazarus_church/posx.jpg"
+#define SKYBOX_NAME "san_francisco"
+
+#define FRONT "../data/skybox/" SKYBOX_NAME "/front.jpg"
+#define BACK "../data/skybox/" SKYBOX_NAME "/back.jpg"
+#define UP "../data/skybox/" SKYBOX_NAME "/up.jpg"
+#define DOWN "../data/skybox/" SKYBOX_NAME "/down.jpg"
+#define LEFT "../data/skybox/" SKYBOX_NAME "/left.jpg"
+#define RIGHT "../data/skybox/" SKYBOX_NAME "/right.jpg"
 
 using namespace glm;
 
@@ -107,7 +106,7 @@ void Initialize(int argc, char* argv[]) {
     waterProgramId = LoadShaders("../src/water.vert", "../src/water.frag");
 
     skybox.setup();
-    skybox.setupTexture(FRONT, BACK, TOP, BOTTOM, LEFT, RIGHT);
+    skybox.setupTexture(FRONT, BACK, UP, DOWN, LEFT, RIGHT);
     plane.setup();
 
     createMVP();
