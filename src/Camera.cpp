@@ -1,4 +1,3 @@
-//#define _USE_MATH_DEFINES // for C++  
 #include <cmath>
 #include <iostream>
 #include <glm/gtx/transform.hpp>
@@ -30,11 +29,11 @@ void Camera::rotate(float dTheta, float dPhi) {
     float updatedTheta = this->theta - dTheta;
     float updatedPhi = this->phi - dPhi;
 
-    // TODO : Fix floating point comparison
-    if(updatedTheta >= 0.0 && updatedTheta <= 2*M_PI)
-        this->theta = updatedTheta;
+    if(updatedTheta < 0.0 && updatedTheta > 2*M_PI)
+        updatedTheta = fmod(updatedTheta, 2*M_PI);
 
-    // TODO : Fix floating point comparison
+    this->theta = updatedTheta;
+
     if(updatedPhi >= 0.0 && updatedPhi <= M_PI)
         this->phi = updatedPhi;
 }
