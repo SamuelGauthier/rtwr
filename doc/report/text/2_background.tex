@@ -5,12 +5,22 @@
 % 0 a.d.
 
 % Talk about the different depth of water
-Test~\autoref{subsec:methods_industry}.
+
+In this section we start by presenting the physical accurate description of
+fluids in \autoref{subsec:navier_stokes}. Then in
+\autoref{subsec:spatial_domain} and \autoref{subsec:spectral_domain} we describe
+the two existing groups of water models appearing the literature: spatial and
+spectral.  For each of them we selected a couple of relevant approaches that
+will be explained. Finally in \autoref{subsec:candidate_apps} we present two
+applications which need a real-time water solution.
 
 \subsection{Navier-Stokes Equations}\label{subsec:navier_stokes}
 
 % explain that they describe a fluid but they don't have a solution yet and it's
-% one of the biggest open problems in math.
+% one of the biggest open problems in math. Computational Fluid Dynamics CFD is
+% the field of finding numerical approximations to the equations
+% The process of solving problems in fluid dynamics numerically on a computer is
+% called CFD
 
 
 \subsection{Spatial Domain}\label{subsec:spatial_domain}
@@ -35,12 +45,14 @@ Test~\autoref{subsec:methods_industry}.
 % store, the default one in Unity, and in Unreal Engine, also in Cryengine.
 
 Many different water models are used in industry productions. One that has been
-applied extensively in movies is the one from
-Tessendorf~\autocite{tessendorf2001simulating} as seen
-in~\autoref{subsec:spectral_domain}. This model is also used in most of games
-and in Ceto, a former paid Unity package. During our research we came across two
+applied extensively in movies and most of the games is the one from
+Tessendorf \autocite{tessendorf2001simulating} as seen
+in \autoref{subsec:spectral_domain}. During our research we came across three
 solutions which where presented at the Game Developer Conference or at the
-SIGGRAPH conference.
+SIGGRAPH conference. They are implemented in Uncharted, World of Warships and an
+undisclosed game.
+
+
 
 \subsection{Candidate Applications for Embedding}\label{subsec:candidate_apps}
 
@@ -58,7 +70,7 @@ source\footnote{Licensed under the GNU-GPL license.} and runs on Windows, MacOS,
 Linux, Android and iOS\@. The project is a showcase for 3D computer graphics and
 image processing topics such as real-time rendering, raytracing and feature
 tracking. It is coded in C++ and OpenGL ES to ensure complete platform
-independence~\autocite{hudritch2017slproject, slproject2017doxygen}.
+independence \autocite{hudritch2017slproject, slproject2017doxygen}.
 
 The project has a real-time water rendering demo but it is unfortunately broken
 (see open ticket, \#36 ``Fix water
@@ -84,7 +96,7 @@ From then on many contributions have been made, notably one redesigning entirely
 the code base, making new contributions easier. As of today the project is still
 actively maintained, with the latest alpha-release (number 22 code named
 ``Venustas'') dating from July 26,
-2017~\autocite{wildfire0adproject,wildfire0adstory}.
+2017 \autocite{wildfire0adproject,wildfire0adstory}.
 
 The game engine, Pyrogenesis, is heavily oriented towards modding. The core
 engine is coded in C++ and Javascript is used for the game's logic, like the
@@ -101,11 +113,12 @@ The Doxygen documentation is minimalistic and unlike the one from
 \textit{SLProject}, does not help to understand the architecture.
 
 The current water implementation has been created in 2006 by a student form the
-University of Waterloo, Canada, as a course project~\autocite{zaharia2006cs}.
+University of Waterloo, Canada, as a course project \autocite{zaharia2006cs}.
 Over the years it has been slightly modified and optimized but appears visually
-outdated (see~\autoref{fig:0ad_water}) compared to the one used in commercial
-RTS games like Anno 1800 or Age of Empires~3~\todo[inline]{reference figure from
-introduction}. There is an open ticket, \#48 ``Advanced Water
+outdated (see \autoref{fig:0ad_water} on page~\pageref{fig:0ad_water}) compared
+to the one used in commercial RTS games like Anno 1800 or Age of Empires~3
+\todo[inline]{reference figure from introduction}. There is an open ticket, \#48
+``Advanced Water
 Rendering''\footnote{\url{https://trac.wildfiregames.com/ticket/48}}, which was
 opened twelve years ago and modified three years ago but still not closed.  We
 have contacted the developers and they would gladly appreciate a contribution
@@ -125,7 +138,7 @@ that would close the issue.
         \subcaption{Zoomed out view.}\label{subfig:0ad_water_far}
     \end{subfigure}
     \caption{\textit{0 A.D.}'s water rendering. Notice on the lower left part
-        of~\autoref{subfig:0ad_water_close} the repetition of the waves.
-        In~\autoref{subfig:0ad_water_far} it is even more apparent (source:
+        of \autoref{subfig:0ad_water_close} the repetition of the waves.
+        In \autoref{subfig:0ad_water_far} it is even more apparent (source:
         \url{play0ad.com}).}\label{fig:0ad_water}
 \end{figure}
