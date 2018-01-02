@@ -3,8 +3,6 @@
 #define PI 3.14159265358979
 #define NUMWAVES 3
 #define Q 0.2
-//#define Q 0.9
-
 
 layout(location=0) in vec4 in_Position;
 layout(location=1) in vec4 in_Color;
@@ -16,12 +14,8 @@ uniform float t;
 out vec3 vm_position;
 out vec3 vm_normal;
 
-//out vec3 binormal;
-//out vec3 tangent;
-//out vec3 normal;
-
 void main(void) {
-    
+
     float w[3] = float[](sqrt(9.81 * (2 * PI) / 1.0), sqrt(9.81 * (4 * PI)),
                 sqrt(9.81 * (10 * PI)));
     float phi[3] = float[](0.4 * w[0], 0.3 * w[1], 0.3 * w[2]);
