@@ -328,3 +328,6 @@ began the outilne of the presentation, continued to work on the paper and
 tweaked the water shader.
 
 2018-01-01 22:41 Start implementing a BRDF and continued writing doc
+
+2018-01-02 22:33 Finished implementing the BRDF, started to work on enhancing the camera.
+Continued writing the report.
