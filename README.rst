@@ -16,12 +16,12 @@ Todo
 ----
 
 - [x] Sky box
-- [] Light
+- [x] Light
 - Water
     1. [] Height Map
-    2. [] Normals
-    3. [] Refelction
-    4. [] Underwater
-    5. [] Fresnel
+    2. [x] Normals
+    3. [x] Refelction
+    4. [x] Underwater
+    5. [x] Fresnel
     6. [] Foam
 
