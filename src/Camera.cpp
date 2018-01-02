@@ -44,12 +44,22 @@ void Camera::zoom(float distance) {
 
     float updatedDistance = this->radius - distance;
 
-    // TODO : Fix floating point comparison
     this->radius = (updatedDistance >= 0.0) ? updatedDistance : 0.1;
 }
 
-// TODO: Implement or not?
-void Camera::pan(float dx, float dy) {}
+// TODO: Fix that shit
+void Camera::pan(float dx, float dy) {
+
+    this->viewNeedsUpdate = true;
+
+    glm::vec3 look = glm::normalize(toCartesian());
+    glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+    glm::vec3 right = glm::cross(look, worldUp);
+    glm::vec3 up = glm::cross(look, right);
+
+    this->target += dx * right + dy * up;
+}
 
 glm::mat4 Camera::getProjectionMatrix() {
 

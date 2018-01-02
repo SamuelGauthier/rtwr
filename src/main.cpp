@@ -60,7 +60,8 @@ FPSCounter counter = FPSCounter();
 Camera camera = Camera(position, target, up, projection);
 
 int mouseState;
-bool mouseDown = false;
+bool mouseButtonLeftDown = false;
+bool mouseButtonRightDown = false;
 double previousX;
 double previousY;
 
@@ -162,7 +163,7 @@ void trackScroll(GLFWwindow* window, double xOffset, double yOffset) {
 
 void trackMousePosition(GLFWwindow* window, double xPos, double yPos) {
 
-    if(mouseDown) {
+    if(mouseButtonLeftDown) {
 
         float dPhi = (float)(previousX - xPos) / 300;
         float dTheta = (float)(previousY - yPos) / 300;
@@ -173,19 +174,43 @@ void trackMousePosition(GLFWwindow* window, double xPos, double yPos) {
         previousX = xPos;
         previousY = yPos;
     }
+
+    else if(mouseButtonRightDown) {
+
+        float dx = (float) previousX - xPos;
+        float dy = (float) previousY - yPos;
+
+        camera.pan(dx, dy);
+        updateMVP();
+
+        previousX = xPos;
+        previousY = yPos;
+    }
 }
 
 void trackMouseButton(GLFWwindow* window, int button, int action, int mods) {
 
     if(button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+
         glfwGetCursorPos(window, &previousX, &previousY);
-        mouseDown = true;
+        mouseButtonLeftDown = true;
     }
 
     else if(button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
-        mouseDown = false;
+
+        mouseButtonLeftDown = false;
     }
 
+    else if(button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
+
+        glfwGetCursorPos(window, &previousX, &previousY);
+        mouseButtonRightDown = true;
+    }
+
+    else if(button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE) {
+
+        mouseButtonRightDown = false;
+    }
 
 }
 

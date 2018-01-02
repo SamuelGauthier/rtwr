@@ -1,8 +1,10 @@
 #include "Plane.h"
 
 Plane::Plane(int width, int height) : width{width}, height{height} {
-    float heightRatio = 2.0/(height-1);
-    float widthRatio = 2.0/(width-1);
+    float heightRatio = 0.5;
+    float widthRatio = 0.5;
+    //float heightRatio = 2.0/(height-1);
+    //float widthRatio = 2.0/(width-1);
 
     for (int j = height - 1; j >= 0; j--) {
         for (int i = 0; i < width; i++) {
