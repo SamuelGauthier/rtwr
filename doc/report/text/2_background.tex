@@ -6,11 +6,14 @@
 
 % Talk about the different depth of water
 
-In this section we start by presenting the physical accurate description of
-fluids in \cref{subsec:navier_stokes}. Then in
-\cref{subsec:spatial_domain,subsec:spectral_domain} we describe the two existing
+In this section we start by presenting the physically accurate description of
+fluids in \cref{subsec:navier_stokes}.
+
+Then in
+\cref{subsec:deep_water,subsec:shallow_water} we describe the two existing
 groups of water models appearing in the literature: spatial and spectral. For
-each of them a selected couple of relevant approaches will be explained.
+each of them a selected set of relevant approaches will be explained.
+
 Finally in \autoref{subsec:candidate_apps} we present two applications in need
 of a real-time water solution.
 
@@ -22,14 +25,14 @@ of a real-time water solution.
 % The process of solving problems in fluid dynamics numerically on a computer is
 % called CFD
 
-Navier-Stokes Equations (or NSE) describe the motion of a fluid in any
-dimension. They are named after Sir George Gabriel Stokes\footnote{Best known
-for \textit{Stokes's law}, the expression of the frictional force of a fluid
-exerted onto a sphere.}, an Irish mathematician and physicist and Henri Navier,
-a French engineer, mathematician and economist. Both of these scientists worked
-on, and enhanced the Euler equations. Navier proposed in 1820 to add a term to
-them for the heat dissipation. In 1845 Stokes also suggested introducing a term
-for the energy dissipation in form of heat \autocite{gallagher2010autour}.
+Navier-Stokes Equations (or NSE) describe the motion of a fluid in any dimension
+$\mathbb{R}^n$. They are named after Sir George Gabriel Stokes\footnote{Best
+known for \textit{Stokes's law}, the expression of the frictional force of a
+fluid exerted onto a sphere.}, an Irish mathematician and physicist and Henri
+Navier, a French engineer, mathematician and economist. Both worked on, and
+enhanced the Euler equations. Navier proposed in 1820 to add a term to them for
+the heat dissipation. In 1845 Stokes also suggested introducing a term for the
+energy dissipation in form of heat \autocite{gallagher2010autour}.
 
 Solving the Navier-Stokes equations in three dimensions remains an open problem
 in mathematics and physics. It is one of the seven ``Millennium Problems''
@@ -39,14 +42,11 @@ We felt the need to mention them here because all the water models found in the
 literature are somehow linked to them. Computational Fluid Dynamics (CFD) is the
 field of finding numerical approximations to those equations. 
 
-% The two following sections should be called lagrangian and eulerian.
-\subsection{Spatial Domain}\label{subsec:spatial_domain}
-
+% The two following sections should be called lagrangian and eulerian.???
+\subsection{Deep Water Models}\label{subsec:deep_water}
 % What is the spatial domain?
 % present some papers:
 % - Johanson
-
-\subsection{Spectral Domain}\label{subsec:spectral_domain}
 
 % What is the spectral domain?
 
@@ -54,6 +54,19 @@ field of finding numerical approximations to those equations.
 % that look great:
 % - Tessendorf
 
+\subsection{Shallow Water Models}\label{subsec:shallow_water}
+% Eulerian and Lagrangian models
+
+
+\subsection{Rendering of ocean details}
+% Modeling waves and surf 1986
+% Nishita et al. [NSTN93] Check the ocean color part
+% Also check On Modeling and Rendering Ocean Scenes
+% A Procedural Model for Interactive Animation of Breaking Ocean Waves
+% Towards Real-Time Visual Simulation of Water Surfaces
+% Realistic Water Volumes in Real-Time
+% Rendering Natural Waters
+% GPU-based Ocean Rendering
 
 \subsection{Methods Used in Industry Productions}\label{subsec:methods_industry}
 
@@ -62,12 +75,11 @@ field of finding numerical approximations to those equations.
 % store, the default one in Unity, and in Unreal Engine, also in Cryengine.
 
 Many different water models are used in industry productions. One that has been
-applied extensively in movies and most of the games is the one from
-Tessendorf \autocite{tessendorf2001simulating} as seen
-in \autoref{subsec:spectral_domain}. During our research we came across three
-solutions which where presented at the Game Developer Conference or at the
-SIGGRAPH conference. They are implemented in Uncharted, World of Warships and an
-undisclosed game.
+applied extensively in movies and most of the games is the one from Tessendorf
+\autocite{tessendorf2001simulating} as seen in \autoref{subsec:deep_water}.
+During our research we came across three solutions which where presented at the
+Game Developer Conference or at the SIGGRAPH conference. They are implemented in
+Uncharted, World of Warships and an undisclosed game.
 
 
 
