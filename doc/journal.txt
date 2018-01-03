@@ -331,3 +331,6 @@ tweaked the water shader.
 
 2018-01-02 22:33 Finished implementing the BRDF, started to work on enhancing the camera.
 Continued writing the report.
+
+2018-01-03 22:39 Fixed the camera panning motions and continued to work on the documentation
+(restructuring and searched for information)
