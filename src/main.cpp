@@ -179,8 +179,9 @@ void trackMousePosition(GLFWwindow* window, double xPos, double yPos) {
 
         float dx = (float) previousX - xPos;
         float dy = (float) previousY - yPos;
+        float panFactor = 0.1;
 
-        camera.pan(dx, dy);
+        camera.pan(dx * panFactor, dy * panFactor);
         updateMVP();
 
         previousX = xPos;

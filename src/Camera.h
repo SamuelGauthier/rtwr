@@ -16,8 +16,9 @@ class Camera {
         glm::mat4 getProjectionMatrix();
         glm::mat4 getViewMatrix();
         glm::vec3 toCartesian();
-        static glm::vec3 toSpherical(float x, float y, float z);
-        static glm::vec3 toSpherical(glm::vec3 cartesian);
+        static glm::vec3 toSpherical(float x, float y, float z,
+                glm::vec3 center);
+        static glm::vec3 toSpherical(glm::vec3 cartesian, glm::vec3 center);
 
         
 
