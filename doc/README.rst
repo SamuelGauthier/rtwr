@@ -238,8 +238,9 @@ Year     Name                    Empirical Particles First order Multiple order
 .. _CS04: http://onlinelibrary.wiley.com/doi/10.1002/cav.10/full
 .. _HW04: https://www.researchgate.net/profile/Burkhard_Wuensche/publication/220978913_Efficient_modeling_and_rendering_of_turbulent_water_over_natural_terrain/links/558d26cd08ae40781c20898b.pdf
 .. _BD06: https://hal.inria.fr/docs/00/51/02/27/PDF/article.pdf
-.. _DCG07: https://otik.uk.zcu.cz/xmlui/bitstream/handle/11025/11022/Darles_video.wmv?sequence=4&isAllowed=y
-.. _GSAM08: http://www.academia.edu/download/42694699/Visualizing_Underwater_Ocean_Optics20160215-980-10vetyu.pdf
+.. _DCG07: https://hal.archives-ouvertes.fr/hal-00914642/document
+.. .. _DCG07: https://otik.uk.zcu.cz/xmlui/bitstream/handle/11025/11022/Darles_video.wmv?sequence=4&isAllowed=y
+.. _GSAM08: https://doi.org/10.1111/j.1467-8659.2008.01152.x
 .. _BNH10: https://hal.inria.fr/docs/00/44/36/30/PDF/article.pdf
 
 
