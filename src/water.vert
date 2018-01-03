@@ -13,8 +13,13 @@ uniform float t;
 
 out vec3 vm_position;
 out vec3 vm_normal;
+out vec3 light_position;
+out vec3 E_L;
+out float roughness;
 
 void main(void) {
+
+    float t = 0;
 
     float w[3] = float[](sqrt(9.81 * (2 * PI) / 1.0), sqrt(9.81 * (4 * PI)),
                 sqrt(9.81 * (10 * PI)));
@@ -58,5 +63,8 @@ void main(void) {
 
     vm_position = vec3(V * M * position);
     vm_normal = vec3(V * M * vec4(normal, 0.0));
+    light_position = vec3(9, 9, -9);
+    E_L = vec3(0.1, 0.1, 0.1);
+    roughness = 0.1;
     gl_Position = P * V * M * position;
 }

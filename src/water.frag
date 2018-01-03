@@ -8,7 +8,9 @@
 
 in vec3 vm_position;
 in vec3 vm_normal;
-
+in vec3 light_position;
+in vec3 E_L;
+in float roughness;
 
 uniform samplerCube cube_texture;
 uniform mat4 M, V;
@@ -22,9 +24,9 @@ float D(float nh, float alpha2);
 
 void main(void) {
 
-    vec3 light_position = vec3(9, 9, -9);
-    vec3 E_L = vec3(0.1, 0.1, 0.1);
-    float roughness = 0.1;
+    //vec3 light_position = vec3(9, 9, -9);
+    //vec3 E_L = vec3(0.1, 0.1, 0.1);
+    //float roughness = 0.1;
     float alpha = roughness * roughness;
     float alpha2 = alpha * alpha;
     float k = alpha / 2;
