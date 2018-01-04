@@ -334,3 +334,6 @@ Continued writing the report.
 
 2018-01-03 22:39 Fixed the camera panning motions and continued to work on the documentation
 (restructuring and searched for information)
+
+2018-01-04 22:28 Began to investigate on how to make sun glitter, godrays, caustics and foam.
+Continued to write the report.
