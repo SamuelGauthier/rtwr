@@ -6,16 +6,20 @@
 
 % Talk about the different depth of water
 
-In this section we start by presenting the physically accurate description of
-fluids in \cref{subsec:navier_stokes}.
-
-Then in
-\cref{subsec:deep_water,subsec:shallow_water} we describe the two existing
-groups of water models appearing in the literature: spatial and spectral. For
-each of them a selected set of relevant approaches will be explained.
-
-Finally in \autoref{subsec:candidate_apps} we present two applications in need
-of a real-time water solution.
+We start this section by presenting the physically accurate description of
+fluids, \nameref{subsec:navier_stokes}, in \autoref{subsec:navier_stokes}. Water
+models are separated into groups depending on the water depth: deep,
+intermediate or shallow. This classification takes its root from oceanography
+\autocite{darles2011survey}. We will present the deep water group in
+\autoref{subsec:deep_water} and the shallow one in
+\autoref{subsec:shallow_water} (here we include the intermediate models directly
+into the shallow group). For each of them we selected relevant approaches from
+the literature that we will present. Readers who desire to get a broader picture
+should read the survey from 2011 from Darles et al.:
+\autocite{darles2011survey}. Then in \autoref{subsec:ocean_details} we discuss
+the methods to produce realistic water surfaces. This includes caustics, foam,
+light scattering and more. Finally in \autoref{subsec:candidate_apps} we present
+two applications in need of a real-time water solution.
 
 \subsection{Navier-Stokes Equations}\label{subsec:navier_stokes}
 
@@ -32,7 +36,18 @@ fluid exerted onto a sphere.}, an Irish mathematician and physicist and Henri
 Navier, a French engineer, mathematician and economist. Both worked on, and
 enhanced the Euler equations. Navier proposed in 1820 to add a term to them for
 the heat dissipation. In 1845 Stokes also suggested introducing a term for the
-energy dissipation in form of heat \autocite{gallagher2010autour}.
+energy dissipation in form of heat \autocite{gallagher2010autour}. The equations
+are shown below only for the curious reader as we will not further investigate
+them. The equation of incompressible fluid flow,
+
+\begin{equation}
+    \frac{\partial \textbf{u}}{\partial t} + \textbf{u}\cdot \nabla \textbf{u}
+     = - \frac{\nabla P }{\rho} + \nu {\nabla}^2 \textbf{u}
+\end{equation}
+
+where $\nu$ is the kinematic viscosity, $\textbf{u}$ is the velocity of the
+fluid parcel, $P$ is the pressure, $\rho$ is the fluid density and $t$ the
+time \autocite{weisstein2018navier}.
 
 Solving the Navier-Stokes equations in three dimensions remains an open problem
 in mathematics and physics. It is one of the seven ``Millennium Problems''
@@ -58,7 +73,7 @@ field of finding numerical approximations to those equations.
 % Eulerian and Lagrangian models
 
 
-\subsection{Rendering of ocean details}
+\subsection{Rendering of ocean details}\label{subsec:ocean_details}
 % Modeling waves and surf 1986
 % Nishita et al. [NSTN93] Check the ocean color part
 % Also check On Modeling and Rendering Ocean Scenes
@@ -81,13 +96,15 @@ During our research we came across three solutions which where presented at the
 Game Developer Conference or at the SIGGRAPH conference. They are implemented in
 Uncharted, World of Warships and an undisclosed game.
 
-
+\subsubsection{Uncharted}\label{subsub:uncharted}
+\subsubsection{World of Warships}\label{subsub:world_of_warships}
+\subsubsection{Undisclosed Game}\label{subsub:undisclosed_game}
 
 \subsection{Candidate Applications for Embedding}\label{subsec:candidate_apps}
 
 We now present two candidate applications which need a real-time water model:
 \textit{SLProject} and \textit{0 A.D.}. Although both have already one,
-in the former application the model doesn't work and in the latter it is
+in the former application the model does not work and in the latter it is
 outdated.
 
 

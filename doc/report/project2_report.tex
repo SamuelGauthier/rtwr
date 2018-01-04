@@ -22,18 +22,26 @@ hyperref=true]{biblatex}
 \usepackage{graphicx}
 \usepackage{cleveref}
 \usepackage{amssymb}
+\usepackage{amsmath}
 
 \hypersetup{colorlinks=true, urlcolor=black, citecolor=MidnightBlue}
 
+% Add the bibliography
 \addbibresource{bibliography/p2_bibliography.bib}
 %\makeglossaries{}
 %\input{glossary/glossary.tex}
 
+% Limit the TOC to subsections
 \setcounter{tocdepth}{2}
 
+% Path for images
 \graphicspath{{figures/}}
 
+% Text size of todonotes
 \presetkeys{todonotes}{size=\small}{}
+
+% 
+\numberwithin{equation}{subsection}
 
 % Page style, headers and footers
 \pagestyle{fancy}
