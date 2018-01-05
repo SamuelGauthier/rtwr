@@ -337,3 +337,6 @@ Continued writing the report.
 
 2018-01-04 22:28 Began to investigate on how to make sun glitter, godrays, caustics and foam.
 Continued to write the report.
+
+2018-01-05 22:30 Fixed the plane, it can now have any size and resolution.
+Continued to investigate particularly foam generation. Continued to write the report
