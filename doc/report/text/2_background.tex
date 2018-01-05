@@ -12,14 +12,16 @@ models are separated into groups depending on the water depth: deep,
 intermediate or shallow. This classification takes its root from oceanography
 \autocite{darles2011survey}. We will present the deep water group in
 \autoref{subsec:deep_water} and the shallow one in
-\autoref{subsec:shallow_water} (here we include the intermediate models directly
-into the shallow group). For each of them we selected relevant approaches from
-the literature that we will present. Readers who desire to get a broader picture
-should read the survey from 2011 from Darles et al.:
-\autocite{darles2011survey}. Then in \autoref{subsec:ocean_details} we discuss
-the methods to produce realistic water surfaces. This includes caustics, foam,
-light scattering and more. Finally in \autoref{subsec:candidate_apps} we present
-two applications in need of a real-time water solution.
+\autoref{subsec:shallow_water} (we include the intermediate models directly into
+the shallow group). For each of them we will present selected relevant
+approaches from the literature. Those two groups describe only the
+\textit{shape} of the water. In \autoref{subsec:ocean_details} we discuss the
+methods to produce realistic water surfaces. This includes caustics, foam, light
+scattering and more. Finally in \autoref{subsec:candidate_apps} we talk about
+two applications in need of a real-time water solution. Readers who desire to
+get a broader picture about water rendering should read the survey from
+\citeauthor{darles2011survey} \autocite{darles2011survey}.
+
 
 \subsection{Navier-Stokes Equations}\label{subsec:navier_stokes}
 
@@ -37,8 +39,8 @@ Navier, a French engineer, mathematician and economist. Both worked on, and
 enhanced the Euler equations. Navier proposed in 1820 to add a term to them for
 the heat dissipation. In 1845 Stokes also suggested introducing a term for the
 energy dissipation in form of heat \autocite{gallagher2010autour}. The equations
-are shown below only for the curious reader as we will not further investigate
-them. The equation of incompressible fluid flow,
+are shown below only for the curious reader as we will not further discuss them.
+The Navier-Stokes equation of incompressible fluid flow is:
 
 \begin{equation}
     \frac{\partial \textbf{u}}{\partial t} + \textbf{u}\cdot \nabla \textbf{u}
@@ -57,17 +59,64 @@ We felt the need to mention them here because all the water models found in the
 literature are somehow linked to them. Computational Fluid Dynamics (CFD) is the
 field of finding numerical approximations to those equations. 
 
-% The two following sections should be called lagrangian and eulerian.???
+
 \subsection{Deep Water Models}\label{subsec:deep_water}
-% What is the spatial domain?
-% present some papers:
+% What is the spatial domain?  present some papers:
 % - Johanson
-
-% What is the spectral domain?
-
-% present some models in the spectral and spatial domains from different papers
-% that look great:
+% What is the spectral domain?  present some models in the spectral and spatial
+% domains from different papers that look great:
 % - Tessendorf
+% - GPU Gems 2 Effective Water Simulation from Physical Models
+% - Using Vertex Texture Displacement for Realistic Water Rendering
+Deep water models can further be classified into two groups: spatial and
+spectral \autocite{darles2011survey}. The former uses a sum of sines and cosines
+to describe the water surface whereas the latter uses a inverse fast Fourier
+transform (IFFT)\footnote{The FFT approach allows to use data from a buoy or
+from aerial water photographs}. Unfortunately both have downsides: spatial
+models produce water having a too rounded shape and spectral models are
+difficult to control \autocite{darles2011survey}. In order to benefit from both,
+a hybrid solution should be chosen.
+
+We present four models, three from the spatial group, one from the spectral and
+a hybrid one.
+
+\subsubsection{Projected Grid Concept}
+\subsubsection{Gerstner Waves}
+\subsubsection{Vertex Texture Displacement}
+
+\subsubsection{Fast Fourier Transform (FFT)}
+
+
+The Fast Fourier Transform approach was introduced in 1987 by
+\citeauthor{mastin1987fourier} \autocite{mastin1987fourier}. The representation
+of the wave height $h$ given a horizontal position $\textbf{x} = (x,z)$ and the
+time $t$ is given by
+
+\begin{equation}
+    h(\textbf{x}, t) = \sum_{k}^{} \tilde{h}(\textbf{k},
+    t)e^{i\textbf{k}\cdot\textbf{x}}
+\end{equation}
+
+where $\textbf{k}$ is the wave vector and $\tilde{h}(\textbf{k}, t)$ is the
+amplitude of the Fourier component obtained from a theoretic wave spectrum
+\autocite{tessendorf2001simulating,darles2011survey}.
+
+\citeauthor{tessendorf2001simulating} proposed another amplitude function
+$\tilde{h}_0$, 
+
+\begin{equation}\label{eq:tessendorf_h0}
+    \tilde{h}_0(\textbf{k}) = \frac{1}{\sqrt{2}}(\xi_r +
+    i\xi_i)\sqrt{P_h(\textbf{k})}
+\end{equation}
+
+where $\gamma_r$ and $\gamma_i$ are constants and the spectrum $P_h(k)$ is:
+
+\begin{equation}
+    P_h(\textbf{k}) = A\frac{e^{\frac{-1}{{(kL)}^2}}}{k^4}
+    |\textbf{k}\cdot\textbf{w}|
+\end{equation}
+
+\subsubsection{Hybrid}
 
 \subsection{Shallow Water Models}\label{subsec:shallow_water}
 % Eulerian and Lagrangian models
@@ -166,8 +215,8 @@ to the one used in commercial RTS games like Anno 1800 or Age of Empires~3
 \todo[inline]{reference figure from introduction}. There is an open ticket, \#48
 ``Advanced Water
 Rendering''\footnote{\url{https://trac.wildfiregames.com/ticket/48}}, which was
-opened twelve years ago and modified three years ago but still not closed.  We
-have contacted the developers and they would gladly appreciate a contribution
+opened twelve years ago and modified three years ago but is still not closed.
+We have contacted the developers and they would gladly appreciate a contribution
 that would close the issue.
 
 \begin{figure}[t!]
