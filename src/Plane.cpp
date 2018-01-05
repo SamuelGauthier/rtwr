@@ -1,40 +1,63 @@
+/**
+ * @file Plane.cpp
+ * @brief Plane class
+ * @author Samuel Gauthier
+ */
 #include "Plane.h"
 
-Plane::Plane(int width, int height) : width{width}, height{height} {
-    float heightRatio = 0.5;
-    float widthRatio = 0.5;
-    //float heightRatio = 2.0/(height-1);
-    //float widthRatio = 2.0/(width-1);
+/**
+ * @brief Default constructor for the Plane class. Creates a plane centered
+ * around \p center with a \p width and \p height in model coordinates and with
+ * a \p resolution in vertex size.
+ *
+ * @param width The width in model coordinates. Default value: 2
+ * @param height The height in model coordinates. Default value: 2
+ * @param center The center in model coordinates. Default value: 0, 0, 0
+ * @param resolution The resolution in vertex. Default value: 20, 20
+ */
+Plane::Plane(int width, int height, glm::vec3 center, glm::vec2 resolution) :
+    width{width}, height{height}, center{center}, resolution{resolution} {
 
-    for (int j = height - 1; j >= 0; j--) {
-        for (int i = 0; i < width; i++) {
-            Vertex k = {{j*heightRatio - 1.0f, 0.0f, i*widthRatio - 1.0f, 1.0f},
+    float rH = this->resolution.y;
+    float rW = this->resolution.x;
+    float heightRatio = this->width/(rH-1);
+    float widthRatio = this->height/(rW-1);
+    float dH = this->height/2;
+    float dW = this->width/2;
+
+    for (int j = 0; j < rH; j++) {
+        for (int i = 0; i < rW; i++) {
+            Vertex k = {{this->center.x + i*widthRatio - dW, this->center.y,
+                this->center.z + j*heightRatio - dH, 1.0f},
                 {0.0f, 1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 0.0f}};
             this->vertices.push_back(k);
         }
     }
 
-    for (int j = 0; j < ( height-1 ) ; j++) {
-        for (int i = 0; i < ( width-1 ); i++) {
+    for (int j = 0; j < ( rH-1 ) ; j++) {
+        for (int i = 0; i < ( rW-1 ); i++) {
             // *-*
             //  \|
             //   *
-            this->indices.push_back(j*width + i);
-            this->indices.push_back((j+1)*width + (i+1));
-            this->indices.push_back(j*width + (i+1));
+            this->indices.push_back(j*rW + i);
+            this->indices.push_back((j+1)*rW + (i+1));
+            this->indices.push_back(j*rW + (i+1));
 
             // *
             // |\
             // *-*
-            this->indices.push_back(j*width + i);
-            this->indices.push_back((j+1)*width + i);
-            this->indices.push_back((j+1)*width + (i+1));
+            this->indices.push_back(j*rW + i);
+            this->indices.push_back((j+1)*rW + i);
+            this->indices.push_back((j+1)*rW + (i+1));
         }
     }
 
     indicesCount = this->indices.size();
 }
 
+/**
+ * @brief Destructor
+ */
 Plane::~Plane() {
 
     GLenum errorCheckValue = glGetError();
@@ -60,6 +83,9 @@ Plane::~Plane() {
     }
 }
 
+/**
+ * @brief Generates OpenGL vertex array and buffers
+ */
 void Plane::setup() {
 
     GLenum errorCheckValue = glGetError();
@@ -102,6 +128,9 @@ void Plane::setup() {
     }
 }
 
+/**
+ * @brief Issues the OpenGL draw call
+ */
 void Plane::draw() {
 
     glBindVertexArray(this->vaoId);

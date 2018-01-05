@@ -23,7 +23,7 @@
 #define LEFT "../data/skybox/" SKYBOX_NAME "/left.jpg"
 #define RIGHT "../data/skybox/" SKYBOX_NAME "/right.jpg"
 
-using namespace glm;
+//using namespace glm;
 
 GLuint skyboxProgramId;
 GLuint waterProgramId;
@@ -40,8 +40,9 @@ GLFWwindow* window;
 int windowWidth = 800;
 int windowHeight = 600;
 
-int HEIGHT = 50;
-int WIDTH = 50;
+int HEIGHT = 4;
+int WIDTH = 4;
+glm::vec2 waterResolution = glm::vec2(30, 29);
 
 glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)
         windowWidth / (float) windowHeight, 0.1f, 100.0f);
@@ -55,7 +56,7 @@ glm::mat4 v;
 glm::mat4 p;
 
 Skybox skybox = Skybox(10.0f);
-Plane plane = Plane(WIDTH, HEIGHT);
+Plane plane = Plane(WIDTH, HEIGHT, target, waterResolution);
 FPSCounter counter = FPSCounter();
 Camera camera = Camera(position, target, up, projection);
 
@@ -177,11 +178,10 @@ void trackMousePosition(GLFWwindow* window, double xPos, double yPos) {
 
     else if(mouseButtonRightDown) {
 
-        float dx = (float) previousX - xPos;
-        float dy = (float) previousY - yPos;
-        float panFactor = 0.1;
+        float dx = (float)(previousX - xPos) / 200;
+        float dy = (float)(previousY - yPos) / 200;
 
-        camera.pan(dx * panFactor, dy * panFactor);
+        camera.pan(dx, dy);
         updateMVP();
 
         previousX = xPos;
@@ -247,7 +247,7 @@ void RenderFunction() {
         skybox.draw();
 
         // Render the plane
-        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         glDepthMask(GL_TRUE);
         glUseProgram(waterProgramId);
         glUniform1f(timeId, counter.getCurrentTime());
