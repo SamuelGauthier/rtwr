@@ -52,7 +52,7 @@ Plane::Plane(int width, int height, glm::vec3 center, glm::vec2 resolution) :
         }
     }
 
-    indicesCount = this->indices.size();
+    this->indicesCount = this->indices.size();
 }
 
 /**
