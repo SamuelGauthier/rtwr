@@ -40,7 +40,7 @@ enhanced the Euler equations. Navier proposed in 1820 to add a term to them for
 the heat dissipation. In 1845 Stokes also suggested introducing a term for the
 energy dissipation in form of heat \autocite{gallagher2010autour}. The equations
 are shown below only for the curious reader as we will not further discuss them.
-The Navier-Stokes equation of incompressible fluid flow is:
+The Navier-Stokes equation of an incompressible fluid flow is:
 
 \begin{equation}
     \frac{\partial \textbf{u}}{\partial t} + \textbf{u}\cdot \nabla \textbf{u}
@@ -84,7 +84,7 @@ a hybrid one.
 \subsubsection{Gerstner Waves}
 \subsubsection{Vertex Texture Displacement}
 
-\subsubsection{Fast Fourier Transform (FFT)}
+\subsubsection{Fast Fourier Transform (FFT)}\label{subsub:fft}
 
 
 The Fast Fourier Transform approach was introduced in 1987 by
@@ -93,13 +93,39 @@ of the wave height $h$ given a horizontal position $\textbf{x} = (x,z)$ and the
 time $t$ is given by
 
 \begin{equation}
-    h(\textbf{x}, t) = \sum_{k}^{} \tilde{h}(\textbf{k},
+    h(\textbf{x}, t) = \sum_{\textbf{k}}^{} \tilde{h}(\textbf{k},
     t)e^{i\textbf{k}\cdot\textbf{x}}
 \end{equation}
-
+%
 where $\textbf{k}$ is the wave vector and $\tilde{h}(\textbf{k}, t)$ is the
-amplitude of the Fourier component obtained from a theoretic wave spectrum
-\autocite{tessendorf2001simulating,darles2011survey}.
+amplitude and phase of the $\textbf{k}$th wave at time $t$. 
+\autocite{jensen2001deep,darles2011survey}.
+\todo[inline]{explain the resolution and the bounds of k}
+In order to compute $\tilde{h}$ its
+value at time $t=0$ is needed, which is denoted by $\tilde{h}_0(\textbf{k})$.
+Then $\tilde{h}(\textbf{k}, t)$ can be expressed as
+
+\begin{equation}
+    \tilde{h}(\textbf{k}, t) = \tilde{h}_0(\textbf{k}) e^{i\omega(k)t} +
+    \tilde{h}_0^*(\textbf{k}) e^{i\omega(k)t}
+\end{equation}
+%
+where $\tilde{h}_0^*(\textbf{k})$ is the complex conjugate s.t.
+$\tilde{h}(\textbf{-k})=\tilde{h}^*(\textbf{k})$ and $\omega(k)=gk$ with $g$
+being the gravitational constant.
+
+\todo[inline]{Is this really needed here? ----------->}
+\citeauthor{mastin1987fourier} take as $\tilde{h}_0$ the following:
+
+\begin{equation}
+    \tilde{h}_0(\textbf{k}) = \frac{\alpha g^2}{{(2\pi)}^4 f^5}
+    e^{-\frac{5}{4}{(\frac{f_m}{f})}^4}, \quad f_m=\frac{0.13}{u_{10}}
+\end{equation}
+%
+$f$ is the frequency in Hz, $f_m$ is the peak frequency of the wind speed,
+$u_{10}$, measured at ten meters above the ocean surface, $\alpha=0.0081$ is
+Phillips' constant and $g$ is again the gravitational constant.
+\todo[inline]{<--------------}
 
 \citeauthor{tessendorf2001simulating} proposed another amplitude function
 $\tilde{h}_0$, 
@@ -108,13 +134,30 @@ $\tilde{h}_0$,
     \tilde{h}_0(\textbf{k}) = \frac{1}{\sqrt{2}}(\xi_r +
     i\xi_i)\sqrt{P_h(\textbf{k})}
 \end{equation}
-
-where $\gamma_r$ and $\gamma_i$ are constants and the spectrum $P_h(k)$ is:
+%
+where $\xi_r$ and $\xi_i$ are constants and $P_h(\textbf{k})$, the spectrum, is:
 
 \begin{equation}
     P_h(\textbf{k}) = A\frac{e^{\frac{-1}{{(kL)}^2}}}{k^4}
     |\textbf{k}\cdot\textbf{w}|
 \end{equation}
+%
+$A$ is a constant, $L=V^2/g$, with $V$ being the wind speed, $g$ the
+gravitational constant and finally $\textbf{w}$ the wind direction.
+
+As seen in figure XYZ the method only produces rounded waves. In order to get
+the choppy effect of a stormy ocean, the position can be displaced locally in
+the horizontal direction. This can be done with
+
+\begin{equation}
+    \textbf{x} = \textbf{x} + \lambda \textbf{D}(\textbf{x}, t), \quad
+    \textbf{D} = \sum_{\textbf{k}}^{} -i\frac{\textbf{k}}{k}
+    \tilde{h}(\textbf{k},t) e^{i\textbf{k}\cdot\textbf{x}}
+\end{equation}
+
+
+This method can be used to first compute a displacement map and then a bump map
+with a different resolution. Movies such as ``Titanic'', 
 
 \subsubsection{Hybrid}
 
@@ -140,7 +183,7 @@ where $\gamma_r$ and $\gamma_i$ are constants and the spectrum $P_h(k)$ is:
 
 Many different water models are used in industry productions. One that has been
 applied extensively in movies and most of the games is the one from Tessendorf
-\autocite{tessendorf2001simulating} as seen in \autoref{subsec:deep_water}.
+\autocite{tessendorf2001simulating} as seen in~\ref{subsub:fft}.
 During our research we came across three solutions which where presented at the
 Game Developer Conference or at the SIGGRAPH conference. They are implemented in
 Uncharted, World of Warships and an undisclosed game.
