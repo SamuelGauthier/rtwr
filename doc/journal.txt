@@ -340,3 +340,7 @@ Continued to write the report.
 
 2018-01-05 22:30 Fixed the plane, it can now have any size and resolution.
 Continued to investigate particularly foam generation. Continued to write the report
+
+2018-01-06 22:31 Fixed a bug in the plane but it now causes a mess with the shading equation
+
+Continued to write the report and began to prepare the presentation.
