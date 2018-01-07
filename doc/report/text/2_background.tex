@@ -69,20 +69,18 @@ field of finding numerical approximations to those equations.
 % - GPU Gems 2 Effective Water Simulation from Physical Models
 % - Using Vertex Texture Displacement for Realistic Water Rendering
 Deep water models can further be classified into two groups: spatial and
-spectral \autocite{darles2011survey}. The former uses a sum of sines and cosines
-to describe the water surface whereas the latter uses a inverse fast Fourier
-transform (IFFT)\footnote{The FFT approach allows to use data from a buoy or
-from aerial water photographs}. Unfortunately both have downsides: spatial
-models produce water having a too rounded shape and spectral models are
-difficult to control \autocite{darles2011survey}. In order to benefit from both,
-a hybrid solution should be chosen.
+spectral \autocite{darles2011survey}. To describe the water surface the former
+uses a sum of sines and cosines and the latter an inverse fast Fourier transform
+(IFFT)\footnote{The FFT approach allows to use data from a buoy or from aerial
+water photographs.}. Unfortunately both have downsides: spatial models produce
+water having a too rounded shape and spectral models are difficult to control
+\autocite{darles2011survey}. In order to benefit from both, a hybrid solution
+should be chosen \autocite{darles2011survey}. We present three models: one for
+each group and a hybrid one.
 
-We present four models, three from the spatial group, one from the spectral and
-a hybrid one.
-
-\subsubsection{Projected Grid Concept}
+%\subsubsection{Projected Grid Concept}
 \subsubsection{Gerstner Waves}
-\subsubsection{Vertex Texture Displacement}
+%\subsubsection{Vertex Texture Displacement}
 
 \subsubsection{Fast Fourier Transform (FFT)}\label{subsub:fft}
 
@@ -98,12 +96,15 @@ time $t$ is given by
 \end{equation}
 %
 where $\textbf{k}$ is the wave vector and $\tilde{h}(\textbf{k}, t)$ is the
-amplitude and phase of the $\textbf{k}$th wave at time $t$. 
-\autocite{jensen2001deep,darles2011survey}.
-\todo[inline]{explain the resolution and the bounds of k}
-In order to compute $\tilde{h}$ its
-value at time $t=0$ is needed, which is denoted by $\tilde{h}_0(\textbf{k})$.
-Then $\tilde{h}(\textbf{k}, t)$ can be expressed as
+amplitude and phase of the $\textbf{k}$th wave at time $t$. The wave vector
+$\textbf{k}$ is a two dimensional vector equal to $(k_x, k_z) = (2\pi n/s, 2\pi
+m / s)$. $n$ and $m$ are bounded by the resolution $r$ of the grid in the
+following manner: $-r/2 \leq n,m \leq r/2$. $s$ is the dimension of the animated
+area.  \autocite{jensen2001deep,darles2011survey}.
+
+In order to compute $\tilde{h}$ its value at time $t=0$ is needed, which is
+denoted by $\tilde{h}_0(\textbf{k})$.  Then $\tilde{h}(\textbf{k}, t)$ can be
+expressed as
 
 \begin{equation}
     \tilde{h}(\textbf{k}, t) = \tilde{h}_0(\textbf{k}) e^{i\omega(k)t} +
@@ -114,8 +115,7 @@ where $\tilde{h}_0^*(\textbf{k})$ is the complex conjugate s.t.
 $\tilde{h}(\textbf{-k})=\tilde{h}^*(\textbf{k})$ and $\omega(k)=gk$ with $g$
 being the gravitational constant.
 
-\todo[inline]{Is this really needed here? ----------->}
-\citeauthor{mastin1987fourier} take as $\tilde{h}_0$ the following:
+\citeauthor{mastin1987fourier} take for $\tilde{h}_0$ the following:
 
 \begin{equation}
     \tilde{h}_0(\textbf{k}) = \frac{\alpha g^2}{{(2\pi)}^4 f^5}
@@ -125,7 +125,6 @@ being the gravitational constant.
 $f$ is the frequency in Hz, $f_m$ is the peak frequency of the wind speed,
 $u_{10}$, measured at ten meters above the ocean surface, $\alpha=0.0081$ is
 Phillips' constant and $g$ is again the gravitational constant.
-\todo[inline]{<--------------}
 
 \citeauthor{tessendorf2001simulating} proposed another amplitude function
 $\tilde{h}_0$, 
@@ -156,14 +155,21 @@ the horizontal direction. This can be done with
 \end{equation}
 
 
-This method can be used to first compute a displacement map and then a bump map
-with a different resolution. Movies such as ``Titanic'', 
+Using this method, it is possible to compute two height fields of different
+resolution. The first one can then be used as a displacement map and the second
+one as a bump map.
+As already mentioned before, the frequency spectrum is hard to control for an
+artist and the gird needs to be large to display most of the frequencies
+\autocite{gonzalez2016rendering}.
+
 
 \subsubsection{Hybrid}
 
 \subsection{Shallow Water Models}\label{subsec:shallow_water}
 % Eulerian and Lagrangian models
+% Wave Particles Yuskel et al
 
+\subsubsection{Wave Particles}\label{subsub:wave_particles}
 
 \subsection{Rendering of ocean details}\label{subsec:ocean_details}
 % Modeling waves and surf 1986
@@ -182,13 +188,34 @@ with a different resolution. Movies such as ``Titanic'',
 % store, the default one in Unity, and in Unreal Engine, also in Cryengine.
 
 Many different water models are used in industry productions. One that has been
-applied extensively in movies and most of the games is the one from Tessendorf
-\autocite{tessendorf2001simulating} as seen in~\ref{subsub:fft}.
-During our research we came across three solutions which where presented at the
-Game Developer Conference or at the SIGGRAPH conference. They are implemented in
+applied extensively in movies (such as ``Titanic'', ``13 days'', ``The World Is
+Not Enough'') and most of the games is the one from Tessendorf
+\autocite{tessendorf2001simulating} as seen in~\ref{subsub:fft}.  During our
+research we came across three solutions which where presented at the Game
+Developer Conference or at the SIGGRAPH conference. They are implemented in
 Uncharted, World of Warships and an undisclosed game.
 
 \subsubsection{Uncharted}\label{subsub:uncharted}
+
+A modified version of the \textit{Wave Particle} approach from
+\autoref{subsub:wave_particles} has been used in \textit{Uncharted 3} and
+\textit{4} to render rapids and the ocean. Developers chose this technique
+because it is more intuitive for artists to control, it presents no tiling
+artifacts, it is deterministic in time and fast to compute
+\autocite{gonzalez2012water}. For the level of detail they use a ``Continuous
+Distant-Dependent Level of Detail'' from \autocite{strugar2009continuous}. This
+technique stitches quads of different size together. The quads become bigger the
+further they are from the camera. The result can be seen in
+\autoref{fig:uncharted}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[height=5cm]{uncharted_ocean.png}
+    \caption{View of the ocean from \textit{Uncharted 4}. Source:
+    \autocite{gonzalez2016rendering}}\label{fig:uncharted}
+\end{figure}
+
+
 \subsubsection{World of Warships}\label{subsub:world_of_warships}
 \subsubsection{Undisclosed Game}\label{subsub:undisclosed_game}
 
@@ -254,23 +281,23 @@ The current water implementation has been created in 2006 by a student form the
 University of Waterloo, Canada, as a course project \autocite{zaharia2006cs}.
 Over the years it has been slightly modified and optimized but appears visually
 outdated (see \autoref{fig:0ad_water} on page~\pageref{fig:0ad_water}) compared
-to the one used in commercial RTS games like Anno 1800 or Age of Empires~3
-\todo[inline]{reference figure from introduction}. There is an open ticket, \#48
+to the one used in commercial RTS games like Anno 1800 (see
+\autoref{fig:anno}) or Age of Empires~3. There is an open ticket, \#48
 ``Advanced Water
 Rendering''\footnote{\url{https://trac.wildfiregames.com/ticket/48}}, which was
 opened twelve years ago and modified three years ago but is still not closed.
 We have contacted the developers and they would gladly appreciate a contribution
 that would close the issue.
 
-\begin{figure}[t!]
+\begin{figure}[h!]
     \centering
-    \begin{subfigure}[t]{\textwidth}
+    \begin{subfigure}[h]{\textwidth}
         \centering
         \includegraphics[height=5cm]{figures/0ad_water-specular.jpg}
         \subcaption{Close view of the water.}\label{subfig:0ad_water_close}
     \end{subfigure}\\%
     %  
-    \begin{subfigure}[t]{\textwidth}
+    \begin{subfigure}[h]{\textwidth}
         \centering
         \includegraphics[height=5cm]{figures/0ad_cycladic_arcgipelago_6.jpg}
         \subcaption{Zoomed out view.}\label{subfig:0ad_water_far}
