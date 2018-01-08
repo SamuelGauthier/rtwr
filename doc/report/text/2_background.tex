@@ -82,6 +82,80 @@ each group and a hybrid one.
 \subsubsection{Gerstner Waves}
 %\subsubsection{Vertex Texture Displacement}
 
+Observing the ocean from the atmosphere, as seen in figure
+\autoref{fig:barren_island}, a slightly repetitive pattern is noticeable. This
+resembles strongly to a combination of sines and cosines. The combination of
+such curves, also called \textit{Gerstner Waves}\footnote{Gerstner Waves where
+    first described in \autocite{gerstner1802theorie} and provide a solution to
+a certain type of Euler equations.}, was proposed in
+\autocite{max1981vectorized} for their ray-tracing procedural model. The height
+$y = h(x,z,t)$ for each point $(x,z)$ at time $t$ is
+
+\begin{equation}\label{eq:gerstner_max}
+    h(x, z, t) = -y_0 + \sum_{i = 1}^{N_w} A_i \cos(k_{i_x}x + k_{i_y}y -
+    \omega_i t)
+\end{equation}
+%
+where $N_w$ is the total number of waves, $A_i$ is the amplitude of wave $i$,
+and $\omega_i$ the angular frequency
+\autocite{max1981vectorized,darles2011survey}. \autoref{fig:max_raytraced}
+depicts the sum of four such waves rendered in 1981.
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[h]{\textwidth}
+        \centering
+        \includegraphics[height=5cm]{barren_island_far.jpg}
+        \subcaption{Far view of the Barren
+        Island}\label{subfig:barren_island_far}
+    \end{subfigure}\\%
+    %  
+    \begin{subfigure}[h]{\textwidth}
+        \centering
+        \includegraphics[height=5cm]{barren_island_close.jpg}
+        \subcaption{Close view of the Barren
+        Island}\label{subfig:barren_island_close}
+    \end{subfigure}
+    \caption{The Barren Island captured by the Earth Observing-1 satellite in
+        2007. The darker waves in \autoref{subfig:barren_island_far} are
+        deep internal waves (source:
+        \url{earthobservatory.nasa.gov}).}\label{fig:barren_island}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[height=5cm]{max1981raytracing.png}
+    \caption{Ray-tracing of four waves from \autoref{eq:gerstner_max}. Source:
+    \autocite{max1981vectorized}}\label{fig:max_raytraced}
+\end{figure}
+
+Another form of recommended Gerstner Waves, described in
+\autocite[Chapter~1]{fernando2004gpu}, displaces also the $x$ and $z$
+directions. $\textbf{P}$ is the position in space, and $\textbf{N}$ is its
+corresponding normal. See \autoref{eq:gerstner_position} and
+\autoref{eq:gerstner_normal}.
+
+\begin{equation}\label{eq:gerstner_position}
+    \textbf{P}(x,y,t)=\begin{bmatrix}x\\ y\\ z\end{bmatrix}=\begin{bmatrix} x +
+    \sum_{i}(Q_i A_i\cdot\textbf{D}_i.x\cdot \cos(\omega_i \textbf{D}_i\cdot
+    (x,y) + \varphi_i t))\\ y + \sum_{i}(Q_i A_i\cdot\textbf{D}_i.y\cdot
+    \cos(\omega_i \textbf{D}_i\cdot (x,y) + \varphi_i t))\\ \sum_{i}(A_i\cdot
+\sin(\omega_i \textbf{D}_i\cdot (x,y) + \varphi_i t))\\\end{bmatrix}
+\end{equation}
+
+\begin{equation}\label{eq:gerstner_normal}
+    \textbf{N}(x,y,t)=\begin{bmatrix}x\\ y\\ z\end{bmatrix}=\begin{bmatrix}
+    - \sum_{i}(\textbf{D}_i.x\cdot WA \cdot C(\cdot))\\ 
+    - \sum_{i}(\textbf{D}_i.y\cdot WA \cdot C(\cdot))\\ 
+    1-\sum_{i}(Q_i \cdot WA \cdot S(\cdot))\\\end{bmatrix}
+\end{equation}
+%
+With the substitutions $WA = \omega_i A_i,\ S(\cdot) = \sin(\omega_i
+\textbf{D}_i \cdot \textbf{P} + \varphi_i t),\ C(\cdot) = \cos(\omega_i
+\textbf{D}_i \cdot \textbf{P} + \varphi_i t)$.
+
+\todo[inline]{Finish to explain and say that it produces too rounded shapes.}
+
 \subsubsection{Fast Fourier Transform (FFT)}\label{subsub:fft}
 
 
