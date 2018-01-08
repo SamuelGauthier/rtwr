@@ -344,3 +344,20 @@ Continued to investigate particularly foam generation. Continued to write the re
 2018-01-06 22:31 Fixed a bug in the plane but it now causes a mess with the shading equation
 
 Continued to write the report and began to prepare the presentation.
+
+2018-01-08 21:27 Meeting with supervisor
+
+* Kindly explained me the Scene Library, the conception of shaders and brdfs.
+  Each object has its material with its own shader program, its own transform,
+  etc. Metals don't have a color, they reflect and refract their surroundings.
+  Some concepts are still blurry for me.
+
+* For the presentation more infos should be given for the different effects
+  like Schlick (Fresnel), Refraction, Reflection. Custom shaders have been
+  invented for such special cases. Also show a live demo and not a video for
+  the work done. That way it like a proof, for the work done. If there is not
+  enough time, throw the industry reference slide out.
+
+* Deadline for the project 19.01.18
+
+2018-01-08 21:28 Continued to prepare the documentation and presentation.
