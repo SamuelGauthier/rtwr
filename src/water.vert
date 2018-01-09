@@ -19,7 +19,7 @@ out float roughness;
 
 void main(void) {
 
-    float t = 0;
+    //float t = 0;
 
     float w[3] = float[](sqrt(9.81 * (2 * PI) / 1.0), sqrt(9.81 * (4 * PI)),
                 sqrt(9.81 * (10 * PI)));
