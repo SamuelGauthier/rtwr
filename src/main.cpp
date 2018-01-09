@@ -42,7 +42,7 @@ int windowHeight = 600;
 
 int HEIGHT = 4;
 int WIDTH = 4;
-glm::vec2 waterResolution = glm::vec2(30, 29);
+glm::vec2 waterResolution = glm::vec2(30, 30);
 
 glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)
         windowWidth / (float) windowHeight, 0.1f, 100.0f);
@@ -247,7 +247,7 @@ void RenderFunction() {
         skybox.draw();
 
         // Render the plane
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         glDepthMask(GL_TRUE);
         glUseProgram(waterProgramId);
         glUniform1f(timeId, counter.getCurrentTime());

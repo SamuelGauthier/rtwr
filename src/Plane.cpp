@@ -36,17 +36,17 @@ Plane::Plane(int width, int height, glm::vec3 center, glm::vec2 resolution) :
 
     for (int j = 0; j < ( rH-1 ) ; j++) {
         for (int i = 0; i < ( rW-1 ); i++) {
-            // *-*
-            //  \|
-            //   *
+            // a-c
+            // |/ 
+            // b
             this->indices.push_back(j*rW + i);
-            this->indices.push_back((j+1)*rW + (i+1));
+            this->indices.push_back((j+1)*rW + (i));
             this->indices.push_back(j*rW + (i+1));
 
-            // *
-            // |\
-            // *-*
-            this->indices.push_back(j*rW + i);
+            //   a
+            //  /|
+            // b-c
+            this->indices.push_back(j*rW + (i+1));
             this->indices.push_back((j+1)*rW + i);
             this->indices.push_back((j+1)*rW + (i+1));
         }

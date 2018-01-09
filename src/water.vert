@@ -30,6 +30,8 @@ void main(void) {
                 NUMWAVES), Q/(w[2] * A[2] * NUMWAVES));
     //vec2 D[3] = vec2[](vec2(0.24, 0.34), vec2(0.75, 0.14), vec2(0.45, 0.24));
     vec2 D[3] = vec2[](vec2(0.0, 0.5), vec2(0.8, 0.7), vec2(0.6, 0.6));
+    //binormal = vec3(1.0, 0.0, 0.0);
+    //tangent = vec3(0.0, 1.0, 0.0);
     vec4 position = in_Position;
     //binormal = vec3(1.0, 0.0, 0.0);
     //tangent = vec3(0.0, 1.0, 0.0);
@@ -39,12 +41,16 @@ void main(void) {
         float alpha = w[i] * dot(D[i], position.xz) + phi[i] * t;
         //float phase = phi[i] * t;
         float WA = w[i] * A[i];
+        float sinAlpha = sin(alpha);
+        float cosAlpha = cos(alpha);
+        float DxCos = D[i].x * cosAlpha;
+        float DyCos = D[i].y * cosAlpha;
 
         // /!\ y and z coordinates are flipped in OpenGL
         // z coordinate points out of the screen.
-        position.x += Qs[i] * A[i] * D[i].x * cos(alpha);
-        position.z += Qs[i] * A[i] * D[i].y * cos(alpha);
-        position.y += A[i] * sin(alpha);
+        position.x += Qs[i] * A[i] * DxCos;
+        position.z += Qs[i] * A[i] * DyCos;
+        position.y += A[i] * sinAlpha;
 
         //binormal.x -= Qs[i] * D[i].x * D[i].x * WA * sin(alpha);
         //binormal.y -= Qs[i] * D[i].x * D[i].y * WA * sin(alpha);
@@ -54,16 +60,16 @@ void main(void) {
         //tangent.y -= Qs[i] * D[i].y * D[i].y * WA * sin(alpha);
         //tangent.z += D[i].y * WA * cos(alpha);
 
-        normal.x -= D[i].x * WA * cos(alpha);
-        normal.z -= D[i].y * WA * cos(alpha);
-        normal.y -= Qs[i] * WA * sin(alpha);
+        normal.x -= WA * DxCos;
+        normal.z -= WA * DyCos;
+        normal.y -= Qs[i] * WA * sinAlpha;
     }
 
     //normal = -normal;
 
     vm_position = vec3(V * M * position);
     vm_normal = vec3(V * M * vec4(normal, 0.0));
-    light_position = vec3(9, 9, -9);
+    light_position = vec3(9, 9, -4);
     E_L = vec3(0.1, 0.1, 0.1);
     roughness = 0.1;
     gl_Position = P * V * M * position;

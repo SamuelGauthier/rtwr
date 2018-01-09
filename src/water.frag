@@ -24,25 +24,23 @@ float D(float nh, float alpha2);
 
 void main(void) {
 
-    //vec3 light_position = vec3(9, 9, -9);
-    //vec3 E_L = vec3(0.1, 0.1, 0.1);
-    //float roughness = 0.1;
     float alpha = roughness * roughness;
     float alpha2 = alpha * alpha;
     float k = alpha / 2;
     mat4 inverse_V = inverse(V);
 
     vec3 incident_eye = normalize(vm_position);
+    vec3 lightPosition = vec3(V * M * vec4(light_position, 1.0));
     vec3 n = normalize(vm_normal);
-    vec3 v = normalize(vec3(V[1]) - vm_position);
-    vec3 l = normalize(light_position - vm_position);
+    vec3 v = normalize(vec3(V[2]) - vm_position);
+    vec3 l = normalize(lightPosition - vm_position);
     vec3 h = normalize(l + v);
     float nl = dot(n, l);
     float cnl = max(0, nl);
     float nv = dot(n, v);
     float nh = dot(n, h);
 
-    float f_specular = F(R_F0, v, h) * G(nl, nv, k) * D(nh, alpha2) /
+    float f_specular = F(R_F0, l, h) * G(nl, nv, k) * D(nh, alpha2) /
         (4 * nl * nv);
 
     /* reflect ray around normal from eye to surface */
