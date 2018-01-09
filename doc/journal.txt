@@ -361,3 +361,5 @@ Continued to write the report and began to prepare the presentation.
 * Deadline for the project 19.01.18
 
 2018-01-08 21:28 Continued to prepare the documentation and presentation.
+
+2018-01-09 22:34 Finished presentation and fix the plane (finally!)
