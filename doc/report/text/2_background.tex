@@ -125,7 +125,7 @@ depicts the sum of four such waves rendered in 1981.
 \begin{figure}[h]
     \centering
     \includegraphics[height=5cm]{max1981raytracing.png}
-    \caption{Ray-tracing of four waves from \autoref{eq:gerstner_max}. Source:
+    \caption{Ray-tracing of four waves using \autoref{eq:gerstner_max}. Source:
     \autocite{max1981vectorized}}\label{fig:max_raytraced}
 \end{figure}
 
@@ -154,7 +154,30 @@ With the substitutions $WA = \omega_i A_i,\ S(\cdot) = \sin(\omega_i
 \textbf{D}_i \cdot \textbf{P} + \varphi_i t),\ C(\cdot) = \cos(\omega_i
 \textbf{D}_i \cdot \textbf{P} + \varphi_i t)$.
 
-\todo[inline]{Finish to explain and say that it produces too rounded shapes.}
+The authors derive the binormal and tangent vectors from the position. They can
+be used with the normal vector from \autoref{eq:gerstner_normal} to compute the
+transformation to the tangent space.
+
+\begin{equation}\label{eq:gerstner_binormal}
+    \textbf{B}(x,y,t)=\begin{bmatrix}x\\ y\\ z\end{bmatrix}=\begin{bmatrix}
+    1 - \sum_{i}(Q_i \cdot \textbf{D}_i.x^2 \cdot WA \cdot S(\cdot))\\
+    - \sum_{i}(Q_i \cdot \textbf{D}_i.x \cdot \textbf{D}_i.y\cdot WA \cdot
+    S(\cdot))\\ 
+    \sum_{i}(\textbf{D}_i.x \cdot WA \cdot C(\cdot))\\\end{bmatrix}
+\end{equation}
+
+\begin{equation}\label{eq:gerstner_tangent}
+    \textbf{T}(x,y,t)=\begin{bmatrix}x\\ y\\ z\end{bmatrix}=\begin{bmatrix}
+    - \sum_{i}(Q_i \cdot \textbf{D}_i.x \cdot \textbf{D}_i.y\cdot WA \cdot
+    S(\cdot))\\
+    1 - \sum_{i}(Q_i \cdot \textbf{D}_i.y^2 \cdot WA \cdot S(\cdot))\\
+    \sum_{i}(\textbf{D}_i.y \cdot WA \cdot C(\cdot))\\\end{bmatrix}
+\end{equation}
+
+The Gerstner wave approach is easy to implement and understand but produces too
+rounded shapes. On one hand computing only four waves produces a too repetitive
+result. On the other hand adding more of them reduces the performance. To obtain
+a reasonable result it should be combined with another model.
 
 \subsubsection{Fast Fourier Transform (FFT)}\label{subsub:fft}
 
@@ -218,9 +241,9 @@ where $\xi_r$ and $\xi_i$ are constants and $P_h(\textbf{k})$, the spectrum, is:
 $A$ is a constant, $L=V^2/g$, with $V$ being the wind speed, $g$ the
 gravitational constant and finally $\textbf{w}$ the wind direction.
 
-As seen in figure XYZ the method only produces rounded waves. In order to get
-the choppy effect of a stormy ocean, the position can be displaced locally in
-the horizontal direction. This can be done with
+As seen in figure \autoref{subfig:fft_round}, the method only produces rounded
+waves. In order to get the choppy effect of a stormy ocean, the position can be
+displaced locally in the horizontal direction. This can be done with
 
 \begin{equation}
     \textbf{x} = \textbf{x} + \lambda \textbf{D}(\textbf{x}, t), \quad
@@ -228,13 +251,29 @@ the horizontal direction. This can be done with
     \tilde{h}(\textbf{k},t) e^{i\textbf{k}\cdot\textbf{x}}
 \end{equation}
 
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[h]{0.45\textwidth}
+        \centering
+        \includegraphics[height=4cm]{fft_rounded.png}
+        \subcaption{Without local displacement}\label{subfig:fft_round}
+    \end{subfigure}~%
+    %  
+    \begin{subfigure}[h]{0.45\textwidth}
+        \centering
+        \includegraphics[height=4cm]{fft_sharp.png}
+        \subcaption{With local displacement}\label{subfig:fft_sharp}
+    \end{subfigure}
+    \caption{Result from the use of the Fast Fourier Transform to compute the
+    ocean's shape. Source:
+    \autocite{tessendorf2001simulating}.}\label{fig:fft_comparison}
+\end{figure}
 
 Using this method, it is possible to compute two height fields of different
-resolution. The first one can then be used as a displacement map and the second
-one as a bump map.
-As already mentioned before, the frequency spectrum is hard to control for an
-artist and the gird needs to be large to display most of the frequencies
-\autocite{gonzalez2016rendering}.
+resolution. The first one can be used as a displacement map and the second one
+as a bump map. As already mentioned before, the frequency spectrum is hard to
+control for an artist and the gird needs to be large to display most of the
+frequencies \autocite{gonzalez2016rendering}.
 
 
 \subsubsection{Hybrid}
@@ -272,10 +311,10 @@ Uncharted, World of Warships and an undisclosed game.
 \subsubsection{Uncharted}\label{subsub:uncharted}
 
 A modified version of the \textit{Wave Particle} approach from
-\autoref{subsub:wave_particles} has been used in \textit{Uncharted 3} and
-\textit{4} to render rapids and the ocean. Developers chose this technique
-because it is more intuitive for artists to control, it presents no tiling
-artifacts, it is deterministic in time and fast to compute
+\autoref{subsub:wave_particles} has been used in \textit{Uncharted 3} (2011) and
+\textit{4} (2016) to render rapids and the ocean. Developers chose this
+technique because it is more intuitive for artists to control, it presents no
+tiling artifacts, it is deterministic in time and fast to compute
 \autocite{gonzalez2012water}. For the level of detail they use a ``Continuous
 Distant-Dependent Level of Detail'' from \autocite{strugar2009continuous}. This
 technique stitches quads of different size together. The quads become bigger the
@@ -291,6 +330,21 @@ further they are from the camera. The result can be seen in
 
 
 \subsubsection{World of Warships}\label{subsub:world_of_warships}
+
+The developers at \textit{Wargaming} choose to superpose three different height
+maps, as described in \autocite[Chapter~18]{pharr2005gpu}
+\autocite{kryachko2016sea}, for their \textit{World of Warships} (2015) game.
+And for the calm zones they use an additional one. 
+
+\todo[inline]{explain how they tackled the projected grid problems}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[height=5cm]{wow_water.jpg}
+    \caption{Rendered ocean in \textit{World of Warships}. Source:
+    \autocite{kryachko2016sea}}\label{fig:wow_sea}
+\end{figure}
+
 \subsubsection{Undisclosed Game}\label{subsub:undisclosed_game}
 
 \subsection{Candidate Applications for Embedding}\label{subsec:candidate_apps}
