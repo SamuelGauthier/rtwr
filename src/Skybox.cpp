@@ -152,7 +152,7 @@ bool Skybox::loadCubeMapSide(GLuint texture, GLenum side_target,
     // copy image data into 'target' side of cube map
     glTexImage2D(side_target, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE,
             image_data);
-    free(image_data);
+    stbi_image_free(image_data);
     return true;
 }
 
