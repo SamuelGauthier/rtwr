@@ -363,3 +363,12 @@ Continued to write the report and began to prepare the presentation.
 2018-01-08 21:28 Continued to prepare the documentation and presentation.
 
 2018-01-09 22:34 Finished presentation and fix the plane (finally!)
+
+2018-01-12 23:58 Project presentation feedback
+
+* Overall good, english was welcome
+* Should have mentionnened that the goals were fullfilled.
+* Also should have said that 17 weeks ago I didn't know anything about OpenGL
+  and GLSL.
+
+2018-01-14 21:28 Add scrolling normals and update the report
