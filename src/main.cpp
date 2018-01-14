@@ -23,6 +23,8 @@
 #define LEFT "../data/skybox/" SKYBOX_NAME "/left.jpg"
 #define RIGHT "../data/skybox/" SKYBOX_NAME "/right.jpg"
 
+#define NORMAL_MAP "../data/normal_map.jpg"
+
 //using namespace glm;
 
 GLuint skyboxProgramId;
@@ -110,6 +112,7 @@ void Initialize(int argc, char* argv[]) {
     skybox.setup();
     skybox.setupTexture(FRONT, BACK, UP, DOWN, LEFT, RIGHT);
     plane.setup();
+    plane.setupTexture(NORMAL_MAP);
 
     createMVP();
     timeId = glGetUniformLocation(waterProgramId, "t");
@@ -226,6 +229,7 @@ void RenderFunction() {
     glUniformMatrix4fv(waterMMatrixId, 1, GL_FALSE, &m[0][0]);
     glUniformMatrix4fv(waterVMatrixId, 1, GL_FALSE, &v[0][0]);
     glUniformMatrix4fv(waterPMatrixId, 1, GL_FALSE, &p[0][0]);
+    glUniform1i(glGetUniformLocation(waterProgramId, "normalMap"), 1);
 
     // Prepare rendering
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

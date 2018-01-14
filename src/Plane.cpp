@@ -3,6 +3,7 @@
  * @brief Plane class
  * @author Samuel Gauthier
  */
+#include "stb_image.h"
 #include "Plane.h"
 
 /**
@@ -20,8 +21,8 @@ Plane::Plane(int width, int height, glm::vec3 center, glm::vec2 resolution) :
 
     float rH = this->resolution.y;
     float rW = this->resolution.x;
-    float heightRatio = this->width/(rH-1);
-    float widthRatio = this->height/(rW-1);
+    float heightRatio = this->height/(rH-1);
+    float widthRatio = this->width/(rW-1);
     float dH = this->height/2;
     float dW = this->width/2;
 
@@ -126,6 +127,62 @@ void Plane::setup() {
                 errorCheckValue);
         exit(EXIT_FAILURE);
     }
+}
+
+/**
+ * @brief Generates texture name and activates OpenGL texture unit with
+ * custom properties given a texture path.
+ *
+ * @param texturePath The texture path
+ */
+void Plane::setupTexture(std::string texturePath) {
+
+    glActiveTexture(GL_TEXTURE1);
+    glGenTextures(1, &this->normalTexture);
+
+    loadTexture(this->normalTexture, texturePath.c_str());
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+
+}
+
+/**
+ * @brief Returns true if the texture from the given file name could be
+ * loaded and bound to the texture name.
+ *
+ * @param texture The texture name
+ * @param file_name The file name
+ *
+ * @return True if the texture was loaded successfully, false otherwise.
+ */
+bool Plane::loadTexture(GLuint texture, const char* file_name) {
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    int x, y, n;
+    int force_channels = 3;
+    unsigned char*  image_data = stbi_load(
+            file_name, &x, &y, &n, force_channels);
+    if (!image_data) {
+        fprintf(stderr, "ERROR: could not load %s\n", file_name);
+        return false;
+    }
+    // non-power-of-2 dimensions check
+    if ((x & (x - 1)) != 0 || (y & (y - 1)) != 0) {
+        fprintf(stderr,
+                "WARNING: image %s is not power-of-2 dimensions\n",
+                file_name);
+    }
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE,
+            image_data);
+
+    stbi_image_free(image_data);
+    return true;
 }
 
 /**

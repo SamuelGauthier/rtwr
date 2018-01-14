@@ -48,6 +48,26 @@ class Plane {
          * befor the draw() method.
          */
         void setup();
+
+        /**
+         * @brief Generates texture name and activates OpenGL texture unit with
+         * custom properties given a texture path.
+         *
+         * @param texturePath The texture path
+         */
+        void setupTexture(std::string texturePath);
+
+        /**
+         * @brief Returns true if the texture from the given file name could be
+         * loaded and bound to the texture name.
+         *
+         * @param texture The texture name
+         * @param file_name The file name
+         *
+         * @return True if the texture was loaded successfully, false otherwise.
+         */
+        bool loadTexture(GLuint texture, const char* file_name);
+
         /**
          * @brief Draw the plane on the screen.
          */
@@ -66,6 +86,7 @@ class Plane {
         GLuint vaoId;
         GLuint vertexBufferId;
         GLuint indexBufferId;
+        GLuint normalTexture;
 
 };
 
