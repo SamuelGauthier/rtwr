@@ -84,12 +84,13 @@ each group and a hybrid one.
 
 Observing the ocean from the atmosphere, as seen in figure
 \autoref{fig:barren_island}, a slightly repetitive pattern is noticeable. This
-resembles strongly to a combination of sines and cosines. The combination of
-such curves, also called \textit{Gerstner Waves}\footnote{Gerstner Waves where
-    first described in \autocite{gerstner1802theorie} and provide a solution to
-a certain type of Euler equations.}, was proposed in
-\autocite{max1981vectorized} for their ray-tracing procedural model. The height
-$y = h(x,z,t)$ for each point $(x,z)$ at time $t$ is
+resembles strongly to a hevily disturbed combination of sines and cosines. The
+combination of such curves, also called \textit{Gerstner
+Waves}\footnote{Gerstner Waves where first described in
+\autocite{gerstner1802theorie} and provide a solution to a certain type of
+Euler equations.}, was proposed in \autocite{max1981vectorized} for their
+ray-tracing procedural model. The height $y = h(x,z,t)$ for each point $(x,z)$
+at time $t$ is
 
 \begin{equation}\label{eq:gerstner_max}
     h(x, z, t) = -y_0 + \sum_{i = 1}^{N_w} A_i \cos(k_{i_x}x + k_{i_y}y -
@@ -304,9 +305,9 @@ Many different water models are used in industry productions. One that has been
 applied extensively in movies (such as ``Titanic'', ``13 days'', ``The World Is
 Not Enough'') and most of the games is the one from Tessendorf
 \autocite{tessendorf2001simulating} as seen in~\ref{subsub:fft}.  During our
-research we came across three solutions which where presented at the Game
+research we came across two solutions which where presented at the Game
 Developer Conference or at the SIGGRAPH conference. They are implemented in
-Uncharted, World of Warships and an undisclosed game.
+Uncharted and World of Warships.
 
 \subsubsection{Uncharted}\label{subsub:uncharted}
 
@@ -332,11 +333,34 @@ further they are from the camera. The result can be seen in
 \subsubsection{World of Warships}\label{subsub:world_of_warships}
 
 The developers at \textit{Wargaming} choose to superpose three different height
-maps, as described in \autocite[Chapter~18]{pharr2005gpu}
-\autocite{kryachko2016sea}, for their \textit{World of Warships} (2015) game.
-And for the calm zones they use an additional one. 
+maps, as described in \autocite[Chapter~18]{pharr2005gpu}, for their
+\textit{World of Warships} (2015) game \autocite{kryachko2016sea}.  For the calm
+zones they use an additional one. To approximate the geometry they use the
+``Projected Grid'' concept from \autocite{claes2004real}, which works as
+follows:
 
-\todo[inline]{explain how they tackled the projected grid problems}
+\begin{algorithm}
+    \small
+    \DontPrintSemicolon{}
+    Create a regular discredited plane in post-perspective space that is
+    orthogonal towards the viewer\\
+    Project this plane onto a plane in the world-space\\
+    Displace the world-space vertices according to the height field\\
+    Render the projected plane\\
+    \caption{\small{Projected Grid. Source:
+    \autocite{claes2004real}}}\label{algo:projected_grid}
+\end{algorithm}
+
+They took this approach because it gives them an efficient polygon distribution
+over the screen \autocite{kryachko2016sea}. However, this method has several
+drawbacks: it causes flickering, instability in motion, is not very accurate and
+does not handle water deformations very well. By raising the triangle density up
+to three to four times and redistributing them in the vertical direction, they
+solved the low accuracy problem. To fix the flickering and instability in motion
+issue, the developers use a modified per pixel ray casting algorithm. It
+computes an improved version of Newton's method to solve the ray cast equation.
+Finally they manage to create realistic water deformations with the help of six
+times anti-aliasing (6xAA) \autocite{kryachko2016sea}.
 
 \begin{figure}[h]
     \centering
@@ -345,7 +369,7 @@ And for the calm zones they use an additional one.
     \autocite{kryachko2016sea}}\label{fig:wow_sea}
 \end{figure}
 
-\subsubsection{Undisclosed Game}\label{subsub:undisclosed_game}
+%\subsubsectjon{Undisclosed Game}\label{subsub:undisclosed_game}
 
 \subsection{Candidate Applications for Embedding}\label{subsec:candidate_apps}
 
