@@ -42,7 +42,7 @@ energy dissipation in form of heat \autocite{gallagher2010autour}. The equations
 are shown below only for the curious reader as we will not further discuss them.
 The Navier-Stokes equation of an incompressible fluid flow is:
 
-\begin{equation}
+\begin{equation}\label{eq:nse}
     \frac{\partial \textbf{u}}{\partial t} + \textbf{u}\cdot \nabla \textbf{u}
      = - \frac{\nabla P }{\rho} + \nu {\nabla}^2 \textbf{u}
 \end{equation}
@@ -280,8 +280,19 @@ frequencies \autocite{gonzalez2016rendering}.
 \subsubsection{Hybrid}
 
 \subsection{Shallow Water Models}\label{subsec:shallow_water}
-% Eulerian and Lagrangian models
-% Wave Particles Yuskel et al
+
+Shallow water models try to discretize the Navier-Stokes equations (described
+in \autoref{eq:nse}) in two ways. The first one uses a two or three dimensional
+grid to represent the fluid moving from cell to cell. It is called the Eulerian
+approach. The second one makes the assumption that particles transport a small
+fluid volume. This one is called the Lagrangian approach. Both share similar
+problems and advantages. The two can reproduce many different phenomena but are
+constrained by the grid size and the particle amount. They also become expensive
+when simulating finer details such as foam and spray as they need a lot of cells
+or particles.
+
+We will present only one hybrid method because it has been used for an industry
+production as described in \autoref{subsub:uncharted}.
 
 \subsubsection{Wave Particles}\label{subsub:wave_particles}
 
@@ -446,16 +457,17 @@ that would close the issue.
     \begin{subfigure}[h]{\textwidth}
         \centering
         \includegraphics[height=5cm]{figures/0ad_water-specular.jpg}
-        \subcaption{Close view of the water.}\label{subfig:0ad_water_close}
+        \subcaption{Close view of the water. Source:
+        \url{play0ad.com}}\label{subfig:0ad_water_close}
     \end{subfigure}\\%
     %  
     \begin{subfigure}[h]{\textwidth}
         \centering
         \includegraphics[height=5cm]{figures/0ad_cycladic_arcgipelago_6.jpg}
-        \subcaption{Zoomed out view.}\label{subfig:0ad_water_far}
+        \subcaption{Zoomed out view. Source:
+        \url{play0ad.com}}\label{subfig:0ad_water_far}
     \end{subfigure}
     \caption{\textit{0 A.D.}'s water rendering. Notice on the lower left part
         of \autoref{subfig:0ad_water_close} the repetition of the waves.
-        In \autoref{subfig:0ad_water_far} it is even more apparent (source:
-        \url{play0ad.com}).}\label{fig:0ad_water}
+        In \autoref{subfig:0ad_water_far} it is even more apparent.}\label{fig:0ad_water}
 \end{figure}
