@@ -13,7 +13,7 @@
 
 /**
  * @brief Vertex with xyzw model coordinates, rgba values and xyzw normal
- * coordinates
+ * coordinates.
  */
 struct Vertex {
     GLfloat XYZW[4];
@@ -38,8 +38,9 @@ class Plane {
          */
         Plane(int width=2, int height=2, glm::vec3 center=glm::vec3(0, 0, 0),
                 glm::vec2 resolution=glm::vec2(20, 20));
+
         /**
-         * @brief Default Destructor
+         * @brief Default Destructor.
          */
         ~Plane();
 
@@ -53,7 +54,7 @@ class Plane {
          * @brief Generates texture name and activates OpenGL texture unit with
          * custom properties given a texture path.
          *
-         * @param texturePath The texture path
+         * @param texturePath The texture path.
          */
         void setupTexture(std::string texturePath);
 
@@ -61,15 +62,15 @@ class Plane {
          * @brief Returns true if the texture from the given file name could be
          * loaded and bound to the texture name.
          *
-         * @param texture The texture name
-         * @param file_name The file name
+         * @param texture The texture name.
+         * @param file_name The file name.
          *
          * @return True if the texture was loaded successfully, false otherwise.
          */
         bool loadTexture(GLuint texture, const char* file_name);
 
         /**
-         * @brief Draw the plane on the screen.
+         * @brief Draws the plane on the screen.
          */
         void draw();
 

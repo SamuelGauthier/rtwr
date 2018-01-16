@@ -245,14 +245,14 @@ void RenderFunction() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Render the skybox
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        glDepthMask(GL_FALSE);
+        //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        //glDepthMask(GL_FALSE);
         glUseProgram(skyboxProgramId);
         skybox.draw();
 
         // Render the plane
         //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        glDepthMask(GL_TRUE);
+        //glDepthMask(GL_TRUE);
         glUseProgram(waterProgramId);
         glUniform1f(timeId, counter.getCurrentTime());
         plane.draw();
