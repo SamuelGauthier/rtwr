@@ -2,26 +2,65 @@
 Real-time water rendering
 -------------------------
 
-The aim of this project is to find a method for realistic real-time water
-rendering.
+.. image:: https://img.shields.io/badge/lang-C%2B%2B-blue.svg
+.. image:: https://img.shields.io/badge/OpenGL-4.0-brightgreen.svg
+.. image:: https://img.shields.io/badge/glsl-4.0-green.svg
+
+.. image:: /doc/report/figures/application_5.png
+   :align: center
+   :width: 500pt
+
+.. sectnum::
+
+.. contents:: Table of contents
+
+This project is a research into different methods to render in real-time
+realisic large bodies of water. The implementation is based on the *Gerstner
+Waves* model. The report can be accessed further below in the `Documentation`_
+section.
+
+Dependencies and Requirements
+-----------------------------
+
+- C++14 compatible compiler
+
+- Device supporting OpenGL 4.0
+
+- GLEW
+
+- GLFW
+
+If `GLEW` and `GLFW` have been installed in a proper default location, cmake
+automatically finds them on your system.
+
+Compilation and Usage
+---------------------
+
+.. code:: bash
+
+    $ git clone https://github.com/SamuelGauthier/rtwr.git
+    $ cd rtwr
+    $ mkdir build; cd build
+    $ cmake -G "Unix Makefiles" ..; make
+    $ ../bin/rtwr
 
 Documentation
 -------------
 
-The documentation and a list of relevant papers can be found `here
-<doc/README.rst>`_.
+The report can be built using LaTeX in the folder ``doc/report`` (
+`compiled pdf version <doc/README.rst>`_).  A list of relevant
+papers can be found `here <doc/README.rst>`_.
+
+Screenshots
+-----------
 
 
-Todo
-----
+.. image:: /doc/report/figures/application_1.png
+   :width: 45%
+.. image:: /doc/report/figures/application_2.png
+   :width: 45%
 
-- [x] Sky box
-- [x] Light
-- Water
-    1. [] Height Map
-    2. [x] Normals
-    3. [x] Refelction
-    4. [] Underwater
-    5. [x] Fresnel
-    6. [] Foam
-
+.. image:: /doc/report/figures/application_3.png
+   :width: 45%
+.. image:: /doc/report/figures/application_4.png
+   :width: 45%
