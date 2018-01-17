@@ -15,9 +15,9 @@ Real-time water rendering
 .. contents:: Table of contents
 
 This project is a research into different methods to render in real-time
-realisic large bodies of water. The implementation is based on the *Gerstner
-Waves* model. The report can be accessed further below in the `Documentation`_
-section.
+realisic large bodies of water. The chosen implementation is based on the
+*Gerstner Waves* model. The report can be accessed further below in the
+`Documentation`_ section.
 
 Dependencies and Requirements
 -----------------------------
