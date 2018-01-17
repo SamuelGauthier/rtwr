@@ -376,3 +376,6 @@ Continued to write the report and began to prepare the presentation.
 2018-01-15 22:01 Continue writing the report
 
 2018-01-16 23:12 Clean up and comment code, write report and readme
+
+2018-01-17 11:58 Clean up and document the code.
+Update the documentation.
