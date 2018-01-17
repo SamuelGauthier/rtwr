@@ -3,7 +3,9 @@ Real-time water rendering
 -------------------------
 
 .. image:: https://img.shields.io/badge/lang-C%2B%2B-blue.svg
+
 .. image:: https://img.shields.io/badge/OpenGL-4.0-brightgreen.svg
+
 .. image:: https://img.shields.io/badge/glsl-4.0-green.svg
 
 .. image:: /doc/report/figures/application_5.png
