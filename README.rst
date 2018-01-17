@@ -3,10 +3,13 @@ Real-time water rendering
 =========================
 
 .. image:: https://img.shields.io/badge/lang-C%2B%2B-blue.svg
+        :target: https://github.com/SamuelGauthier/rtwr.git
 
 .. image:: https://img.shields.io/badge/OpenGL-4.0-brightgreen.svg
+        :target: https://github.com/SamuelGauthier/rtwr.git
 
 .. image:: https://img.shields.io/badge/glsl-4.0-green.svg
+        :target: https://github.com/SamuelGauthier/rtwr.git
 
 --------------------------------------------------------------------------------
 
