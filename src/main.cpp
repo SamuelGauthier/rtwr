@@ -1,3 +1,8 @@
+/**
+ * @file main.cpp
+ * @brief Main function of the rtwr application
+ * @author Samuel Gauthier
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
@@ -14,8 +19,10 @@
 
 #define WINDOW_TITLE "Real-Time Water Rendering"
 
+// Select the skybox
 #define SKYBOX_NAME "san_francisco"
 
+// Define the image paths of the skybox and the normal map.
 #define FRONT "../data/skybox/" SKYBOX_NAME "/front.jpg"
 #define BACK "../data/skybox/" SKYBOX_NAME "/back.jpg"
 #define UP "../data/skybox/" SKYBOX_NAME "/up.jpg"
@@ -25,11 +32,11 @@
 
 #define NORMAL_MAP "../data/normal_map.jpg"
 
-//using namespace glm;
-
+// Shader program Ids
 GLuint skyboxProgramId;
 GLuint waterProgramId;
 
+// Model, view, projection and time Ids
 GLuint waterMMatrixId;
 GLuint waterVMatrixId;
 GLuint waterPMatrixId;
@@ -37,63 +44,139 @@ GLuint skyboxVMatrixId;
 GLuint skyboxPMatrixId;
 GLuint timeId;
 
+// Window handle pointer
 GLFWwindow* window;
 
-int windowWidth = 800;
-int windowHeight = 600;
-
-int HEIGHT = 4;
-int WIDTH = 4;
-glm::vec2 waterResolution = glm::vec2(30, 30);
-
-glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)
-        windowWidth / (float) windowHeight, 0.1f, 100.0f);
-
-glm::vec3 position = glm::vec3(0, 3, 3);
-glm::vec3 target = glm::vec3(0, 0, 0);
-glm::vec3 up = glm::vec3(0, 1, 0);
-
+// Model, view and projection matrices.
 glm::mat4 m;
 glm::mat4 v;
 glm::mat4 p;
 
-Skybox skybox = Skybox(10.0f);
-Plane plane = Plane(WIDTH, HEIGHT, target, waterResolution);
-FPSCounter counter = FPSCounter();
+// Application window width and height
+int windowWidth = 800;
+int windowHeight = 600;
+
+// Camera setup
+glm::vec3 position = glm::vec3(0, 3, 3);
+glm::vec3 target = glm::vec3(0, 0, 0);
+glm::vec3 up = glm::vec3(0, 1, 0);
+glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)
+        windowWidth / (float) windowHeight, 0.1f, 100.0f);
 Camera camera = Camera(position, target, up, projection);
 
+// Plane setup
+const int HEIGHT = 4;
+const int WIDTH = 4;
+glm::vec2 waterResolution = glm::vec2(30, 30);
+Plane plane = Plane(WIDTH, HEIGHT, target, waterResolution);
+
+// Skybox and FPSCounter setup
+Skybox skybox = Skybox(10.0f);
+FPSCounter counter = FPSCounter();
+
+// Mouse state and positions
 int mouseState;
 bool mouseButtonLeftDown = false;
 bool mouseButtonRightDown = false;
 double previousX;
 double previousY;
 
-void Initialize(int, char* []);
-void InitWindow(int, char* []);
-void ResizeFunction(GLFWwindow*, int, int);
+/**
+ * @brief 
+ */
+void Initialize();
+
+/**
+ * @brief 
+ */
+void InitWindow();
+
+/**
+ * @brief 
+ *
+ * @param GLFWwindow
+ * @param int
+ * @param int
+ */
+void resizeFunction(GLFWwindow*, int, int);
+
+/**
+ * @brief 
+ *
+ * @param window
+ * @param xOffset
+ * @param yOffset
+ */
 void trackScroll(GLFWwindow* window, double xOffset, double yOffset);
+
+/**
+ * @brief 
+ *
+ * @param window
+ * @param xPos
+ * @param yPos
+ */
 void trackMousePosition(GLFWwindow* window, double xPos, double yPos);
+
+/**
+ * @brief 
+ *
+ * @param window
+ * @param button
+ * @param action
+ * @param mods
+ */
 void trackMouseButton(GLFWwindow* window, int button, int action, int mods);
+
+/**
+ * @brief Renders the skybox and the plane. Contains the main rendering loop.
+ */
 void RenderFunction();
+
+/**
+ * @brief 
+ */
 void Cleanup();
+
+/**
+ * @brief Create the model view 
+ */
 void createMVP();
+
+/**
+ * @brief 
+ */
 void updateMVP();
 
+/**
+ * @brief Main function
+ *
+ * @param argc The command line argument count.
+ * @param argv[] The command line argument values
+ *
+ * @return 
+ */
 int main(int argc, char* argv[]) {
 
-    Initialize(argc, argv);
+    // Initialize GLFW, window, GLEW, skybox and plane.
+    Initialize();
 
+    // Render the skybox and the plane.
     RenderFunction();
 
+    // Delete shaders and terminate the GLFW library
     Cleanup();
     exit(EXIT_SUCCESS);
 }
 
-void Initialize(int argc, char* argv[]) {
+/**
+ * @brief Initialize the wind
+ */
+void Initialize() {
 
     GLenum GlewInitResult;
 
-    InitWindow(argc, argv);
+    InitWindow();
 
     GlewInitResult = glewInit();
 
@@ -106,6 +189,7 @@ void Initialize(int argc, char* argv[]) {
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
+    // Load the shaders
     skyboxProgramId = LoadShaders("../src/skybox.vert", "../src/skybox.frag");
     waterProgramId = LoadShaders("../src/water.vert", "../src/water.frag");
 
@@ -118,7 +202,11 @@ void Initialize(int argc, char* argv[]) {
     timeId = glGetUniformLocation(waterProgramId, "t");
 }
 
-void InitWindow(int argc, char* argv[]) {
+/**
+ * @brief Initializes the GLFW library, creates the window and sets the GLFW
+ * callbacks.
+ */
+void InitWindow() {
 
     // Initialize GLFW
     if(!glfwInit()) {
@@ -143,14 +231,15 @@ void InitWindow(int argc, char* argv[]) {
     }
 
     glfwMakeContextCurrent(window);
-    glfwSetWindowSizeCallback(window, ResizeFunction);
+    // Set the different callbacks
+    glfwSetWindowSizeCallback(window, resizeFunction);
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
     glfwSetScrollCallback(window, trackScroll);
     glfwSetCursorPosCallback(window, trackMousePosition);
     glfwSetMouseButtonCallback(window, trackMouseButton);
 }
 
-void ResizeFunction(GLFWwindow* window, int Width, int Height) {
+void resizeFunction(GLFWwindow* window, int Width, int Height) {
 
     glfwGetWindowSize(window, &Width, &Height);
     windowWidth = Width;
@@ -159,12 +248,28 @@ void ResizeFunction(GLFWwindow* window, int Width, int Height) {
     glViewport(0, 0, windowWidth, windowHeight);
 }
 
+/**
+ * @brief Mouse wheel callback function for GLFW. Tracks the wheel scroll in the
+ * y direction and updates the camera zoom accordingly.
+ *
+ * @param window The window
+ * @param xOffset The x offset
+ * @param yOffset The y offset
+ */
 void trackScroll(GLFWwindow* window, double xOffset, double yOffset) {
 
     camera.zoom(yOffset);
     updateMVP();
 }
 
+/**
+ * @brief Mouse position callback function for GLFW. Tracks the x and y
+ * positions and updates the camera if the user interacts with the window.
+ *
+ * @param window The window
+ * @param xPos The x position relative to the window of the cursor.
+ * @param yPos The y position relative to the window of the cursor.
+ */
 void trackMousePosition(GLFWwindow* window, double xPos, double yPos) {
 
     if(mouseButtonLeftDown) {
@@ -192,6 +297,15 @@ void trackMousePosition(GLFWwindow* window, double xPos, double yPos) {
     }
 }
 
+/**
+ * @brief Mouse button callback function for GLFW. Tracks the clicks and their
+ * position.
+ *
+ * @param window The window.
+ * @param button The mouse button.
+ * @param action The button action.
+ * @param mods The modifier bits.
+ */
 void trackMouseButton(GLFWwindow* window, int button, int action, int mods) {
 
     if(button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
@@ -215,12 +329,16 @@ void trackMouseButton(GLFWwindow* window, int button, int action, int mods) {
 
         mouseButtonRightDown = false;
     }
-
 }
 
+/**
+ * @brief Renders the skybox and the plane. Contains the main rendering loop.
+ */
 void RenderFunction() {
 
-    // Send matrices
+    // Specify the model, view and projection matrices to the skybox and water
+    // shader programs. For the water program additionally provide the normal
+    // map.
     glUseProgram(skyboxProgramId);
     glUniformMatrix4fv(skyboxVMatrixId, 1, GL_FALSE, &v[0][0]);
     glUniformMatrix4fv(skyboxPMatrixId, 1, GL_FALSE, &p[0][0]);
@@ -231,34 +349,42 @@ void RenderFunction() {
     glUniformMatrix4fv(waterPMatrixId, 1, GL_FALSE, &p[0][0]);
     glUniform1i(glGetUniformLocation(waterProgramId, "normalMap"), 1);
 
-    // Prepare rendering
+    // Prepare for rendering
+    // Clear the color and depth buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // Fill the front and back faces of polygons
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    // Enable the depth comparisons with the depth buffer
     glEnable(GL_DEPTH_TEST);
+    // Specify the function used for depth buffer comparisons.
     glDepthFunc(GL_LESS);
+    // Enable 
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
     glEnable(GL_MULTISAMPLE);
 
     do {
         counter.update();
+        // Clear the color and depth buffers to avoid artifacts
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Render the skybox
-        //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        //glDepthMask(GL_FALSE);
+        // Install the skybox shader object as part of the current rendering
+        // state.
         glUseProgram(skyboxProgramId);
+        // Draw the skybox
         skybox.draw();
 
-        // Render the plane
-        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        //glDepthMask(GL_TRUE);
+        // Install the water shader object as part of the current rendering
+        // state.
         glUseProgram(waterProgramId);
+        // Specify the value to use for the timer
         glUniform1f(timeId, counter.getCurrentTime());
+        // Draw the plane.
         plane.draw();
 
         // Swap buffers
         glfwSwapBuffers(window);
+        // Process the pending events
         glfwPollEvents();
 
     } // Check if the ESC key was pressed or the window was closed
@@ -268,6 +394,10 @@ void RenderFunction() {
 	glfwTerminate();
 }
 
+/**
+ * @brief Delete the plane and skybox shader program objects and terminate the
+ * GLFW library.
+ */
 void Cleanup() {
 
     glDeleteProgram(waterProgramId);
@@ -275,6 +405,11 @@ void Cleanup() {
 	glfwTerminate();
 }
 
+/**
+ * @brief Create the model, view and projection matrices from the camera and
+ * get the location of the corresponding uniform variables from the water and
+ * skybox shaders.
+ */
 void createMVP() {
 
     m = glm::mat4(1.0f);
@@ -290,19 +425,27 @@ void createMVP() {
 
 }
 
+/**
+ * @brief Specify the updated model view and projection matrices to the water
+ * and skybox shaders.
+ */
 void updateMVP() {
 
     // Discard the rotation for the skybox
     v = glm::mat4(glm::mat3(camera.getViewMatrix()));
     p = camera.getProjectionMatrix();
 
-    // Send matrices
+    // Specify the updated view and projection matrices to the skybox shader
+    // program. 
     glUseProgram(skyboxProgramId);
     glUniformMatrix4fv(skyboxVMatrixId, 1, GL_FALSE, &v[0][0]);
     glUniformMatrix4fv(skyboxPMatrixId, 1, GL_FALSE, &p[0][0]);
 
+    // Fetch the full view matrix from the camera.
     v = camera.getViewMatrix();
 
+    // Specify the updated model, view and projection matrices to the skybox
+    // shader program. 
     glUseProgram(waterProgramId);
     glUniformMatrix4fv(waterMMatrixId, 1, GL_FALSE, &m[0][0]);
     glUniformMatrix4fv(waterVMatrixId, 1, GL_FALSE, &v[0][0]);
