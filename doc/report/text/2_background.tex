@@ -79,7 +79,7 @@ should be chosen \autocite{darles2011survey}. We present three models: one for
 each group and a hybrid one.
 
 %\subsubsection{Projected Grid Concept}
-\subsubsection{Gerstner Waves}
+\subsubsection{Gerstner Waves}\label{subsub:gerstner}
 %\subsubsection{Vertex Texture Displacement}
 
 Observing the ocean from the atmosphere, as seen in figure
@@ -291,10 +291,28 @@ constrained by the grid size and the particle amount. They also become expensive
 when simulating finer details such as foam and spray as they need a lot of cells
 or particles.
 
-We will present only one hybrid method because it has been used for an industry
-production as described in \autoref{subsub:uncharted}.
+We will present only one hybrid method because a derivation of it has been used
+for an industry production as described in \autoref{subsub:uncharted}.
 
 \subsubsection{Wave Particles}\label{subsub:wave_particles}
+% Combines the Eulerian approach for the shape and the Lagrangian approach for
+% interaction with the water.
+% Also include object interaction. The waves are generated with a height field.
+% The object interaction is done with vertical cells. Depending whether the
+% object pushes into the water or pulling out of the water they generate a wave
+% with a negative, respectively positive amplitude moving away from the object.
+% Moving away only if the object is not fully submerged. If it is they move
+% towards the object.
+% Each face of the object is handled differently.
+% Only focuses on surface waves.
+% Does not generate waves.
+
+The \textit{Wave Particles} method as described in \autocite{yuksel2007wave} is
+a hybrid shallow water model. It uses an Eulerian approach to compute the shape
+of the water and a Lagrangian one for the interaction with objects.
+\todo[inline]{Check that this is indeed correct.}
+
+\missingfigure{Image for the wave particle.}
 
 \subsection{Rendering of ocean details}\label{subsec:ocean_details}
 % Modeling waves and surf 1986
