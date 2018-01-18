@@ -11,7 +11,6 @@ Real-time water rendering
 .. image:: https://img.shields.io/badge/glsl-4.0-green.svg
         :target: https://github.com/SamuelGauthier/rtwr.git
 
---------------------------------------------------------------------------------
 
 .. image:: /doc/report/figures/application_5.png
    :align: center
@@ -30,6 +29,8 @@ Dependencies and Requirements
 -----------------------------
 
 - C++14 compatible compiler
+
+- Cmake >= 3.9
 
 - Device supporting OpenGL 4.0
 
