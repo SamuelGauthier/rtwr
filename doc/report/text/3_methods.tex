@@ -7,18 +7,212 @@
 % mention that 16 weeks ago you didn't know anything and that's why you choose
 % to implement the gerstner approach.
 
-We opted to implement the Gerstner Wave approach from \autoref{subsub:gerstner}
-because it was the easiest to understand for someone new to graphic pipeline
-programming and well described in \autocite{fernando2004gpu}. 
+We opted to implement the Gerstner Wave approach from \cref{subsub:gerstner}
+because it was the easiest one to understand and well described in
+\autocite{fernando2004gpu}. Furthermore, it does no represent a daunting task
+for someone new to the graphics pipeline programming.
 
-We integrated it into a demonstration application coded in C++ using the
-\textit{GLEW}, \textit{GLFW} and \textit{stb} libraries.  C++ was used because
-both applications in \autoref{subsec:candidate_apps} are programmed with it. We
-use GLEW because it is a cross-platform library to load the OpenGL extensions.
-GLFW is used for the window creation and keyboard interactions. Finally we
-utilize the simple but powerful capabilities of stb to read and load images into
-memory.
+We integrated the water model into a demonstration application coded in C++
+using OpenGL and the \textit{GLEW}, \textit{GLFW} and \textit{stb} libraries.
+C++ was used because both applications in \autoref{subsec:candidate_apps} are
+programmed with it. We choose \textit{GLEW} because it is a cross-platform
+library to load the OpenGL extensions. \textit{GLFW} is used for the window
+creation and keyboard interactions. Finally we utilize the simple but powerful
+capabilities of \textit{stb} to read and load images into memory.
 
-First we setup all the windowing 
+We programmed the following classes: \texttt{Camera}, \texttt{Plane},
+\texttt{Skybox}, \texttt{FPSCounter}. The \texttt{Camera} class represents the
+position of the camera in spherical coordinates\footnote{Our implementation is
+    based on the recommendation of the Graphics Stackexchange post:
+\url{https://computergraphics.stackexchange.com/questions/151/}}. This makes it
+easier to compute the zoom, rotation in the $\varphi$ and $\theta$ directions.
+We use the \texttt{Plane} class to build a grid of vertices with the
+corresponding indices. The grid always points to the $y$ direction\footnote{In
+OpenGL the $z$ coordinate points out of the screen.}, and can have a arbitrary
+resolution (amount of vertices) as well as size. This class is used to represent
+the water. The \texttt{Skybox} a simply cube whose indices are specified
+counterclockwise such that the normals point inwards. The particularity of it,
+is that the depth buffer is disabled before the OpenGL draw call is issued and
+re-enabled afterwards. Every object rendered after it, will be displayed in
+front of it. Finally the \texttt{FPSCounter} class tracks the time needed to
+compute each frame.
 
-\missingfigure{screen of the application}
+In the vertex shader of the water plane we compute the position, normal and
+tangent vectors as in
+\cref{eq:gerstner_position,eq:gerstner_normal,eq:gerstner_tangent} with the only
+subtlety that the $y$ and $z$ coordinates are flipped. We use four waves ($i =
+4$) with the constants $g = 9.81$, $\kappa = 0.2$, $\pi = 3.14159265358979$ and 
+values for $\omega$, $\varphi$, $A$, $Q$ and $\textbf{D}$ as follows:
+
+\begin{equation}\label{eq:gerstner_constants}
+\begin{split}
+    \omega ={}& \Big\{\sqrt{g 2\pi}, \sqrt{g 4\pi}, \sqrt{g 10\pi}, \sqrt{g
+    \pi}\Big\},\\
+    %
+    \varphi ={}& \{0.4 \omega_1, 0.3 \omega_2, 0.3 \omega_3, 0.1 \omega 4\},\\
+    %
+    A ={}& \{0.01, 0.008, 0.017, 0.003\},\\
+    %
+    Q ={}& \Bigg\{\frac{\kappa}{\omega_1 A_1 i}, \frac{\kappa}{\omega_2 A_2 i},
+    \frac{\kappa}{\omega_3 A_3 i}, \frac{\kappa}{\omega_4 A_4 i} \Bigg\},\\
+    %
+    \textbf{D} ={}& \Bigg\{\begin{bmatrix}0.0 \\ 0.5\end{bmatrix},
+    \begin{bmatrix}0.8 \\ 0.7\end{bmatrix}, \begin{bmatrix}0.6 \\
+    0.6\end{bmatrix}, \begin{bmatrix}0.7 \\ -0.3\end{bmatrix}\Bigg\}
+\end{split}
+\end{equation}
+
+The implementation can be found in \autoref{lst:vertex} on
+page~\pageref{lst:vertex}.
+
+\lstdefinestyle{glsl}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  xleftmargin=\parindent,
+  language=C,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{red!70!black},
+  commentstyle=\itshape\color{black!40},
+  morekeywords={vec3, vec4, dot, reflect, refract, mix, pow, texture, sin, cos},
+  %255 75 62
+}
+\lstset{style=glsl, caption={Implementation of
+\cref{eq:gerstner_position,eq:gerstner_normal,eq:gerstner_tangent}},
+label={lst:vertex},captionpos=b}
+\begin{figure}[ht!]
+\begin{lstlisting}
+vec4 position = in_Position;
+vec3 normal = vec3(0.0, 1.0, 0.0);
+vec3 tangent = vec3(0.0, 0.0, 1.0);
+
+for(int i = 0; i < NUMWAVES; i++) {
+    float alpha = w[i] * dot(D[i], position.xz) + phi[i] * t;
+    float WA = w[i] * A[i];
+    float sinAlpha = sin(alpha);
+    float cosAlpha = cos(alpha);
+    float DxCos = D[i].x * cosAlpha;
+    float DyCos = D[i].y * cosAlpha;
+    float DxDy = D[i].x * D[i].y;
+
+    position.x += Qs[i] * A[i] * DxCos;
+    position.y += A[i] * sinAlpha;
+    position.z += Qs[i] * A[i] * DyCos;
+
+    normal.x -= D[i].x * WA * cosAlpha;
+    normal.y -= Qs[i] * WA * sinAlpha;
+    normal.z -= D[i].y * WA * cosAlpha;
+
+    tangent.x -= Qs[i] * DxDy * WA * sinAlpha;
+    tangent.y += D[i].y * WA * cosAlpha;
+    tangent.z -= Qs[i] * D[i].y * D[i].y * WA * sinAlpha;
+}
+\end{lstlisting}
+\end{figure}
+
+We pass to the fragment shader the local position, normal and tangent vectors.
+As well as the local light position and the roughness of the surface.
+
+In the fragment shader we update the normal with the values read from the normal
+map. Then we transform the light position, vertex position and normal into the
+eye space. We compute the reflection and refraction vectors as described in
+\autoref{subsec:ocean_details} with the help of glsl's \texttt{reflect(\ldots)}
+and \texttt{refract(\ldots)} functions. The two corresponding colors are fetched
+from the cube map texture of the skybox and mixed together based on Schlick's
+approximation of the Fresnel term. This gives our \texttt{ambient} term, whose
+computation is shown in \autoref{lst:fragment_refref}
+on~\pageref{lst:fragment_refref}. \texttt{F\_0} results form
+\autoref{eq:schlick_cst} with $n_{water} = 1.333$ and equal to 0.020373.
+\texttt{RATIO} is the ratio between the water and air refractive indices and
+equal to 0.75.
+
+\lstset{style=glsl, caption={Reflection and refraction color computation},
+label={lst:fragment_refref},captionpos=b}
+\begin{figure}[ht!]
+\begin{lstlisting}
+vec3 reflected = reflect(incident_eye, n);
+reflected = vec3(inverse_V * vec4(reflected, 0.0));
+
+vec3 refracted = refract(incident_eye, n, RATIO);
+refracted = vec3(inverse_V * vec4(refracted, 0.0));
+
+vec4 reflectColor = texture(cube_texture, reflected);
+vec4 refractColor = texture(cube_texture, refracted);
+
+vec4 ambient = mix(refractColor, reflectColor, F(F0, v, n));
+\end{lstlisting}
+\end{figure}
+
+For the \texttt{specular} term we use the Cook-Torrance microfacet specular
+BRDF\footnote{Bidirectional reflectance distribution function} as
+described in \autoref{eq:cook-torrance_spec}.
+
+\begin{equation}\label{eq:cook-torrance_spec}
+    f(\textbf{l}, \textbf{v}) ={} \frac{F(\textbf{l}, \textbf{h})
+        G(\textbf{l}, \textbf{v}, \textbf{h}) D(\textbf{h})}{4
+    (\textbf{n} \cdot \textbf{l}) (\textbf{n} \cdot \textbf{v})}
+\end{equation}
+%
+$F(\textbf{l}, \textbf{h})$ is Schlick's approximation of the Fersnel term as
+seen in \autoref{eq:schlick}. For $D(\textbf{h})$, the normal distribution
+function, we use the GGX/Trowbridge-Reitz function:
+
+\begin{equation}\label{eq:ndf_ggx}
+    D(\textbf{h}) ={} \frac{\alpha^2}{\pi{({(\textbf{n} \cdot \textbf{h})}^2
+    (\alpha^2 - 1) + 1)}^2}
+\end{equation}
+%
+$\alpha$ is the squared roughness. And for the specular geometric attenuation
+term $G(\textbf{l}, \textbf{v}, \textbf{h})$ we take the height correlated Smith
+function:
+
+\begin{equation}\label{eq:height_smith}
+    k ={} \frac{\alpha}{2}
+\end{equation}
+\begin{equation}\label{eq:height_smith}
+    G_1(\textbf{x}) ={} \frac{\textbf{n} \cdot \textbf{x}}{(\textbf{n} \cdot
+    \textbf{x})(1 - k) + k}
+\end{equation}
+\begin{equation}\label{eq:height_smith}
+    G(\textbf{l}, \textbf{v}, \textbf{h}) ={} G_1(\textbf{l}) G_1(\textbf{v})
+\end{equation}
+
+We choose to use the same equations as in \autocite{karis2013real} for
+$F(\textbf{l}, \textbf{h})$, $G(\textbf{l}, \textbf{v}, \textbf{h})$ and
+$D(\textbf{h})$. The implementation of those functions can be found in
+\autoref{lst:fragment_brdf} on page~\pageref{lst:fragment_brdf}. To reduce the
+computations we avoid using the \texttt{dot(\ldots)} function inside of them.
+Instead we pass the value of the computed dot product.
+
+\lstset{style=glsl, caption={Cook-Torrance microfacet specular BRDF helper
+functions}, label={lst:fragment_brdf},captionpos=b}
+\begin{figure}[ht!]
+\begin{lstlisting}
+// Shlick approximation
+float F(float F_0, vec3 v, vec3 h) {
+
+    return F_0 + (1 - F_0) * pow((1 - max(dot(v, h), 0)), 5);
+}
+
+float G_smith(float nx, float k) {
+
+    return nx / (nx * (1 - k) + k);
+}
+
+// Height correlated Smith
+float G(float nl, float nv, float k) {
+
+    return G_smith(nl, k) * G_smith(nv, k);
+}
+
+// Trowbridge-Reitz
+float D(float nh, float alpha2) {
+
+    float denom = nh * nh * (alpha2 - 1) + 1;
+    return alpha2 / (PI * denom * denom);
+}
+\end{lstlisting}
+\end{figure}
+
+Finally we output the final fragment color as the sum of the ambient and
+specular values: \texttt{out\_Color = specular + ambient}.

@@ -102,16 +102,16 @@ and $\omega_i$ the angular frequency
 \autocite{max1981vectorized,darles2011survey}. \autoref{fig:max_raytraced}
 depicts the sum of four such waves rendered in 1981.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
     \centering
-    \begin{subfigure}[h]{\textwidth}
+    \begin{subfigure}[ht]{\textwidth}
         \centering
         \includegraphics[height=5cm]{barren_island_far.jpg}
         \subcaption{Far view of the Barren
         Island}\label{subfig:barren_island_far}
     \end{subfigure}\\%
     %  
-    \begin{subfigure}[h]{\textwidth}
+    \begin{subfigure}[ht]{\textwidth}
         \centering
         \includegraphics[height=5cm]{barren_island_close.jpg}
         \subcaption{Close view of the Barren
@@ -123,7 +123,7 @@ depicts the sum of four such waves rendered in 1981.
         \url{earthobservatory.nasa.gov}).}\label{fig:barren_island}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[height=5cm]{max1981raytracing.png}
     \caption{Ray-tracing of four waves using \autoref{eq:gerstner_max}. Source:
@@ -252,15 +252,15 @@ displaced locally in the horizontal direction. This can be done with
     \tilde{h}(\textbf{k},t) e^{i\textbf{k}\cdot\textbf{x}}
 \end{equation}
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
     \centering
-    \begin{subfigure}[h]{0.45\textwidth}
+    \begin{subfigure}[ht]{0.45\textwidth}
         \centering
         \includegraphics[height=4cm]{fft_rounded.png}
         \subcaption{Without local displacement}\label{subfig:fft_round}
     \end{subfigure}~%
     %  
-    \begin{subfigure}[h]{0.45\textwidth}
+    \begin{subfigure}[ht]{0.45\textwidth}
         \centering
         \includegraphics[height=4cm]{fft_sharp.png}
         \subcaption{With local displacement}\label{subfig:fft_sharp}
@@ -281,18 +281,19 @@ frequencies \autocite{gonzalez2016rendering}.
 
 \subsection{Shallow Water Models}\label{subsec:shallow_water}
 
-Shallow water models try to discretize the Navier-Stokes equations (described
-in \autoref{eq:nse}) in two ways. The first one uses a two or three dimensional
-grid to represent the fluid moving from cell to cell. It is called the Eulerian
-approach. The second one makes the assumption that particles transport a small
-fluid volume. This one is called the Lagrangian approach. Both share similar
-problems and advantages. The two can reproduce many different phenomena but are
-constrained by the grid size and the particle amount. They also become expensive
-when simulating finer details such as foam and spray as they need a lot of cells
-or particles.
+Shallow water models try to discretize the Navier-Stokes equations (described in
+\autoref{eq:nse}) in two ways \autocite{darles2011survey}. The first one uses a
+two or three dimensional grid to represent the fluid moving from cell to cell.
+It is called the Eulerian approach. The second one makes the assumption that
+particles transport a small fluid volume. This one is called the Lagrangian
+approach. Both share similar problems and advantages
+\autocite{darles2011survey}. The two can reproduce many different phenomena but
+are constrained by the grid size and the particle amount. They also become
+expensive when simulating finer details such as foam and spray as they need a
+lot of cells or particles \autocite{darles2011survey}.
 
 We will present only one hybrid method because a derivation of it has been used
-for an industry production as described in \autoref{subsub:uncharted}.
+for an industry production as described in \cref{subsub:uncharted}.
 
 \subsubsection{Wave Particles}\label{subsub:wave_particles}
 % Combines the Eulerian approach for the shape and the Lagrangian approach for
@@ -324,6 +325,16 @@ of the water and a Lagrangian one for the interaction with objects.
 % Rendering Natural Waters
 % GPU-based Ocean Rendering
 
+% Talk about reflection, refraction, foam, slpash, caustics, color of the water
+
+\begin{equation}\label{eq:schlick_cst}
+    F_0 = \frac{n - 1}{n + 1}^2
+\end{equation}
+\begin{equation}\label{eq:schlick}
+    F(\textbf{v}, \textbf{h}) = F_0 + (1 - F_0) {(1 - (\textbf{v} \cdot
+    \textbf{h}))}^5
+\end{equation}
+
 \subsection{Methods Used in Industry Productions}\label{subsec:methods_industry}
 
 % FFT, Projected Grid, LOD, talk about world of warships, anno, and oceans on a
@@ -341,7 +352,7 @@ Uncharted and World of Warships.
 \subsubsection{Uncharted}\label{subsub:uncharted}
 
 A modified version of the \textit{Wave Particle} approach from
-\autoref{subsub:wave_particles} has been used in \textit{Uncharted 3} (2011) and
+\cref{subsub:wave_particles} has been used in \textit{Uncharted 3} (2011) and
 \textit{4} (2016) to render rapids and the ocean. Developers chose this
 technique because it is more intuitive for artists to control, it presents no
 tiling artifacts, it is deterministic in time and fast to compute
@@ -351,7 +362,7 @@ technique stitches quads of different size together. The quads become bigger the
 further they are from the camera. The result can be seen in
 \autoref{fig:uncharted}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[height=5cm]{uncharted_ocean.png}
     \caption{View of the ocean from \textit{Uncharted 4}. Source:
@@ -391,7 +402,7 @@ computes an improved version of Newton's method to solve the ray cast equation.
 Finally they manage to create realistic water deformations with the help of six
 times anti-aliasing (6xAA) \autocite{kryachko2016sea}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[height=5cm]{wow_water.jpg}
     \caption{Rendered ocean in \textit{World of Warships}. Source:
@@ -470,16 +481,16 @@ opened twelve years ago and modified three years ago but is still not closed.
 We have contacted the developers and they would gladly appreciate a contribution
 that would close the issue.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
     \centering
-    \begin{subfigure}[h]{\textwidth}
+    \begin{subfigure}[ht]{\textwidth}
         \centering
         \includegraphics[height=5cm]{figures/0ad_water-specular.jpg}
         \subcaption{Close view of the water. Source:
         \url{play0ad.com}}\label{subfig:0ad_water_close}
     \end{subfigure}\\%
     %  
-    \begin{subfigure}[h]{\textwidth}
+    \begin{subfigure}[ht]{\textwidth}
         \centering
         \includegraphics[height=5cm]{figures/0ad_cycladic_arcgipelago_6.jpg}
         \subcaption{Zoomed out view. Source:
