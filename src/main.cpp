@@ -82,49 +82,51 @@ double previousX;
 double previousY;
 
 /**
- * @brief 
+ * @brief Initialize the window, GLEW, load the shaders and setup the skybox,
+ * water plane.
  */
 void Initialize();
 
 /**
- * @brief 
+ * @brief Initializes the GLFW library, creates the window and sets the GLFW
+ * callbacks.
  */
 void InitWindow();
 
 /**
- * @brief 
+ * @brief Window resize callback function for GLFW
  *
- * @param GLFWwindow
- * @param int
- * @param int
+ * @param window The window
+ * @param Width The width
+ * @param Height The height
  */
 void resizeFunction(GLFWwindow*, int, int);
 
 /**
- * @brief 
+ * @brief Mouse wheel callback function for GLFW
  *
- * @param window
- * @param xOffset
- * @param yOffset
+ * @param window The window
+ * @param xOffset The x offset
+ * @param yOffset The y offset
  */
 void trackScroll(GLFWwindow* window, double xOffset, double yOffset);
 
 /**
- * @brief 
+ * @brief Mouse position callback function for GLFW
  *
- * @param window
- * @param xPos
- * @param yPos
+ * @param window The window
+ * @param xPos The x position relative to the window of the cursor.
+ * @param yPos The y position relative to the window of the cursor.
  */
 void trackMousePosition(GLFWwindow* window, double xPos, double yPos);
 
 /**
- * @brief 
+ * @brief Mouse button callback function for GLFW.
  *
- * @param window
- * @param button
- * @param action
- * @param mods
+ * @param window The window.
+ * @param button The mouse button.
+ * @param action The button action.
+ * @param mods The modifier bits.
  */
 void trackMouseButton(GLFWwindow* window, int button, int action, int mods);
 
@@ -134,17 +136,19 @@ void trackMouseButton(GLFWwindow* window, int button, int action, int mods);
 void RenderFunction();
 
 /**
- * @brief 
+ * @brief Delete the plane and skybox shader program objects and terminate the
+ * GLFW library.
  */
 void Cleanup();
 
 /**
- * @brief Create the model view 
+ * @brief Create the model, view and projection matrices.
  */
 void createMVP();
 
 /**
- * @brief 
+ * @brief Specify the updated model view and projection matrices to the water
+ * and skybox shaders.
  */
 void updateMVP();
 
@@ -170,7 +174,8 @@ int main(int argc, char* argv[]) {
 }
 
 /**
- * @brief Initialize the wind
+ * @brief Initialize the window, GLEW, load the shaders and setup the skybox and
+ * the water plane.
  */
 void Initialize() {
 
@@ -213,13 +218,15 @@ void InitWindow() {
         fprintf(stderr, "Failed to initalize GLFW\n");
         exit(EXIT_FAILURE);
     }
-
-    glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
+    // 4x antialiasing
+    glfwWindowHint(GLFW_SAMPLES, 4); 
+    // Choose OpenGL version, compatibility and profile
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+    // Create the window
     window = glfwCreateWindow(windowWidth, windowHeight, WINDOW_TITLE, NULL,
             NULL);
 
@@ -239,6 +246,14 @@ void InitWindow() {
     glfwSetMouseButtonCallback(window, trackMouseButton);
 }
 
+/**
+ * @brief Window resize callback function for GLFW. Updates the model, view and
+ * projection matrices and the client window size.
+ *
+ * @param window The window
+ * @param Width The width
+ * @param Height The height
+ */
 void resizeFunction(GLFWwindow* window, int Width, int Height) {
 
     glfwGetWindowSize(window, &Width, &Height);

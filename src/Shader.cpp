@@ -1,3 +1,8 @@
+/**
+ * @file Shader.cpp
+ * @brief Helper class to load shaders
+ * @author opengl-tutorial.org
+ */
 #include <stdio.h>
 #include <string>
 #include <vector>
@@ -13,6 +18,14 @@ using namespace std;
 
 #include "Shader.h"
 
+/**
+ * @brief Loads vertex and fragment shaders given their file paths.
+ *
+ * @param vertex_file_path The vertex shader file path
+ * @param fragment_file_path The fragment shader file path
+ *
+ * @return The created program object reference.
+ */
 GLuint LoadShaders(const char * vertex_file_path,const char *
         fragment_file_path){
 
