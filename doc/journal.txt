@@ -379,3 +379,7 @@ Continued to write the report and began to prepare the presentation.
 
 2018-01-17 11:58 Clean up and document the code.
 Update the documentation.
+
+2018-01-19 00:35 Update, comment and clean up the shader code, update the report
+
+2018-01-20 01:51 Finish the report and clean up code
