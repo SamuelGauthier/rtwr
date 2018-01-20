@@ -52,12 +52,18 @@ Compilation and Usage
     $ cmake -G "Unix Makefiles" ..; make
     $ ../bin/rtwr
 
+- Zoom: scroll wheel
+
+- Pan: right mouse button and drag
+
+- Rotate: left mouse button and drag
+
 Documentation
 -------------
 
-The report can be built using LaTeX in the folder ``doc/report`` (
-`compiled pdf version <doc/report/project2_report.pdf>`_).  A list of relevant
-papers can be found `here <doc/README.rst>`_.
+The report can be built using LaTeX in the folder ``doc/report`` ( `compiled pdf
+version <doc/report/project2_report.pdf>`_, approx. 4000 words).  A list of
+relevant papers can be found `here <doc/README.rst>`_.
 
 Screenshots
 -----------
