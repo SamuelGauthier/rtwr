@@ -8,3 +8,48 @@
 % the better thing to do, that is projected grid and other method. Also tell
 % that's what you will use in the bachelor thesis and give the relevant
 % literature with it.
+
+Having seen \autoref{fig:max_raytraced} and other figures from
+\autocite{fernando2004gpu} we knew from the start that the result would not be a
+realistic ocean water. After implementing the Gerstner water model ourselves, we
+now have the confirmation that this model alone is indeed not enough to
+represent a realistic water surface. We will discuss two important issues
+further below: visual accuracy and performance.
+
+\subsection{Visual Accuracy}\label{subsec:visual_accuracy}
+
+Four waves is in our view insufficient to approximate realistically the shape of
+the ocean. We had trouble to find constants which produced acceptable results:
+in all the resources explaining the Gerstner model, finding them where ``left to
+the artist'' \autocite[Chapter~1]{fernando2004gpu}. We came across one resource
+\autocite{wiliams2017tutorial} in which the author implemented the model with
+the help of the Unreal Engine but unfortunately her constants did not produce
+acceptable results in our application. The rounded shape is only suitable in
+cases where it is artistically needed or in those displayed in
+\autoref{fig:reference}. 
+
+Our implementation does not take into account the interaction with other objects
+on its surface. Hence they are not reflected appropriately. We propose to
+compute the reflection with the help of another camera placed below the main one
+and looking up to the sky. We then have to make only a texture lookup to get the
+reflection fragment color. To render the interactions with the object we could
+store them like in \autocite{anno2008meersimulation} into a displacement map and
+combine it with another one describing the ocean's shape. Another possibility is
+to combine the FFT approach from \cref{subsub:fft} with the \textit{Wave
+Particles} from \cref{subsub:wave_particles}. Foam could be blended in based on
+the height of the wave, its surrounding slope and on the depth of the water as
+described in \cref{subsub:foam}. Caustics could also be faded in
+based on the depth of the water. Finally there should be a change in color of
+the water based again on its height.
+
+\subsection{Performance}\label{subsec:performance}
+
+58ms to render the plane is much too costly for an application having other
+objects moving on the screen. This result is due to the expensive computations
+done in the vertex and fragment shader, to the hardware on which we tested our
+application and the fact that we did not use any kind of level of detail. The
+plane has always the same amount of vertices describing it, no matter if viewed
+from far away or up close. Hence it is imperative to implement a level of detail
+solution, like the projected grid from \autoref{algo:projected_grid}, or the
+radial grid from \autocite[Chapter~18]{pharr2005gpu}.
+

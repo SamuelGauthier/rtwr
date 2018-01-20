@@ -25,17 +25,17 @@ We programmed the following classes: \texttt{Camera}, \texttt{Plane},
 position of the camera in spherical coordinates\footnote{Our implementation is
     based on the recommendation of the Graphics Stackexchange post:
 \url{https://computergraphics.stackexchange.com/questions/151/}}. This makes it
-easier to compute the zoom, rotation in the $\varphi$ and $\theta$ directions.
-We use the \texttt{Plane} class to build a grid of vertices with the
-corresponding indices. The grid always points to the $y$ direction\footnote{In
-OpenGL the $z$ coordinate points out of the screen.}, and can have a arbitrary
-resolution (amount of vertices) as well as size. This class is used to represent
-the water. The \texttt{Skybox} a simply cube whose indices are specified
-counterclockwise such that the normals point inwards. The particularity of it,
-is that the depth buffer is disabled before the OpenGL draw call is issued and
-re-enabled afterwards. Every object rendered after it, will be displayed in
-front of it. Finally the \texttt{FPSCounter} class tracks the time needed to
-compute each frame.
+easier to compute the zoom and rotation in the $\varphi$ and $\theta$
+directions. We use the \texttt{Plane} class to build a grid of vertices with
+the corresponding indices. The grid always points to the $y$
+direction\footnote{In OpenGL the $z$ coordinate points out of the screen.}, and
+can have a arbitrary resolution (amount of vertices) as well as size. This class
+is used to represent the water. The \texttt{Skybox} a simply cube whose indices
+are specified counterclockwise such that the normals point inwards. The
+particularity of it, is that the depth buffer is disabled before the OpenGL draw
+call is issued and re-enabled afterwards. Every object rendered after it, will
+be displayed in front of it. Finally the \texttt{FPSCounter} class tracks the
+time needed to compute each frame.
 
 In the vertex shader of the water plane we compute the position, normal and
 tangent vectors as in
@@ -49,7 +49,7 @@ values for $\omega$, $\varphi$, $A$, $Q$ and $\textbf{D}$ as follows:
     \omega ={}& \Big\{\sqrt{g 2\pi}, \sqrt{g 4\pi}, \sqrt{g 10\pi}, \sqrt{g
     \pi}\Big\},\\
     %
-    \varphi ={}& \{0.4 \omega_1, 0.3 \omega_2, 0.3 \omega_3, 0.1 \omega 4\},\\
+    \varphi ={}& \{0.4 \omega_1, 0.3 \omega_2, 0.3 \omega_3, 0.1 \omega_4\},\\
     %
     A ={}& \{0.01, 0.008, 0.017, 0.003\},\\
     %
@@ -110,8 +110,8 @@ for(int i = 0; i < NUMWAVES; i++) {
 \end{lstlisting}
 \end{figure}
 
-We pass to the fragment shader the local position, normal and tangent vectors.
-As well as the local light position and the roughness of the surface.
+We pass to the fragment shader the local position, normal and tangent vectors 
+as well as the local light position and the roughness of the surface.
 
 In the fragment shader we update the normal with the values read from the normal
 map. Then we transform the light position, vertex position and normal into the
@@ -166,14 +166,14 @@ $\alpha$ is the squared roughness. And for the specular geometric attenuation
 term $G(\textbf{l}, \textbf{v}, \textbf{h})$ we take the height correlated Smith
 function:
 
-\begin{equation}\label{eq:height_smith}
+\begin{equation}\label{eq:height_smith_a}
     k ={} \frac{\alpha}{2}
 \end{equation}
-\begin{equation}\label{eq:height_smith}
+\begin{equation}\label{eq:height_smith_b}
     G_1(\textbf{x}) ={} \frac{\textbf{n} \cdot \textbf{x}}{(\textbf{n} \cdot
     \textbf{x})(1 - k) + k}
 \end{equation}
-\begin{equation}\label{eq:height_smith}
+\begin{equation}\label{eq:height_smith_c}
     G(\textbf{l}, \textbf{v}, \textbf{h}) ={} G_1(\textbf{l}) G_1(\textbf{v})
 \end{equation}
 

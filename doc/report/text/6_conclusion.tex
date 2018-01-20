@@ -2,3 +2,30 @@
 
 % In the conclusion say that it was fun, you think the result is good even if
 % the application was not convincing and put a great citation about it in it.
+% Say that for someone new to the graphics programming it was difficult
+% Say that 16 weeks ago you knew not much about the pipeline
+
+Although the result of our implementation did not produce convincing realistic
+water, it confirmed our intuitions. The Gerstner water model has to be combined
+with another one or completely discarded. Water rendering is a complex process
+involving many physical properties, each having to be approximated as discussed
+in \autoref{sec:water_models}. Every one of them has to be carefully selected in
+order to avoid a major slowdown during rendering. Building an application from
+scratch is not recommended as too many concepts like the scene graph, need to be
+programmed.
+
+As eighteen weeks ago we knew very little about the rendering pipeline and
+practically nothing about its programming, we are confident to obtain good
+results for our further work. We will try to implement a hybrid approach which
+handles shallow and deep water into \textit{0 A.D.} using an enhanced projected
+grid like the one from \autocite{kryachko2016sea}.  For the shallow water we
+think to use one precomputed Gerstner wave adapted to the curvatures of the
+beaches and stored as a displacement map. The fast Fourier transform from
+\autocite{tessendorf2001simulating} is rather appealing to use for deep water.
+This will be the main focus of our further work. If there is time left, we will
+add the other elements discussed below.
+
+We think that blending the foam in an out based on the water surface height is
+amply sufficient. Interactions between objects and the water surface will have
+to be placed also in a displacement texture and computed with an adapted form of
+the \textit{Wave Particles} model.
