@@ -231,7 +231,7 @@ Year     Name                    Empirical Particles First order Multiple order
 .. _NSTN93: http://nishitalab.org/user/nis/cdrom/sig93_nis.pdf
 .. _IDN01: https://www.researchgate.net/profile/Kei_Iwasaki/publication/3922426_Efficient_rendering_of_optical_effects_within_water_using_graphicshardware/links/00b49525de12821f13000000.pdf
 .. _Jen01: http://dl.acm.org/citation.cfm?id=500844
-.. _JG01: https://evasion.imag.fr/Membres/Fabrice.Neyret/NaturalScenes/fluids/water/waves/fluids-nuages/waves/Jonathan/articlesCG/DeepWaterAnimationAndRendering2001.pdf
+.. _JG01: https://mat-web.upc.edu/people/toni.susin/files/deep_water_animation_and_rendering.pdf
 .. _Bel03: https://pdfs.semanticscholar.org/db9d/808fb3c45ff0d1bd2647e0acad7475260c66.pdf
 .. _IDN03: http://nishitalab.org/user/nis/cdrom/cgi/vg03_water.pdf
 .. _JBS03: https://otik.zcu.cz/bitstream/11025/1025/1/K11a.pdf

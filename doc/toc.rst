@@ -92,7 +92,8 @@ same material.
 Introductions often do the following:
 
 - State the subject of your document as clearly as possible
-- Define the problem you are addressing, your approach to the problem, and why this problem is important
+- Define the problem you are addressing, your approach to the problem, and why
+  this problem is important
 - State the purpose of your document
 - Define the scope of your document
 - Provide necessary and relevant background information

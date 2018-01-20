@@ -28,7 +28,7 @@ realisic large bodies of water. The chosen implementation is based on the
 Dependencies and Requirements
 -----------------------------
 
-- C++14 compatible compiler
+- Compiler supporting C++14
 
 - Cmake >= 3.9
 
@@ -56,7 +56,7 @@ Documentation
 -------------
 
 The report can be built using LaTeX in the folder ``doc/report`` (
-`compiled pdf version <doc/README.rst>`_).  A list of relevant
+`compiled pdf version <doc/report/project2_report.pdf>`_).  A list of relevant
 papers can be found `here <doc/README.rst>`_.
 
 Screenshots
