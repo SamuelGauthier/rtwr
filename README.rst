@@ -62,8 +62,9 @@ Documentation
 -------------
 
 The report can be built using LaTeX in the folder ``doc/report`` ( `compiled pdf
-version <doc/report/project2_report.pdf>`_, approx. 4000 words).  A list of
-relevant papers can be found `here <doc/README.rst>`_.
+version <doc/report/project2_report.pdf>`_, approx. 4000 words). `Slides of the
+presentation <doc/presentation/project2.pdf>`_. A list of relevant papers can be
+found `here <doc/README.rst>`_.
 
 Screenshots
 -----------
