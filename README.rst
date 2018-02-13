@@ -88,3 +88,17 @@ License
 
 See the `LICENSE <./LICENSE>`_ file for license rights and limitations
 (Apache License 2.0).
+
+
+Credits
+-------
+
+**Skybox:**
+
+1. ``empty-sky`` from `custommapmakers.org
+   <http://custommapmakers.org/skyboxes.php>`_
+2. ``perea_beach, sain_lazarus_church, san_francisco, tenerife`` from `Humus
+   <http://www.humus.name/index.php?page=Textures>`_ (licensed under `CC BY 3.0
+   <https://creativecommons.org/licenses/by/3.0/>`_)
+
+**Normal Map:** Visceral from `polycount <https://goo.gl/MnzXUd>`_
