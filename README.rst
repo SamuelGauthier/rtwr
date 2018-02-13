@@ -86,5 +86,5 @@ Screenshots
 License
 -------
 
-See the `LICENSE <./LICENSE.rst>`_ file for license rights and limitations
+See the `LICENSE <./LICENSE>`_ file for license rights and limitations
 (Apache License 2.0).
