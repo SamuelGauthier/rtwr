@@ -25,6 +25,9 @@ realisic large bodies of water. The chosen implementation is based on the
 *Gerstner Waves* model. The report can be accessed further below in the
 `Documentation`_ section.
 
+**Important note: The code (shader and C++) is "research code" and is by no
+means optimized.**
+
 Dependencies and Requirements
 -----------------------------
 
@@ -79,3 +82,9 @@ Screenshots
    :width: 45%
 .. image:: /doc/report/figures/application_4.png
    :width: 45%
+
+License
+-------
+
+See the `LICENSE <./LICENSE.rst>`_ file for license rights and limitations
+(Apache License 2.0).
