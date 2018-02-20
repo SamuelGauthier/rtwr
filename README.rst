@@ -102,3 +102,6 @@ Credits
    <https://creativecommons.org/licenses/by/3.0/>`_)
 
 **Normal Map:** Visceral from `polycount <https://goo.gl/MnzXUd>`_
+
+**Image Loader:** Public domain `stb_image
+library <https://github.com/nothings/stb>`_
