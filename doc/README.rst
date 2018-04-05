@@ -150,7 +150,7 @@ Year     Name                    Eulerian Lagrangian 2D-based Full 3D Incompress
 2008 Hong et al. [HHK08_]                     X                  X                       X
 2008 Losasso et al. [LTKF08_]       X         X                  X             X
 2009 Solenthaler et al. [SP09_]               X                  X             X
-2009 Yan et al. [YWH09_]                      X                  X                       X
+2009 Yan et al. [YWH09B_]                     X                  X                       X
 ==== =========================== ======== ========== ======== ======= ================= ===
 
 .. _MP89: https://doi.org/10.1016/0097-8493(89)90078-2
@@ -186,11 +186,11 @@ Year     Name                    Eulerian Lagrangian 2D-based Full 3D Incompress
 .. _BT07: http://dl.acm.org/citation.cfm?id=1272719
 .. _TMFSG07: https://pdfs.semanticscholar.org/0f24/ba73b791b8a4479143c2dc071669474a6357.pdf
 .. _TSS07: https://www-evasion.imag.fr/Membres/Fabrice.Neyret/NaturalScenes/fluids/water/waves/fluids-nuages/waves/Jonathan/articlesCG/real-time-simulations-of-bubbles-and-foam-within-a-shallow-water-framework-07.pdf
-.. _YHK07: http://www.ewp.rpi.edu/hartford/~ernesto/S2013/ET/MaterialsforStudents/Ott/Wave%20Energy%20Sources-Ott/Thermodynamics%20of%20waves/wave%20particles.pdf
-.. _HHK08: https://www.researchgate.net/profile/Donald_House/publication/220067042_Adaptive_Particles_for_Incompressible_Fluid_Simulation_Technical_Report_tamu-cs-tr_2007-7-2/links/0046351ae0c6ee6032000000/Adaptive-Particles-for-Incompressible-Fluid-Simulation-Technical-Report-tamu-cs-tr-2007-7-2.pdf
-.. _LTKF08: http://ai2-s2-pdfs.s3.amazonaws.com/5bc0/7c8926986068e4f130f94cad41f2543a9fb9.pdf
-.. _SP09: https://www.researchgate.net/profile/Barbara_Solenthaler/publication/228656950_Predictive-corrective_incompressible_SPH/links/0a85e5321a4ac4cda1000000.pdf
-.. _YWH09: https://sites.google.com/site/xichenstephen/File-Download/Real-timefluidsimulationwithadaptiveSPH%28Official%29.pdf
+.. _YHK07: http://www.cemyuksel.com/research/waveparticles/waveparticles.pdf
+.. _HHK08: https://link.springer.com/content/pdf/10.1007/s00371-008-0234-z.pdf
+.. _LTKF08: https://pdfs.semanticscholar.org/5bc0/7c8926986068e4f130f94cad41f2543a9fb9.pdf
+.. _SP09: https://pdfs.semanticscholar.org/16f6/6395e00c09ca0a34e78bcf465f8256f02ed4.pdf
+.. _YWH09B: https://pdfs.semanticscholar.org/90a8/80991b4682c843900dc510a577dc9ba8062c.pdf
 
 
 
