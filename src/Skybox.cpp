@@ -7,6 +7,7 @@
 
 #include "Skybox.h"
 
+#include <iostream>
 /**
  * @brief Creates a Skybox with the width @p width.
  *
@@ -172,11 +173,12 @@ void Skybox::setupTexture(std::string front, std::string back, std::string top,
 
     // Set the texture parameters to repeat the texture in the three directions and
     // use the bi linear filtering when magnifying or reducing the textures.
+    glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 }
@@ -214,8 +216,13 @@ bool Skybox::loadCubeMapSide(GLuint texture, GLenum side_target, const char*
     }
 
     // Copy image data into @p side_target of cube map
-    glTexImage2D(side_target, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE,
+    glTexImage2D(side_target, 0, GL_RGBA8, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE,
             image_data);
+
+    GLenum err;
+    while ((err = glGetError()) != GL_NO_ERROR) {
+        std::cerr << "OpenGL error: " << err << std::endl;
+    }
 
     // Free the image pointer
     stbi_image_free(image_data);

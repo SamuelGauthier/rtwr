@@ -75,12 +75,12 @@ void main(void) {
     // Compute the ambient color
     vec4 ambient = mix(refractionColor, reflectionColor, F(F0, v, n));
 
-    float F = F(F0, l, h);
+    float F_v = F(F0, l, h);
     float G = G(nl, nv, k);
     float D = D(nh, alpha2);
 
     // Compute the specular color
-    float specular = F * G * D / max(4 * nl * nv, 0.001);
+    float specular = F_v * G * D / max(4 * nl * nv, 0.001);
 
     // Set the color of the fragment
     out_Color = specular + ambient;
