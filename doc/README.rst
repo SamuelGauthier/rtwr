@@ -102,7 +102,7 @@ Year     Name                    Spatial Spectral Wave refraction GPU Level-Of-D
 .. _CF07: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.138.2930&rep=rep1&type=pdf
 .. _Lac07: http://thelachmans.net/Larry%20and%20Jenny/Documents/IMAGE%202007%20Paper%20-%20L.Lachman.pdf
 .. _LBR07: https://pdfs.semanticscholar.org/2856/83eb47f19407aa8030a03cbd88bf821267dd.pdf
-.. _SC07: https://doi.org/10.1109/COMPSYM.2010.5685474
+.. _SC07: http://sibgrapi.sid.inpe.br/col/sid.inpe.br/sibgrapi@80/2007/09.22.12.38/doc/alex_33627.pdf
 
 
 Ocean dynamics simulation in shallow water
