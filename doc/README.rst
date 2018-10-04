@@ -198,7 +198,7 @@ Realistic ocean surface rendering and lighting
 ++++++++++++++++++++++++++++++++++++++++++++++
 
 ==== =========================== ========= ========= =========== ==============
-Author information                  Foam and Spray    Light-water intercations 
+Author information                  Foam and Spray    Light-water interactions 
 -------------------------------- ------------------- --------------------------
 Year     Name                    Empirical Particles First order Multiple order
 ==== =========================== ========= ========= =========== ==============
